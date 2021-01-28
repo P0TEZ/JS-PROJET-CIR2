@@ -1,2 +1,2 @@
-# JS-PROJET-CIR2
+# JS-PROJET-STRATEGO-CIR2
  Juste un projet
