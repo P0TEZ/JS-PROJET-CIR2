@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2/issues"
   },
-  "homepage": "https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2#readme"
+  "homepage": "https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
