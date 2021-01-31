@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/P0TEZ/JS-PROJET-CIR2.git"
+    "url": "git+https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2.git"
   },
-  "author": "",
+  "author": "P0TEZ",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/P0TEZ/JS-PROJET-CIR2/issues"
+    "url": "https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2/issues"
   },
-  "homepage": "https://github.com/P0TEZ/JS-PROJET-CIR2#readme"
+  "homepage": "https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2#readme"
 }
