@@ -1,0 +1,19 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "Projet stratego JS-ISEN-LILLE-CIR2",
+  "main": "index.js",
+  "scripts": {
+    "test": "https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/P0TEZ/JS-PROJET-CIR2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/P0TEZ/JS-PROJET-CIR2/issues"
+  },
+  "homepage": "https://github.com/P0TEZ/JS-PROJET-CIR2#readme"
+}
