@@ -1,4 +1,4 @@
-class Stratego{
+class Stratego extends Observable{
 
     constructor(){
         this.currentPlayer=0;
@@ -8,5 +8,13 @@ class Stratego{
         for(let i=0; i<this.grid.length;i++){
             this.grid[i]= new Array(10);
         }
+    }
+
+    getCurrentPlayer(){
+        return this.currentPlayer;
+    }
+
+    getWinner(){
+        return this.winner;
     }
 }
