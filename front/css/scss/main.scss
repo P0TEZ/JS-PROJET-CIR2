@@ -23,12 +23,12 @@ $primary: rgb(72,201,176);
 }
 
 %shadow{
-	box-shadow: (1px 5px 5px 0px darken($light-grey, 10));
+	box-shadow: (1px 5px 5px 0px lighten($black, 8));
 }
 
 ::selection{
-    background-color: transparentize($black,0.2);
-    color: $white;
+    background-color: transparentize($white,0.2);
+    color: $black;
 }
 
 *{
@@ -37,7 +37,8 @@ $primary: rgb(72,201,176);
 }
 
 html{
-  background-color: $black;  
+  background-color: $black;
+  text-align: center;  
 }
 
 h1,h2{
@@ -46,7 +47,7 @@ h1,h2{
     text-decoration-color: $primary;
 }
 
-h3,h4,h5,h6,p{
+input,button,h3,h4,h5,h6,p{
     font-family: "Roboto";
     font-weight: bold;
 }
@@ -78,7 +79,24 @@ p{
     font-size: 2rem;
 }
 
-button{
-    background-color: $primary;
+button,input[type="submit"]{
+    @extend %shadow;
+
+    padding: 0.5rem 2rem;
+
+    font-size: 1.5rem;
     border:0px;
+    border-radius: 3rem;
+
+    &:hover{
+        
+    }
+
+    &:active{
+
+    }
+}
+
+.bg-primary{
+    background-color: $primary;
 }
