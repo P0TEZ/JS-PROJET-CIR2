@@ -45,9 +45,13 @@ h1,h2{
     font-family: "Anton";
     text-decoration: underline;
     text-decoration-color: $primary;
+
+    padding: 1rem;
 }
 
 input,button,h3,h4,h5,h6,p{
+    padding: 0.5rem;
+
     font-family: "Roboto";
     font-weight: bold;
 }
@@ -76,27 +80,63 @@ h3{
 }
 
 p{
-    font-size: 2rem;
+    font-size: 1.5rem;
+    .small{
+        font-size: 1rem;
+    }
+}
+
+button,input{
+    @extend %shadow;
+
+    margin: 0.5rem;
+    position: relative;
+    
+    font-size: 1.5rem;
+    
+    outline: 0;
+    border:0px;
+}
+input:not([type="submit"]){
+    padding: .5rem 2rem .5rem .5rem;
+
+    background-color: $white;
+    color:$primary;
+
+    &:focus{
+        border: 1px solid $primary;
+    }
 }
 
 button,input[type="submit"]{
-    @extend %shadow;
-
-    padding: 0.5rem 2rem;
-
-    font-size: 1.5rem;
-    border:0px;
     border-radius: 3rem;
-
-    &:hover{
-        
+    padding: 0.5rem 2rem;
+    
+    &:hover,&:focus{
+		text-decoration: underline;
+		cursor: pointer;
     }
-
-    &:active{
-
-    }
+	&:active{
+		transform: translate(0.1rem, 0.2rem);
+	}
 }
 
 .bg-primary{
     background-color: $primary;
+}
+
+.bg-white{
+    background-color: $white;
+}
+
+.bg-black{
+    background-color: $black;
+}
+
+.equipe1{
+    background-color: $equipe1;
+}
+
+.equipe2{
+    background-color: $equipe2;
 }

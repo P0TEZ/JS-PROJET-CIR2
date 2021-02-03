@@ -42,7 +42,7 @@ table {
   font-family: "Roboto";
   src: url(../FONT/RobotoCondensed-Regular.ttf);
 }
-button, input[type=submit] {
+button, input {
   box-shadow: 1px 5px 5px 0px #555e5e;
 }
 
@@ -65,9 +65,11 @@ h1, h2 {
   font-family: "Anton";
   text-decoration: underline;
   text-decoration-color: #48c9b0;
+  padding: 1rem;
 }
 
 input, button, h3, h4, h5, h6, p {
+  padding: 0.5rem;
   font-family: "Roboto";
   font-weight: bold;
 }
@@ -105,17 +107,59 @@ h6 {
 }
 
 p {
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+p .small {
+  font-size: 1rem;
+}
+
+button, input {
+  margin: 0.5rem;
+  position: relative;
+  font-size: 1.5rem;
+  outline: 0;
+  border: 0px;
+}
+
+input:not([type=submit]) {
+  padding: 0.5rem 2rem 0.5rem 0.5rem;
+  background-color: #f9f9f9;
+  color: #48c9b0;
+}
+input:not([type=submit]):focus {
+  border: 1px solid #48c9b0;
 }
 
 button, input[type=submit] {
-  padding: 0.5rem 2rem;
-  font-size: 1.5rem;
-  border: 0px;
   border-radius: 3rem;
+  padding: 0.5rem 2rem;
 }
+button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus {
+  text-decoration: underline;
+  cursor: pointer;
+}
+button:active, input[type=submit]:active {
+  transform: translate(0.1rem, 0.2rem);
+}
+
 .bg-primary {
   background-color: #48c9b0;
+}
+
+.bg-white {
+  background-color: #f9f9f9;
+}
+
+.bg-black {
+  background-color: #424949;
+}
+
+.equipe1 {
+  background-color: #3498db;
+}
+
+.equipe2 {
+  background-color: #e74c3c;
 }
 
 /*# sourceMappingURL=main.css.map */
