@@ -27,4 +27,10 @@ class Stratego extends Observable{
     getWinner(){
         return this.winner;
     }
+
+    getCaseState(i,j){
+        return this.grid[i][j];
+    }
+
+   
 }
