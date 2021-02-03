@@ -4,5 +4,5 @@ let input = document.getElementById('username');
 // Envoi du login via le module de connexion
 form.addEventListener('submit', event => {
     event.preventDefault();
-    document.write(input.value);
+    logger.sendLogin(input.value);
 });
