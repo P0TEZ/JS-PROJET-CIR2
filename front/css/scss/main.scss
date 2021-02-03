@@ -1,4 +1,4 @@
-//@import "libs/reset.scss";
+@import "libs/reset.scss";
 //fin des resets
 
 $black:rgba(66, 73, 73);
@@ -6,5 +6,79 @@ $white: rgb(249, 249, 249);
 $light-grey:rgb(229, 231, 233);
 $green: rgb(94,133,105);
 
-$primary:rgb(52, 152, 219);
-$secondary: rgb(231,76,60);
+$equipe1:rgb(52, 152, 219);
+$equipe2: rgb(231,76,60);
+
+$primary: rgb(72,201,176);
+
+
+@font-face{
+	font-family: "Anton";
+	src: url(../FONT/Anton-Regular.ttf);
+}
+
+@font-face{
+	font-family: "Roboto";
+	src: url(../FONT/RobotoCondensed-Regular.ttf);
+}
+
+%shadow{
+	box-shadow: (1px 5px 5px 0px darken($light-grey, 10));
+}
+
+::selection{
+    background-color: transparentize($black,0.2);
+    color: $white;
+}
+
+*{
+    color: $white;
+	font-family: "Roboto",Helvetica,Arial,"Helvetica Neue",sans-serif;
+}
+
+html{
+  background-color: $black;  
+}
+
+h1,h2{
+    font-family: "Anton";
+    text-decoration: underline;
+    text-decoration-color: $primary;
+}
+
+h3,h4,h5,h6,p{
+    font-family: "Roboto";
+    font-weight: bold;
+}
+
+h1{
+    font-size: 6rem;
+    
+    &::first-letter{
+    color: $primary;
+    }
+}
+
+h2{
+    font-size: 4rem;
+}
+
+h3{
+    text-decoration: underline;
+    text-decoration-color: $primary;
+}
+
+@for $i from 3 through 6{
+    h#{$i}{
+        font-size: 7rem - $i*1rem;
+    }
+}
+
+p{
+    font-size: 2rem;
+}
+
+button{
+    background-color: $primary;
+    border:0px;
+}
