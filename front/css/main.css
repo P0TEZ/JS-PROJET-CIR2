@@ -47,8 +47,9 @@ button, input {
 }
 
 ::selection {
-  background-color: rgba(249, 249, 249, 0.8);
-  color: #424949;
+  background-color: rgba(72, 201, 176, 0.8);
+  text-shadow: none;
+  color: #f9f9f9;
 }
 
 * {
@@ -64,12 +65,17 @@ html {
 h1, h2 {
   font-family: "Anton";
   text-decoration: underline;
+  text-shadow: 0 2px 0 #020202;
   text-decoration-color: #48c9b0;
   padding: 1rem;
 }
 
-input, button, h3, h4, h5, h6, p {
-  padding: 0.5rem;
+h3, h4, h5, h6, b {
+  text-shadow: 0 1px 0 #020202;
+}
+
+input, button, h3, h4, h5, h6, p, a, b, i {
+  padding: 0.5rem 0px;
   font-family: "Roboto";
   font-weight: bold;
 }
@@ -106,11 +112,33 @@ h6 {
   font-size: 1rem;
 }
 
-p {
+p, a, b, i, u {
+  text-align: justify;
   font-size: 1.5rem;
+  font-weight: normal;
 }
-p .small {
+p .small, a .small, b .small, i .small, u .small {
   font-size: 1rem;
+}
+
+a {
+  color: #48c9b0;
+  font-weight: normal;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+b {
+  font-weight: bolder;
+}
+
+i {
+  font-style: italic;
+}
+
+u {
+  text-decoration: underline;
 }
 
 button, input {
@@ -122,12 +150,12 @@ button, input {
 }
 
 input:not([type=submit]) {
-  padding: 0.5rem 2rem 0.5rem 0.5rem;
+  padding: 0.5rem;
   background-color: #f9f9f9;
   color: #48c9b0;
 }
 input:not([type=submit]):focus {
-  border: 1px solid #48c9b0;
+  outline: 1.5px solid #48c9b0;
 }
 
 button, input[type=submit] {
@@ -135,10 +163,12 @@ button, input[type=submit] {
   padding: 0.5rem 2rem;
 }
 button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus {
+  background-color: #68d2be;
   text-decoration: underline;
   cursor: pointer;
 }
 button:active, input[type=submit]:active {
+  background-color: #77d7c4;
   transform: translate(0.1rem, 0.2rem);
 }
 

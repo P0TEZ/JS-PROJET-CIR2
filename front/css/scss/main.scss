@@ -23,12 +23,13 @@ $primary: rgb(72,201,176);
 }
 
 %shadow{
-	box-shadow: (1px 5px 5px 0px lighten($black, 8));
+    box-shadow: (1px 5px 5px 0px lighten($black, 8));
 }
 
 ::selection{
-    background-color: transparentize($white,0.2);
-    color: $black;
+    background-color: transparentize($primary,0.2);
+    text-shadow: none;
+    color: $white;
 }
 
 *{
@@ -37,20 +38,25 @@ $primary: rgb(72,201,176);
 }
 
 html{
-  background-color: $black;
-  text-align: center;  
+    background-color: $black;
+    text-align: center;  
 }
 
 h1,h2{
     font-family: "Anton";
     text-decoration: underline;
+    
+    text-shadow: 0 2px 0 rgb(2,2,2);
     text-decoration-color: $primary;
-
     padding: 1rem;
 }
 
-input,button,h3,h4,h5,h6,p{
-    padding: 0.5rem;
+h3,h4,h5,h6,b{
+    text-shadow: 0 1px 0 rgb(2,2,2);
+}
+
+input,button,h3,h4,h5,h6,p,a,b,i{
+    padding: 0.5rem 0px;
 
     font-family: "Roboto";
     font-weight: bold;
@@ -79,11 +85,39 @@ h3{
     }
 }
 
-p{
+p,a,b,i,u{
+    text-align: justify;
     font-size: 1.5rem;
+    font-weight: normal;
     .small{
         font-size: 1rem;
     }
+}
+
+a{
+    color:$primary;
+    font-weight: normal;
+    text-decoration: none;
+
+    &:hover{
+        text-decoration: underline;
+    }
+
+    &:visited{
+        //color: darken($primary, 5);
+    }
+}
+
+b{
+    font-weight: bolder;
+}
+
+i{
+   font-style: italic;
+}
+
+u{
+    text-decoration: underline;
 }
 
 button,input{
@@ -97,28 +131,36 @@ button,input{
     outline: 0;
     border:0px;
 }
-input:not([type="submit"]){
-    padding: .5rem 2rem .5rem .5rem;
 
+input:not([type="submit"]){
+    padding: .5rem;
+    
     background-color: $white;
     color:$primary;
 
     &:focus{
-        border: 1px solid $primary;
+        outline: 1.5px solid $primary;
     }
 }
 
 button,input[type="submit"]{
     border-radius: 3rem;
     padding: 0.5rem 2rem;
+
     
     &:hover,&:focus{
-		text-decoration: underline;
-		cursor: pointer;
+        background-color: lighten($primary, 8);
+        text-decoration: underline;
+        cursor: pointer;
     }
 	&:active{
+        background-color: lighten($primary, 12);
 		transform: translate(0.1rem, 0.2rem);
 	}
+}
+
+footer{
+    
 }
 
 .bg-primary{
