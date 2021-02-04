@@ -3,7 +3,7 @@
 let create_tab_data = (function(){
     function firstline(){
         let titre = ["pseudo","Time","Score","Win","Loose"];
-         console.table(titre); 
+         //console.table(titre); 
         let linelemnt = document.createElement("tr");
 
         for(let i =0; i<titre.lenght;i++){

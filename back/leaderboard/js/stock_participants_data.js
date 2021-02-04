@@ -3,7 +3,7 @@
 let Module_Stock = (function(){
     const data= joueurs; 
 
-    console.log(data[0].username);
+    //console.log(data[0].username);
 
     function getScore(index){
         console.log(data[index].score); 
