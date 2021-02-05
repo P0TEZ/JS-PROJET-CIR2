@@ -54,7 +54,7 @@ let tips_display = (function() {
                 setTimeout(()=>{
                     if(tipsLoopRunning) tips_display.tipsLoop();
                 },3000);
-            },10000);
+            },30000);
             
         },
     }
