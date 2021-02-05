@@ -34,6 +34,14 @@ table {
   border-spacing: 0;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @font-face {
   font-family: "Anton";
   src: url(../FONT/Anton-Regular.ttf);
@@ -118,14 +126,15 @@ p {
   font-size: 1.5rem;
   font-weight: normal;
 }
-p.small {
-  font-size: 1rem;
-}
 
-a, b, i, u {
+a, b, i, u, li {
   font-size: inherit;
   font-weight: inherit;
   text-align: inherit;
+}
+
+li {
+  color: inherit;
 }
 
 a {
@@ -247,6 +256,10 @@ img:active {
 
 .align-center {
   text-align: center;
+}
+
+.small {
+  font-size: 1rem;
 }
 
 /*# sourceMappingURL=main.css.map */

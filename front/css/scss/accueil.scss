@@ -15,7 +15,7 @@ body{
       "footer footer footer";
 
     h1{grid-area: titre;}
-    p{grid-area: tips;}
+    ul{grid-area: tips;}
     form{grid-area: form;}
     footer{grid-area: footer;}
 
@@ -38,7 +38,7 @@ form{
     }
 }
 
-p{
+ul{
     margin: auto;
 }
 
@@ -67,5 +67,15 @@ footer,h1{
 @media screen and (max-height: 320px){
     body{
         grid-template-rows: auto auto auto 0px auto ;
+    }
+}
+
+li{
+    //display: none;
+    &.on{
+        animation:fadeIn 3s linear;
+    }
+    &.off{
+        animation:fadeIn 3s linear reverse;
     }
 }

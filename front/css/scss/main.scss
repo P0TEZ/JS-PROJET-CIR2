@@ -12,6 +12,7 @@ $playerNone: rgb(161, 161, 161);
 
 $primary: rgb(72,201,176);
 
+@import "libs/animation.scss";
 
 @font-face{
 	font-family: "Anton";
@@ -91,15 +92,16 @@ p{
     text-align: justify;
     font-size: 1.5rem;
     font-weight: normal;
-    &.small{
-        font-size: 1rem;
-    }
 }
 
-a,b,i,u{
+a,b,i,u,li{
     font-size: inherit;
     font-weight: inherit;
     text-align: inherit;
+}
+
+li{
+    color: inherit;
 }
 
 a{
@@ -235,4 +237,8 @@ img{
 
 .align-center{
     text-align: center;
+}
+
+.small{
+    font-size: 1rem;
 }

@@ -1,0 +1,10 @@
+#plateau{
+    width:100vh;
+    height: 100vh;
+
+
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: .25rem .25rem;
+}
