@@ -54,10 +54,10 @@ button, input {
 
 * {
   color: #f9f9f9;
-  font-family: "Roboto", Helvetica, Arial, "Helvetica Neue", sans-serif;
 }
 
 html {
+  font-family: "Roboto", Helvetica, Arial, "Helvetica Neue", sans-serif;
   background-color: #424949;
   text-align: center;
 }
@@ -67,7 +67,7 @@ h1, h2 {
   text-decoration: underline;
   text-shadow: 0 2px 0 #020202;
   text-decoration-color: #48c9b0;
-  padding: 1rem;
+  padding: 1rem 0px;
 }
 
 h3, h4, h5, h6, b {
@@ -82,6 +82,7 @@ input, button, h3, h4, h5, h6, p, a, b, i {
 
 h1 {
   font-size: 6rem;
+  width: 100%;
 }
 h1::first-letter {
   color: #48c9b0;
@@ -112,23 +113,34 @@ h6 {
   font-size: 1rem;
 }
 
-p, a, b, i, u {
+p {
   text-align: justify;
   font-size: 1.5rem;
   font-weight: normal;
 }
-p .small, a .small, b .small, i .small, u .small {
+p.small {
   font-size: 1rem;
+}
+
+a, b, i, u {
+  font-size: inherit;
+  font-weight: inherit;
+  text-align: inherit;
 }
 
 a {
   color: #48c9b0;
   font-weight: normal;
   text-decoration: none;
+  /*
+  &:visited{
+      //color: darken($primary, 5);
+  }*/
 }
 a:hover {
   text-decoration: underline;
 }
+
 b {
   font-weight: bolder;
 }
@@ -142,7 +154,7 @@ u {
 }
 
 button, input {
-  margin: 0.5rem;
+  margin: 0.5rem 0px;
   position: relative;
   font-size: 1.5rem;
   outline: 0;
@@ -150,7 +162,8 @@ button, input {
 }
 
 input:not([type=submit]) {
-  padding: 0.5rem;
+  border-radius: 10rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   background-color: #f9f9f9;
   color: #48c9b0;
 }
@@ -159,8 +172,9 @@ input:not([type=submit]):focus {
 }
 
 button, input[type=submit] {
-  border-radius: 3rem;
+  border-radius: 10rem;
   padding: 0.5rem 2rem;
+  width: 100%;
 }
 button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus {
   background-color: #68d2be;
@@ -170,6 +184,41 @@ button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus {
 button:active, input[type=submit]:active {
   background-color: #77d7c4;
   transform: translate(0.1rem, 0.2rem);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+}
+
+footer {
+  font-size: 1rem;
+}
+
+img {
+  width: 10%;
+  border-radius: 50%;
+}
+img.player-Red {
+  background-color: #e74c3c;
+}
+img.player-Blue {
+  background-color: #3498db;
+}
+img.player-None {
+  background-color: #a1a1a1;
+}
+img:hover {
+  cursor: pointer;
+}
+img.info:hover {
+  cursor: help;
+}
+img:active {
+  transform: scale(0.8);
+  transition: 0.3s cubic-bezier(1, 0, 0, 1);
 }
 
 .bg-primary {
@@ -184,12 +233,20 @@ button:active, input[type=submit]:active {
   background-color: #424949;
 }
 
-.equipe1 {
+.bg-Red {
+  background-color: #e74c3c;
+}
+
+.bg-Blue {
   background-color: #3498db;
 }
 
-.equipe2 {
-  background-color: #e74c3c;
+.text-color-primary {
+  color: #48c9b0;
+}
+
+.align-center {
+  text-align: center;
 }
 
 /*# sourceMappingURL=main.css.map */
