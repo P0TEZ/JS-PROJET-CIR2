@@ -23,7 +23,7 @@
     },
     {
         username:'clement',
-        nb_win:'1000000',
+        nb_win:'1000',
         nb_loose: '1',
         score:'20',
         time:'1min',
