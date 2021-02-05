@@ -1,27 +1,30 @@
 var mysql = require('mysql');
 
-var db = mysql.createConnection({
+var con = mysql.createConnection({
 
    host: "localhost",
 
    user: "nom_utilisateur",
 
-   password: "mot_de_passe_utilisateur"
+   password: "mot_de_passe_utilisateur",
+
+   database : "mabdd",
 
  });
 
- db.connect(function(err) {
+  con.connect(function(err) {
 
    if (err) throw err;
 
    console.log("Connecté à la base de données MySQL!");
 
-  db.query("CREATE DATABASE mabdd", function (err, result) {
+   con.query("SELECT eleves.id as 'eleve_id', eleves.nom as 'eleve_nom', eleves.cours_id, cours.nom as 'cours_nom', cours.date as 'cours_date' FROM eleves JOIN cours on eleves.cours_id = cours.id", function (err, result) {
 
        if (err) throw err;
 
-       console.log("Base de données créée !");
+       console.log(result);
 
      });
 
  });
+ 
