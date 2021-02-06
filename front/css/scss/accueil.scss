@@ -31,10 +31,12 @@ form{
 
     input[type="text"]{
         grid-area: text;
+        height: 2rem;
     }
 
     input[type="submit"]{
         grid-area: submit;
+        height: 3rem;
     }
 }
 

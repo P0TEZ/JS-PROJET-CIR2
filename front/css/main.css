@@ -34,6 +34,48 @@ table {
   border-spacing: 0;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #48c9b0;
+  border: 0px none #f9f9f9;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5ccfb9;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #83daca;
+}
+
+::-webkit-scrollbar-track {
+  background: #f9f9f9;
+  border: 0px none white;
+  border-radius: 32px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #f9f9f9;
+}
+
+::-webkit-scrollbar-track:active {
+  background: #f9f9f9;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -138,12 +180,13 @@ li {
 }
 
 a {
+  cursor: pointer;
   color: #48c9b0;
   font-weight: normal;
   text-decoration: none;
   /*
   &:visited{
-      //color: darken($primary, 5);
+      color: darken($primary, 50);
   }*/
 }
 a:hover {

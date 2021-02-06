@@ -12,7 +12,10 @@ $playerNone: rgb(161, 161, 161);
 
 $primary: rgb(72,201,176);
 
+////////////////////////////////////
+@import "libs/myScrollbar.scss";
 @import "libs/animation.scss";
+///////////////////////////////////
 
 @font-face{
 	font-family: "Anton";
@@ -104,7 +107,8 @@ li{
     color: inherit;
 }
 
-a{
+a{  
+    cursor: pointer;
     color:$primary;
     font-weight: normal;
     text-decoration: none;
@@ -114,7 +118,7 @@ a{
     }
     /*
     &:visited{
-        //color: darken($primary, 5);
+        color: darken($primary, 50);
     }*/
 }
 
