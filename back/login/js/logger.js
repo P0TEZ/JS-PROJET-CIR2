@@ -15,7 +15,7 @@ let logger = (function(){
     }
 
     return {
-        sendLogin(username) {
+        sendLogin(username) { 
             postLog(username);
         }
     }
