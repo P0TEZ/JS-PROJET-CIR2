@@ -5,14 +5,14 @@ html, body {
 body {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
-  grid-template-rows: 30vh 10vh 30vh 20vh 8vh;
+  grid-template-rows: 30vh 15vh 30vh 15vh 8vh;
   gap: 0px 0px;
-  grid-template-areas: ". titre ." ". tips ." ". form ." ". . . " "footer footer footer";
+  grid-template-areas: ". titre ." "tips tips tips" ". form ." ". . . " "footer footer footer";
 }
 body h1 {
   grid-area: titre;
 }
-body ul {
+body div#tips {
   grid-area: tips;
 }
 body form {
@@ -33,10 +33,6 @@ form input[type=text] {
 }
 form input[type=submit] {
   grid-area: submit;
-}
-
-ul {
-  margin: auto;
 }
 
 footer, h1 {
@@ -63,11 +59,17 @@ footer, h1 {
     grid-template-rows: auto auto auto 0px auto;
   }
 }
-li.on {
+div#tips {
+  margin: auto;
+}
+div#tips.on {
   animation: fadeIn 3s linear;
 }
-li.off {
+div#tips.off {
   animation: fadeIn 3s linear reverse;
+}
+div#tips.invisible {
+  opacity: 0;
 }
 
 /*# sourceMappingURL=accueil.css.map */

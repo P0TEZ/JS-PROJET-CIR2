@@ -94,7 +94,7 @@ p{
     font-weight: normal;
 }
 
-a,b,i,u,li{
+a,b,i,u,li,span{
     font-size: inherit;
     font-weight: inherit;
     text-align: inherit;
@@ -181,7 +181,7 @@ footer{
     font-size: 1rem;
 }
 
-img{
+img.pieces{
     width: 10%;
     border-radius: 50%;
     

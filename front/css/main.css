@@ -127,7 +127,7 @@ p {
   font-weight: normal;
 }
 
-a, b, i, u, li {
+a, b, i, u, li, span {
   font-size: inherit;
   font-weight: inherit;
   text-align: inherit;
@@ -206,26 +206,26 @@ footer {
   font-size: 1rem;
 }
 
-img {
+img.pieces {
   width: 10%;
   border-radius: 50%;
 }
-img.player-Red {
+img.pieces.player-Red {
   background-color: #e74c3c;
 }
-img.player-Blue {
+img.pieces.player-Blue {
   background-color: #3498db;
 }
-img.player-None {
+img.pieces.player-None {
   background-color: #a1a1a1;
 }
-img:hover {
+img.pieces:hover {
   cursor: pointer;
 }
-img.info:hover {
+img.pieces.info:hover {
   cursor: help;
 }
-img:active {
+img.pieces:active {
   transform: scale(0.8);
   transition: 0.3s cubic-bezier(1, 0, 0, 1);
 }

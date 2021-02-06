@@ -5,17 +5,17 @@ html,body{
 body{
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
-    grid-template-rows: 30vh 10vh 30vh 20vh 8vh;
+    grid-template-rows: 30vh 15vh 30vh 15vh 8vh;
     gap: 0px 0px;
     grid-template-areas:
       ". titre ."
-      ". tips ."
+      "tips tips tips"
       ". form ."
       ". . . "
       "footer footer footer";
 
     h1{grid-area: titre;}
-    ul{grid-area: tips;}
+    div#tips{grid-area: tips;}
     form{grid-area: form;}
     footer{grid-area: footer;}
 
@@ -36,10 +36,6 @@ form{
     input[type="submit"]{
         grid-area: submit;
     }
-}
-
-ul{
-    margin: auto;
 }
 
 footer,h1{
@@ -70,12 +66,16 @@ footer,h1{
     }
 }
 
-li{
-    //display: none;
+div#tips{
+    margin: auto;
+    
     &.on{
         animation:fadeIn 3s linear;
     }
     &.off{
         animation:fadeIn 3s linear reverse;
+    }
+    &.invisible{
+        opacity: 0;
     }
 }

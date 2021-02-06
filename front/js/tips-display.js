@@ -1,48 +1,40 @@
 let tips_display = (function() {
 
     let tips = document.getElementById("tips");
-    let tipsIlListe = new Array();
+    let tip = document.getElementById("tip");
+    let tipsListe = new Array();
     let currentTip = 0;
     let tipsLoopRunning = true;
 
     return{
         LoadTips : ()=>{
             for (const tip of tips_data) {
-                let NewTip= document.createElement('li');
-                NewTip.innerHTML=tip.text;
-                NewTip.style.display="none";
-                NewTip.className="off";
-                tipsIlListe.push(NewTip);
-                tips.appendChild(NewTip);
+                tipsListe.push(tip.text);
             }
         },
         tipOn : (tipNumber=0)=>{
-            tipsIlListe[tipNumber].className=""; 
+            tips.className="invisible"; 
 
             window.requestAnimationFrame(anim=>{
                 window.requestAnimationFrame(anim=>{
-                    tipsIlListe[tipNumber].style.display="block";
-                    tipsIlListe[tipNumber].className="on";                 
+                    tip.innerHTML = tipsListe[tipNumber];
+                    tips.className="on";                 
                 });
             });
             currentTip = tipNumber;
-            console.log(currentTip);
         },
         tipOff : (tipNumber=0)=>{
-            tipsIlListe[tipNumber].className=""; 
+            tips.className=""; 
 
             window.requestAnimationFrame(anim=>{
                 window.requestAnimationFrame(anim=>{
-                    tipsIlListe[tipNumber].className="off";                 
+                    tips.className="off";                 
                 });
             });
-            setTimeout(function() {
-                tipsIlListe[tipNumber].style.display="none";
-            }, 3000);
         },
         tipsLoop : () =>{
             do{
-                newTip=Math.floor(Math.random()*tipsIlListe.length);
+                newTip=Math.floor(Math.random()*tipsListe.length);
             }while(newTip==currentTip);
 
             tips_display.tipOn(newTip);
@@ -53,7 +45,7 @@ let tips_display = (function() {
 
                 setTimeout(()=>{
                     if(tipsLoopRunning) tips_display.tipsLoop();
-                },3000);
+                },2900);
             },30000);
             
         },
