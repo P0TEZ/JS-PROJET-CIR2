@@ -1,0 +1,77 @@
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-rows: 30vh 15vh 30vh 15vh 8vh;
+  gap: 0px 0px;
+  grid-template-areas: ". titre ." "tips tips tips" ". form ." ". . . " "footer footer footer";
+}
+body h1 {
+  grid-area: titre;
+}
+body div#tips {
+  grid-area: tips;
+}
+body form {
+  grid-area: form;
+}
+body footer {
+  grid-area: footer;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 10rem 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: "text text text" ". submit .";
+}
+form input[type=text] {
+  grid-area: text;
+  height: 2rem;
+}
+form input[type=submit] {
+  grid-area: submit;
+  height: 3rem;
+}
+
+footer, h1 {
+  margin-top: auto;
+}
+
+@media screen and (min-width: 0px) and (max-width: 640px) {
+  body {
+    grid-template-columns: 1fr 10fr 1fr;
+  }
+}
+@media screen and (min-width: 1000px) {
+  body {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+}
+@media screen and (max-height: 410px) {
+  body {
+    grid-template-rows: 35vh 20vh 30vh 5vh 8vh;
+  }
+}
+@media screen and (max-height: 320px) {
+  body {
+    grid-template-rows: auto auto auto 0px auto;
+  }
+}
+div#tips {
+  margin: auto;
+}
+div#tips.on {
+  animation: fadeIn 3s linear;
+}
+div#tips.off {
+  animation: fadeIn 3s linear reverse;
+}
+div#tips.invisible {
+  opacity: 0;
+}
+
+/*# sourceMappingURL=accueil.css.map */

@@ -1,4 +1,4 @@
-//@import "libs/reset.scss";
+@import "libs/reset.scss";
 //fin des resets
 
 $black:rgba(66, 73, 73);
@@ -6,5 +6,243 @@ $white: rgb(249, 249, 249);
 $light-grey:rgb(229, 231, 233);
 $green: rgb(94,133,105);
 
-$primary:rgb(52, 152, 219);
-$secondary: rgb(231,76,60);
+$playerBlue:rgb(52, 152, 219);
+$playerRed: rgb(231,76,60);
+$playerNone: rgb(161, 161, 161);
+
+$primary: rgb(72,201,176);
+
+////////////////////////////////////
+@import "libs/myScrollbar.scss";
+@import "libs/animation.scss";
+///////////////////////////////////
+
+@font-face{
+	font-family: "Anton";
+	src: url(../FONT/Anton-Regular.ttf);
+}
+
+@font-face{
+	font-family: "Roboto";
+	src: url(../FONT/RobotoCondensed-Regular.ttf);
+}
+
+%shadow{
+    box-shadow: (1px 5px 5px 0px lighten($black, 8));
+}
+
+::selection{
+    background-color: transparentize($primary,0.2);
+    text-shadow: none;
+    color: $white;
+}
+
+*{
+    color: $white;
+}
+
+html{
+    font-family: "Roboto",Helvetica,Arial,"Helvetica Neue",sans-serif;
+    background-color: $black;
+    text-align: center;  
+}
+
+h1,h2{
+    font-family: "Anton";
+    text-decoration: underline;
+    
+    text-shadow: 0 2px 0 rgb(2,2,2);
+    text-decoration-color: $primary;
+    padding: 1rem 0px;
+}
+
+h3,h4,h5,h6,b{
+    text-shadow: 0 1px 0 rgb(2,2,2);
+}
+
+input,button,h3,h4,h5,h6,p,a,b,i{
+    padding: 0.5rem 0px;
+
+    font-family: "Roboto";
+    font-weight: bold;
+}
+
+h1{
+    font-size: 6rem;
+    width: 100%;
+    
+    &::first-letter{
+    color: $primary;
+    }
+}
+
+h2{
+    font-size: 4rem;
+}
+
+h3{
+    text-decoration: underline;
+    text-decoration-color: $primary;
+}
+
+@for $i from 3 through 6{
+    h#{$i}{
+        font-size: 7rem - $i*1rem;
+    }
+}
+
+p{
+    text-align: justify;
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+a,b,i,u,li,span{
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: inherit;
+}
+
+li{
+    color: inherit;
+}
+
+a{  
+    cursor: pointer;
+    color:$primary;
+    font-weight: normal;
+    text-decoration: none;
+    
+    &:hover{
+        text-decoration: underline;
+    }
+    /*
+    &:visited{
+        color: darken($primary, 50);
+    }*/
+}
+
+b{
+    font-weight: bolder;
+}
+
+i{
+    font-style: italic;
+}
+
+u{
+    text-decoration: underline;
+}
+
+button,input{
+    @extend %shadow;
+    
+    margin: 0.5rem 0px;
+    position: relative;
+    
+    font-size: 1.5rem;
+    
+    outline: 0;
+    border:0px;
+}
+
+input:not([type="submit"]){
+    border-radius: 10rem;
+    padding: .5rem .5rem .5rem 1rem;
+    
+    background-color: $white;
+    color:$primary;
+    
+    &:focus{
+        outline: 1.5px solid $primary;
+    }
+}
+
+button,input[type="submit"]{
+    border-radius: 10rem;
+    padding: 0.5rem 2rem;
+    width: 100%;
+    
+    &:hover,&:focus{
+        background-color: lighten($primary, 8);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+	&:active{
+        background-color: lighten($primary, 12);
+		transform: translate(0.1rem, 0.2rem);
+	}
+}
+
+form{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content:center;   
+}
+
+footer{
+    font-size: 1rem;
+}
+
+img.pieces{
+    width: 10%;
+    border-radius: 50%;
+    
+    
+    &.player-Red{
+        background-color: $playerRed;
+    }
+    &.player-Blue{
+        background-color: $playerBlue;
+    }
+    &.player-None{
+        background-color: $playerNone;
+    }
+    
+    &:hover{
+        cursor: pointer;
+    }
+    &.info{
+        &:hover{
+            cursor: help;
+        }
+    }
+    
+    &:active{
+        transform: scale(0.8);
+        transition: 0.3s cubic-bezier(1, 0, 0, 1);
+    }
+}
+
+.bg-primary{
+    background-color: $primary;
+}
+
+.bg-white{
+    background-color: $white;
+}
+
+.bg-black{
+    background-color: $black;
+}
+
+.bg-Red{
+    background-color: $playerRed;
+}
+
+.bg-Blue{
+    background-color: $playerBlue;
+}
+
+.text-color-primary{
+    color: $primary;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.small{
+    font-size: 1rem;
+}
