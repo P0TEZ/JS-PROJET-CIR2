@@ -60,21 +60,25 @@ class Stratego extends Observable{
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
             if(Pion.name === "Miner" && this.grid[i][j].name === "Bomb"){
-                return true;
+                return 1;
             }
-            if(this.grid[i][j]){
-                return true;
-                this.winner=Pion.equipe;
-            }
-            if(Pion.name ==="Spy" && this.grid[i][j].name ==="Marshal"){
-                return true;
-            }
+            else if(this.grid[i][j]){
 
-            //verifie si B dans combat ==> verifier si demineur
-            //verifie si F dans combat
-            // verifie si 1 attaque 10
-            //reste c'est le plus grand qui gagne
-            //si égalite les deux pions meurent
+                this.winner=Pion.equipe;
+                return 1;
+            }
+            else if(Pion.name ==="Spy" && this.grid[i][j].name ==="Marshal"){
+                return 1;
+            }
+            else if(Pion.name > this.grid[i][j].name){
+                return 1;
+            }
+            else if(Pion.name == this.grid[i][j].name){
+                console.log("Les deux pions sont supprimés");
+                return 2;
+            }else{
+                return 0;
+            }
         }
     }
 
