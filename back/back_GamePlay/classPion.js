@@ -20,6 +20,13 @@ class Pion{
         this.strength = module.getStrength(id);
         this.speciality = module.getSpeciality(id);
         this.img = module.getImg(id);
-        this.equipe=joueur;
+        if(joueur == 0){
+            this.equipe="red";
+        }else if(joueur == 1){
+            this.equipe = "blue";
+        }else{
+            this.equipe="none";
+        }
+
     }
 }
