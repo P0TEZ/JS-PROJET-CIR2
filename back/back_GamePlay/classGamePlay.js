@@ -37,7 +37,9 @@ class Stratego extends Observable{
     play(Pion, i, j){
     
         if(this.grid[i][j] === undefined && this.isFinished() === 0 && this.getCaseState() !== 'River' && this.started){
-            this.grid[i][j] = Pion;
+            if( attack(Pion,i,j) == 1){
+                this.grid[i][j] = Pion;
+            }
             if(this.currentPlayer === 0){
                 this.currentPlayer=1;
             }else{
@@ -54,6 +56,8 @@ class Stratego extends Observable{
                     this.currentPlayer=0;
                 }
             }
+
+            this.started=true;
         }
     }
 
@@ -81,5 +85,5 @@ class Stratego extends Observable{
             }
         }
     }
-
+    
 }
