@@ -1,9 +1,10 @@
 class Stratego extends Observable{
 
     constructor(){
+        super();
         this.currentPlayer=0;
         this.grid=new Array(10);
-        this.winner=null;
+        this.winner=0;
         this.started= false;
 
         for(let i=0; i<this.grid.length;i++){
@@ -35,22 +36,54 @@ class Stratego extends Observable{
 
     play(Pion, i, j){
     
-        if(this.grid[pos_i][pos_j] === undefined && this.isFinished() === 0 && this.getCaseState() !== 'River' && this.started){
-            if(this.currentPlayer === 0){
+        if(this.grid[i][j] === undefined && this.isFinished() === 0 && this.getCaseState() !== 'River' && this.started){
+            if( attack(Pion,i,j) == 1){
                 this.grid[i][j] = Pion;
+            }
+            if(this.currentPlayer === 0){
                 this.currentPlayer=1;
             }else{
-                this.grid[i][j] = Pion;
                 this.currentPlayer=0;
             }
         }
+
+        if(!this.started){
+            if ( 0<=i<=3 && 0<=j<=3){
+                this.grid[i][j]= Pion;
+                if (this.currentPlayer === 0){
+                    this.currentPlayer=1;
+                }else{
+                    this.currentPlayer=0;
+                }
+            }
+
+            this.started=true;
+        }
     }
 
-    isFinished(){
+    attack(Pion,i,j){
+        if(this.grid[i][j].equipe !== Pion.equipe){
+            if(Pion.name === "Miner" && this.grid[i][j].name === "Bomb"){
+                return 1;
+            }
+            else if(this.grid[i][j]){
 
+                this.winner=Pion.equipe;
+                return 1;
+            }
+            else if(Pion.name ==="Spy" && this.grid[i][j].name ==="Marshal"){
+                return 1;
+            }
+            else if(Pion.name > this.grid[i][j].name){
+                return 1;
+            }
+            else if(Pion.name == this.grid[i][j].name){
+                console.log("Les deux pions sont supprimés");
+                return 2;
+            }else{
+                return 0;
+            }
+        }
     }
-
-    initialise(){
-
-    }
+    
 }

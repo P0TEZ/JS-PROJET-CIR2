@@ -1,4 +1,4 @@
-let Pion = (function(){
+let module = (function(){
     const tableau= pion;
 
     return{
@@ -10,3 +10,23 @@ let Pion = (function(){
         getImg(id){return tableau[id].img;}
     }
 })();
+
+
+class Pion{
+
+    constructor(id,joueur){
+        this.name = module.getName(id);
+        this.number = module.getNumber(id);
+        this.strength = module.getStrength(id);
+        this.speciality = module.getSpeciality(id);
+        this.img = module.getImg(id);
+        if(joueur == 0){
+            this.equipe="red";
+        }else if(joueur == 1){
+            this.equipe = "blue";
+        }else{
+            this.equipe="none";
+        }
+
+    }
+}
