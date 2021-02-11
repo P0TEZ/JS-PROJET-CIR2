@@ -186,9 +186,10 @@ footer{
 }
 
 img.pieces{
-    width: 10%;
+    width: 100%;
     border-radius: 50%;
     
+    transition: 0.3s cubic-bezier(1, 0, 0, 1);
     
     &.player-Red{
         background-color: $playerRed;
@@ -199,7 +200,9 @@ img.pieces{
     &.player-None{
         background-color: $playerNone;
     }
-    
+    &[src=""]:not(:active):not([select="true"]){
+        background-color: rgba(0, 0, 0, 0);
+    }
     &:hover{
         cursor: pointer;
     }
@@ -209,11 +212,17 @@ img.pieces{
         }
     }
     
-    &:active{
-        transform: scale(0.8);
-        transition: 0.3s cubic-bezier(1, 0, 0, 1);
+    &:active,&[select="true"]{
+        transform: scale(1.1);
+        border-radius: 15%;
     }
+
 }
+
+/*
+    other:
+*/
+
 
 .bg-primary{
     background-color: $primary;

@@ -250,8 +250,9 @@ footer {
 }
 
 img.pieces {
-  width: 10%;
+  width: 100%;
   border-radius: 50%;
+  transition: 0.3s cubic-bezier(1, 0, 0, 1);
 }
 img.pieces.player-Red {
   background-color: #e74c3c;
@@ -262,17 +263,23 @@ img.pieces.player-Blue {
 img.pieces.player-None {
   background-color: #a1a1a1;
 }
+img.pieces[src=""]:not(:active):not([select=true]) {
+  background-color: rgba(0, 0, 0, 0);
+}
 img.pieces:hover {
   cursor: pointer;
 }
 img.pieces.info:hover {
   cursor: help;
 }
-img.pieces:active {
-  transform: scale(0.8);
-  transition: 0.3s cubic-bezier(1, 0, 0, 1);
+img.pieces:active, img.pieces[select=true] {
+  transform: scale(1.1);
+  border-radius: 15%;
 }
 
+/*
+    other:
+*/
 .bg-primary {
   background-color: #48c9b0;
 }
