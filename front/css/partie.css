@@ -3,6 +3,7 @@
   background-image: url("../img/bg.jpg");
   background-size: 100%;
   width: calc(100vh - 10px);
+  height: calc(100vh - 10px);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);

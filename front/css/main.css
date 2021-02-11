@@ -249,32 +249,35 @@ footer {
   font-size: 1rem;
 }
 
-img.pieces {
+img.pion {
   width: 100%;
+  height: 100%;
   border-radius: 50%;
   transition: 0.3s cubic-bezier(1, 0, 0, 1);
 }
-img.pieces.player-Red {
+img.pion[team=red] {
   background-color: #e74c3c;
 }
-img.pieces.player-Blue {
+img.pion[team=blue] {
   background-color: #3498db;
 }
-img.pieces.player-None {
+img.pion[team=none] {
   background-color: #a1a1a1;
 }
-img.pieces[src=""]:not(:active):not([select=true]) {
-  background-color: rgba(0, 0, 0, 0);
+img.pion[src=" "]:not(:active):not([select=true]) {
+  transition-delay: 0s;
+  opacity: 0%;
 }
-img.pieces:hover {
+img.pion:hover {
   cursor: pointer;
 }
-img.pieces.info:hover {
+img.pion.info:hover {
   cursor: help;
 }
-img.pieces:active, img.pieces[select=true] {
+img.pion[select=true] {
   transform: scale(1.1);
   border-radius: 15%;
+  outline: none;
 }
 
 /*
