@@ -10,6 +10,7 @@ class Stratego extends Observable{
         for(let i=0; i<this.grid.length;i++){
             this.grid[i]= new Array(10);
         }
+        this.setup();
     }
 
     reset(){
@@ -34,7 +35,7 @@ class Stratego extends Observable{
         return this.grid[i][j];
     }
 
-    play(Pion, i, j){
+    set(Pion, i, j){
     
         if(this.grid[i][j] === undefined && this.isFinished() === 0 && this.getCaseState() !== 'River' && this.started){
             if( attack(Pion,i,j) == 1){
@@ -85,5 +86,30 @@ class Stratego extends Observable{
             }
         }
     }
-    
+    play(x,y){
+        if(this.grid[x][y] != 'empty' && this.grid[x][y] != 'River'){
+            let AllUnSelect = true;
+            for(let row=0;row<this.grid.length;++row){
+                for(let column = 0; column<this.grid[row].length;++column){
+                if(this.grid[row][column])
+                    if(this.grid[row][column].select == true){
+                         AllUnSelect=false;
+                    }
+
+                }
+            }
+
+            if(AllUnSelect){
+                this.grid[x][y].select = true;
+            }
+        }
+    }
+    setup(){
+        this.grid[2][2]= new Pion(3,1);
+        this.grid[2][2].select = false;
+
+        this.grid[3][2]= new Pion(3,1);
+        this.grid[3][2].select = false;
+        console.log(this.grid);
+    }
 }
