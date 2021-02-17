@@ -8,11 +8,13 @@
         <h1>Veuillez saisir un nom d'utilisateur : </h1>
         <form id="loginForm" action="">
             <input id="username" autocomplete="off" placeholder="Username" />
+            <input id="mdp" autocomplete="off" placeholder="MDP" />
+
             <input type="submit" value="Se connecter!"/>
         </form>
         
         <script> let socket = io();</script>
-        <script src="../js/logger.js"></script>
-        <script src="../js/login.js"></script>
+        <script src="../js/login/logger.js"></script>
+        <script src="../js/login/login.js"></script>
     </body>
 </html>

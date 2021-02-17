@@ -3,12 +3,34 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mysql = require('mysql');
+const { body, validationResult } = require('express-validator');
 
-app.use(express.static(__dirname + '/back'));
+app.use(express.static(__dirname + '/front/'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/front/html/login.html');
 });
+app.post('/login', body('login').isLength({ min: 3 }).trim().escape(), (req, res) => {
+    
+    const login = req.body.login
+    const mdp = req.body.mdp
+    
+    // Error management
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      //return res.status(400).json({ errors: errors.array() });
+    } else {
+      // Store login
+      req.session.username = login;
+      req.session.mdp = mdp; 
+      req.session.save()
+      res.redirect('/');
+ 
+    }
+
+  });
+
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -31,14 +53,14 @@ let connection = mysql.createConnection({
     database: 'stratego'
 });
  
-db.connect(err => {
+connection.connect(err => {
     if (err) throw err;
     else {
         console.log("connexion effectue");
     }
     let id = '0';
-    let username = "sam";
-    let mdp = "123";
+    let username = socket.handshake.session.username;
+    let mdp = socket.handshake.session.mdp;
 
     let data = [id, username, mdp];
 
@@ -47,5 +69,3 @@ db.connect(err => {
         console.log(rslt);
     });
 });
-
-
