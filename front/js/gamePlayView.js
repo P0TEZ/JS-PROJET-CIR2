@@ -33,6 +33,7 @@ class gamePlayView {
                 grille[row][column].src = " ";
                 grille[row][column].addEventListener("click",event=>{
                     console.log(row+" / "+column);
+                    this.game.play(row,column);
                 });
                 plateau.appendChild(grille[row][column]);
             }
@@ -66,6 +67,11 @@ class gamePlayView {
         }
     }
 }
+let game_1 = new Stratego();
+let partie_1 = new gamePlayView(game_1,'game_1View');
 
-let partie_1 = new gamePlayView('game_1','game_1View');
+partie_1.grilleStetter();
+partie_1.grilleReload();
+
+
 window.onresize = partie_1.grilleResize;
