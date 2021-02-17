@@ -43,10 +43,10 @@ class gamePlayView {
     grilleReload(){
         for(let row=0;row<grille.length;++row){
             for(let column = 0; column<grille[row].length;++column){
-                grille[row][column].setAttribute('team','');
-                grille[row][column].setAttribute('select','');
+                grille[row][column].setAttribute('team',game.grid[row][column].equipe);
+                grille[row][column].setAttribute('select',game.grid[row][column].select);
                 if(true){
-                    grille[row][column].src = imgLink + ".png";
+                    grille[row][column].src = imgLink + game.grid[row][column].name + ".png";
                 }else{
                     grille[row][column].src = " ";
                 }
