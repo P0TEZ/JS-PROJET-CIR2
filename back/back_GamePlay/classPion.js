@@ -19,6 +19,7 @@ class Pion{
         this.number = module.getNumber(id);
         this.strength = module.getStrength(id);
         this.speciality = module.getSpeciality(id);
+        this.select = false;
         this.img = module.getImg(id);
         if(joueur == 0){
             this.equipe="red";
