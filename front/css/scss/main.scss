@@ -10,7 +10,8 @@ $playerBlue:rgb(52, 152, 219);
 $playerRed: rgb(231,76,60);
 $playerNone: rgb(161, 161, 161);
 
-$primary: rgb(72,201,176);
+//$primary: rgb(72,201,176);
+$primary: rgb(33, 174, 148);
 
 ////////////////////////////////////
 @import "libs/myScrollbar.scss";
@@ -201,7 +202,7 @@ img.pion{
     &[team="none"]{
         background-color: $playerNone;
     }
-    &[src=" "]:not(:active):not([select="true"]){
+    &[src=" "]:not([select="true"]){
         transition-delay: 0s;
         opacity: 0%;
     }
@@ -216,6 +217,7 @@ img.pion{
     
     &[select="true"]{
         transform: scale(1.1);
+        opacity: 1;
         border-radius: 15%;
         outline: none;
     }

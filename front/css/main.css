@@ -45,17 +45,17 @@ table {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #48c9b0;
+  background: #21ae94;
   border: 0px none #f9f9f9;
   border-radius: 100px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5ccfb9;
+  background: #25c3a6;
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: #83daca;
+  background: #41dbbe;
 }
 
 ::-webkit-scrollbar-track {
@@ -97,7 +97,7 @@ button, input {
 }
 
 ::selection {
-  background-color: rgba(72, 201, 176, 0.8);
+  background-color: rgba(33, 174, 148, 0.8);
   text-shadow: none;
   color: #f9f9f9;
 }
@@ -116,7 +116,7 @@ h1, h2 {
   font-family: "Anton";
   text-decoration: underline;
   text-shadow: 0 2px 0 #020202;
-  text-decoration-color: #48c9b0;
+  text-decoration-color: #21ae94;
   padding: 1rem 0px;
 }
 
@@ -135,7 +135,7 @@ h1 {
   width: 100%;
 }
 h1::first-letter {
-  color: #48c9b0;
+  color: #21ae94;
 }
 
 h2 {
@@ -144,7 +144,7 @@ h2 {
 
 h3 {
   text-decoration: underline;
-  text-decoration-color: #48c9b0;
+  text-decoration-color: #21ae94;
 }
 
 h3 {
@@ -181,7 +181,7 @@ li {
 
 a {
   cursor: pointer;
-  color: #48c9b0;
+  color: #21ae94;
   font-weight: normal;
   text-decoration: none;
   /*
@@ -217,10 +217,10 @@ input:not([type=submit]) {
   border-radius: 10rem;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   background-color: #f9f9f9;
-  color: #48c9b0;
+  color: #21ae94;
 }
 input:not([type=submit]):focus {
-  outline: 1.5px solid #48c9b0;
+  outline: 1.5px solid #21ae94;
 }
 
 button, input[type=submit] {
@@ -229,12 +229,12 @@ button, input[type=submit] {
   width: 100%;
 }
 button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus {
-  background-color: #68d2be;
+  background-color: #28d0b1;
   text-decoration: underline;
   cursor: pointer;
 }
 button:active, input[type=submit]:active {
-  background-color: #77d7c4;
+  background-color: #34d8ba;
   transform: translate(0.1rem, 0.2rem);
 }
 
@@ -264,7 +264,7 @@ img.pion[team=blue] {
 img.pion[team=none] {
   background-color: #a1a1a1;
 }
-img.pion[src=" "]:not(:active):not([select=true]) {
+img.pion[src=" "]:not([select=true]) {
   transition-delay: 0s;
   opacity: 0%;
 }
@@ -276,6 +276,7 @@ img.pion.info:hover {
 }
 img.pion[select=true] {
   transform: scale(1.1);
+  opacity: 1;
   border-radius: 15%;
   outline: none;
 }
@@ -284,7 +285,7 @@ img.pion[select=true] {
     other:
 */
 .bg-primary {
-  background-color: #48c9b0;
+  background-color: #21ae94;
 }
 
 .bg-white {
@@ -304,7 +305,7 @@ img.pion[select=true] {
 }
 
 .text-color-primary {
-  color: #48c9b0;
+  color: #21ae94;
 }
 
 .align-center {
