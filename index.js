@@ -30,7 +30,7 @@ let connection = mysql.createConnection({
     password: '',
     database: 'stratego'
 });
-
+ 
 db.connect(err => {
     if (err) throw err;
     else {

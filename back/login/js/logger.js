@@ -11,7 +11,7 @@ let logger = (function(){
             success: () => {
                 window.location.href = "/";
             },
-        });
+        }); 
     }
 
     return {
