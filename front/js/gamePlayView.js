@@ -34,6 +34,7 @@ class gamePlayView {
                 grille[row][column].addEventListener("click",event=>{
                     console.log(row+" / "+column);
                     this.game.play(row,column);
+                    this.grilleReload();
                 });
                 plateau.appendChild(grille[row][column]);
             }
@@ -42,15 +43,17 @@ class gamePlayView {
     }
 
     grilleReload(){
-        for(let row=0;row<grille.length;++row){
-            for(let column = 0; column<grille[row].length;++column){
-                grille[row][column].setAttribute('team',game.grid[row][column].equipe);
-                grille[row][column].setAttribute('select',game.grid[row][column].select);
-                if(game.grid[row][column].name !='emply'){
-                    grille[row][column].src = imgLink + game.grid[row][column].name + ".png";
+        for(let row=0;row<this.grille.length;++row){
+            for(let column = 0; column<this.grille[row].length;++column){
+                if(this.game.grid[row][column]){
+                this.grille[row][column].setAttribute('team',this.game.grid[row][column].equipe);
+                this.grille[row][column].setAttribute('select',this.game.grid[row][column].select);
+                if(this.game.grid[row][column].name !='empty'){
+                    this.grille[row][column].src = imgLink + this.game.grid[row][column].name + ".png";
                 }else{
-                    grille[row][column].src = " ";
+                    this.grille[row][column].src = " ";
                 }
+            }
             }
         }
     }
@@ -70,7 +73,6 @@ class gamePlayView {
 let game_1 = new Stratego();
 let partie_1 = new gamePlayView(game_1,'game_1View');
 
-partie_1.grilleStetter();
 partie_1.grilleReload();
 
 
