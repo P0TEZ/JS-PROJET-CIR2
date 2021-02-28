@@ -69,10 +69,10 @@ class gamePlayView {
             plateau.style.height="calc(100vh - 10px)";
         }
     }
-}
+}/*
 let game_1 = new Stratego();
 let partie_1 = new gamePlayView(game_1,'game_1View');
-partie_1.grilleReload();
+partie_1.grilleReload();*/
 
 
 window.onresize = partie_1.grilleResize;
