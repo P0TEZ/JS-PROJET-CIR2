@@ -48,7 +48,7 @@ class gamePlayView {
                 if(this.game.grid[row][column]){
                 this.grille[row][column].setAttribute('team',this.game.grid[row][column].equipe);
                 this.grille[row][column].setAttribute('select',this.game.grid[row][column].select);
-                if(this.game.grid[row][column].name !='empty' && this.game.grid[row][column].name !='Lake'){
+                if(this.game.grid[row][column].name !='empty' && this.game.grid[row][column].name !='River'){
                     this.grille[row][column].src = imgLink + this.game.grid[row][column].name + ".png";
                 }else{
                     this.grille[row][column].src = " ";

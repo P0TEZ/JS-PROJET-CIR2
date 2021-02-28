@@ -7,6 +7,8 @@ class Stratego extends Observable{
         this.winner=0;
         this.started= false;
 
+        this.previousPlay = {"pion": null, "row": null, "column":null};
+
         this.setup();
     }
     gridSetUp(){
@@ -22,7 +24,7 @@ class Stratego extends Observable{
                 
                 if(row<6 && row>3){
                      if((column<4 && column>1)||(column>5 && column<8)){
-                        grille[row][column]= new Pion('Lake','none');
+                        grille[row][column]= new Pion('River','none');
                     }
                 }
             }
@@ -105,43 +107,63 @@ class Stratego extends Observable{
             }
         }
     }
-    play(x,y){
-        if(this.grid[x][y] != 'empty' && this.grid[x][y] != 'River'){
-            let AllUnSelect = true;
-            for(let row=0;row<this.grid.length;++row){
-                for(let column = 0; column<this.grid[row].length;++column){
-                if(this.grid[row][column])
+    play(row,column){
+
+    if(this.grid[row][column].name == 'River') return 1;
+
+        if(this.isAllUnSelect() && this.grid[row][column].name != 'empty'){
+            if(this.grid[row][column].name != 'River'){
+                this.grid[row][column].select = true;
+            }
+            for(let i =-1;i<=1;i+=2){
+                if(this.grid[row+i][column].name != 'River'){
+                    this.grid[row+i][column].select = true;
+                    this.grid[row+i][column].equipe = this.grid[row][column].equipe;
+                }
+                if(this.grid[row][column+i].name != 'River'){
+                    this.grid[row][column+i].select = true;
+                    this.grid[row][column+i].equipe = this.grid[row][column].equipe;
+                }
+            }
+            this.previousPlay["pion"] = this.grid[row][column];
+            this.previousPlay["row"] = row;
+            this.previousPlay["column"] = column;
+            return 0;
+        }
+
+        if(this.grid[row][column].select == true){
+            this.grid[row][column] = this.previousPlay["pion"];
+            this.grid[this.previousPlay["row"]][this.previousPlay["column"]] = new Pion('empty','none');
+            this.unSelectAll();
+        }
+    }
+    isAllUnSelect(){
+        let AllUnSelect = true;
+        for(let row=0;row<this.grid.length;++row){
+            for(let column = 0; column<this.grid[row].length;++column){
+                if(this.grid[row][column]){
                     if(this.grid[row][column].select == true){
-                         AllUnSelect=false;
-                    }
-
-                }
-            }
-
-            if(AllUnSelect){
-                this.grid[x][y].select = true;
-                for(let i =-1;i<=1;i+=2){
-                    if(this.grid[x+i][y].name != 'Lake'){
-                    this.grid[x+i][y].select = true;
-                    this.grid[x+i][y].equipe = this.currentPlayer?'red':'blue';
-                    }
-                    if(this.grid[x+i][y].name != 'Lake'){
-                    this.grid[x][y+i].select = true;
-                    this.grid[x][y+i].equipe = this.currentPlayer?'red':'blue';
+                        AllUnSelect=false;
                     }
                 }
-
             }
-            if(!AllUnSelect){
-                
+        }
+        return AllUnSelect;
+    }
+    unSelectAll(){
+        for(let row=0;row<this.grid.length;++row){
+            for(let column = 0; column<this.grid[row].length;++column){
+                if(this.grid[row][column]){
+                    this.grid[row][column].select = false;                    
+                }
             }
         }
     }
     setup(){
-        this.grid[2][2]= new Pion('Miner',1);
+        this.grid[2][2]= new Pion('Spy',1);
         this.grid[2][2].select = false;
 
-        this.grid[3][2]= new Pion('Miner',1);
+        this.grid[3][2]= new Pion('Spy',1);
         this.grid[3][2].select = false;
         console.log(this.grid);
     }

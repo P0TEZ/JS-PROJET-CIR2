@@ -12,5 +12,5 @@ let pion = [
     {id:'11', name:'Spy', number:'1', strength:'1', img:'spy.png',speciality: '1'},
     {id:'12', name:'Flag', number:'1', strength:'F', img:'flag.png',speciality: '1'},
     {id:'98', name:'empty'},
-    {id:'99', name:'Lake'},
+    {id:'99', name:'River'},
 ];
