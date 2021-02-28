@@ -3,16 +3,26 @@ class Stratego extends Observable{
     constructor(){
         super();
         this.currentPlayer=0;
-        this.grid=new Array(10);
+        this.grid= this.gridSetUp();
         this.winner=0;
         this.started= false;
 
-        for(let i=0; i<this.grid.length;i++){
-            this.grid[i]= new Array(10);
-        }
         this.setup();
     }
+    gridSetUp(){
+        let grille = new Array(10);
+        
+        for(let row=0;row<grille.length;++row){
 
+            grille[row] = new Array(10);
+
+            for(let column = 0; column<grille[row].length;++column){
+                grille[row][column]= new Pion(3,2);
+                grille[row][column].name = 'empty';
+            }
+        }
+        return grille;
+    }
     reset(){
         for(let i=0; i<this.grid.length;i++){
             for(let j=0; j<this.grid.length;i++){
@@ -101,6 +111,16 @@ class Stratego extends Observable{
 
             if(AllUnSelect){
                 this.grid[x][y].select = true;
+                for(let i =-1;i<=1;i+=2){
+                    this.grid[x+i][y].select = true;
+                    this.grid[x][y+i].select = true;
+                    this.grid[x][y+i].equipe = this.currentPlayer?'red':'blue';
+                    this.grid[x+i][y].equipe = this.currentPlayer?'red':'blue';
+                }
+
+            }
+            if(!AllUnSelect){
+                
             }
         }
     }
