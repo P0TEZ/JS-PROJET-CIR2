@@ -7,7 +7,7 @@ class Stratego extends Observable{
         this.winner=0;
         this.started= false;
 
-        this.setup();
+    //    this.setup();
     }
     gridSetUp(){
         let grille = new Array(10);
@@ -125,10 +125,10 @@ class Stratego extends Observable{
         }
     }
     setup(){
-        this.grid[2][2]= new Pion(3,1);
+        this.grid[2][2]= new Pion('Miner',1);
         this.grid[2][2].select = false;
 
-        this.grid[3][2]= new Pion(3,1);
+        this.grid[3][2]= new Pion('Miner',1);
         this.grid[3][2].select = false;
         console.log(this.grid);
     }
