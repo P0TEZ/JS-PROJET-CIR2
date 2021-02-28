@@ -1,26 +1,31 @@
 let module = (function(){
     const tableau= pion;
-
+    
     return{
-
-        getName(id){return tableau[id].name;},
-        getNumber(id){return tableau[id].number;},
-        getStrength(id){return tableau[id].strength;},
-        getSpeciality(id){return tableau[id].speciality;},
-        getImg(id){return tableau[id].img;}
+        getId(name){
+            for(let i=0; i<tableau.length; i++){
+                if(tableau[i].name == name){
+                    return i;
+                }
+            }
+        },
+        getNumber(name){return tableau[this.getId(name)].number;},
+        getStrength(name){return tableau[this.getId(name)].strength;},
+        getSpeciality(name){return tableau[this.getId(name)].speciality;},
+        getImg(name){return tableau[this.getId(name)].img;}
     }
 })();
 
 
 class Pion{
 
-    constructor(id,joueur){
-        this.name = module.getName(id);
-        this.number = module.getNumber(id);
-        this.strength = module.getStrength(id);
-        this.speciality = module.getSpeciality(id);
+    constructor(name,joueur){
+        this.name = name;
+        this.number = module.getNumber(this.name);
+        this.strength = module.getStrength(this.name);
+        this.speciality = module.getSpeciality(this.name);
         this.select = false;
-        this.img = module.getImg(id);
+        this.img = module.getImg(this.name);
         if(joueur == 0){
             this.equipe="red";
         }else if(joueur == 1){

@@ -3,12 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/back_GamePlay/classPion.js" beforeDir="false" afterPath="$PROJECT_DIR$/back/back_GamePlay/classPion.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,7 +41,9 @@
       <updated>1612944329960</updated>
       <workItem from="1612944331156" duration="3830000" />
       <workItem from="1612978482064" duration="10000" />
-      <workItem from="1612978493947" duration="111000" />
+      <workItem from="1612978493947" duration="867000" />
+      <workItem from="1612980002985" duration="162000" />
+      <workItem from="1612980177201" duration="29000" />
     </task>
     <servers />
   </component>
