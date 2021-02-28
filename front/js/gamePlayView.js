@@ -72,7 +72,6 @@ class gamePlayView {
 }
 let game_1 = new Stratego();
 let partie_1 = new gamePlayView(game_1,'game_1View');
-
 partie_1.grilleReload();
 
 
