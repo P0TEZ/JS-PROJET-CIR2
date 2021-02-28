@@ -48,7 +48,7 @@ class gamePlayView {
                 if(this.game.grid[row][column]){
                 this.grille[row][column].setAttribute('team',this.game.grid[row][column].equipe);
                 this.grille[row][column].setAttribute('select',this.game.grid[row][column].select);
-                if(this.game.grid[row][column].name !='empty'){
+                if(this.game.grid[row][column].name !='empty' && this.game.grid[row][column].name !='Lake'){
                     this.grille[row][column].src = imgLink + this.game.grid[row][column].name + ".png";
                 }else{
                     this.grille[row][column].src = " ";
@@ -69,10 +69,13 @@ class gamePlayView {
             plateau.style.height="calc(100vh - 10px)";
         }
     }
-}/*
+}
 let game_1 = new Stratego();
 let partie_1 = new gamePlayView(game_1,'game_1View');
-partie_1.grilleReload();*/
+partie_1.grilleReload();
 
 
 window.onresize = partie_1.grilleResize;
+
+
+console.log(module.getId("Miner"));

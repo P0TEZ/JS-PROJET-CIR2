@@ -7,7 +7,7 @@ class Stratego extends Observable{
         this.winner=0;
         this.started= false;
 
-    //    this.setup();
+        this.setup();
     }
     gridSetUp(){
         let grille = new Array(10);
@@ -17,10 +17,19 @@ class Stratego extends Observable{
             grille[row] = new Array(10);
 
             for(let column = 0; column<grille[row].length;++column){
-                grille[row][column]= new Pion(3,2);
+                grille[row][column]= new Pion('empty','none');
                 grille[row][column].name = 'empty';
+                
+                if(row<6 && row>3){
+                     if((column<4 && column>1)||(column>5 && column<8)){
+                        grille[row][column]= new Pion('Lake','none');
+                    }
+                }
             }
         }
+
+
+
         return grille;
     }
     reset(){
@@ -112,10 +121,14 @@ class Stratego extends Observable{
             if(AllUnSelect){
                 this.grid[x][y].select = true;
                 for(let i =-1;i<=1;i+=2){
+                    if(this.grid[x+i][y].name != 'Lake'){
                     this.grid[x+i][y].select = true;
+                    this.grid[x+i][y].equipe = this.currentPlayer?'red':'blue';
+                    }
+                    if(this.grid[x+i][y].name != 'Lake'){
                     this.grid[x][y+i].select = true;
                     this.grid[x][y+i].equipe = this.currentPlayer?'red':'blue';
-                    this.grid[x+i][y].equipe = this.currentPlayer?'red':'blue';
+                    }
                 }
 
             }

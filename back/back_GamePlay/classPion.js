@@ -5,7 +5,7 @@ let module = (function(){
         getId(name){
             for(let i=0; i<tableau.length; i++){
                 if(tableau[i].name == name){
-                    return i;
+                    return i++;
                 }
             }
         },
@@ -26,9 +26,9 @@ class Pion{
         this.speciality = module.getSpeciality(this.name);
         this.select = false;
         this.img = module.getImg(this.name);
-        if(joueur == 0){
+        if(joueur == 0 || joueur ==="red"){
             this.equipe="red";
-        }else if(joueur == 1){
+        }else if(joueur == 1 || joueur ==="blue"){
             this.equipe = "blue";
         }else{
             this.equipe="none";
