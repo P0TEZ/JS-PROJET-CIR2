@@ -2,10 +2,13 @@ class Stratego extends Observable{
 
     constructor(){
         super();
-        this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
         this.grid= this.gridSetUp();
+        this.bluePlayerPionList = new Array();
+        this.RedPlayerPionList = new Array();
+        
+        this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
         this.winner='none';
-        this.started= true;
+        this.started= false;
 
         this.previousPlay = {"pion": null, "row": null, "column":null};
 
@@ -80,7 +83,15 @@ class Stratego extends Observable{
             this.started=true;
         }
     }
-
+    addPion(row,column,name,equipe){
+        if(this.grid[row][column].name ==='empty'){
+            this.grid[row][column] = new Pion(name,equipe);
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
             if(Pion.name === "Miner" && this.grid[i][j].name === "Bomb"){
@@ -127,6 +138,8 @@ class Stratego extends Observable{
                     console.log(this.currentPlayer);
                 }
             }
+        }else{
+            this.addPion(row,column,'Scout','blue');
         }
     }
     isAllUnSelect(){
@@ -264,11 +277,11 @@ class Stratego extends Observable{
         this.unSelectAll();
     }
     setup(){
-        this.grid[2][6]= new Pion('Scout',1);
-        this.grid[2][6].select = false;
+        this.addPion(2,2,'Scout','blue');
 
-        this.grid[2][1]= new Pion('Scout',1);
-        this.grid[2][1].select = false;
+        this.grid[2][1]= new Pion('Scout','blue');
+
+        this.grid[9][1]= new Pion('Scout','red');
         console.log(this.grid);
     }
 }
