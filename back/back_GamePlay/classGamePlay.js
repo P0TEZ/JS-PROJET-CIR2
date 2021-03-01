@@ -148,8 +148,8 @@ class Stratego extends Observable{
                     ++n;
                 }
                 n = 1;
-                while(column+n >= 0){
-                    if(!this.grid[row][column-n]){
+                while(column-n >= 0){
+                    if(!this.grid[row][column-n] || this.grid[row][column-n].name == 'River' ||this.grid[row][column-n].equipe == this.grid[row][column].equipe){
                         break;
                     }
                     this.grid[row][column-n].select = true;
@@ -157,6 +157,33 @@ class Stratego extends Observable{
                     this.grid[row][column-n].equipe = this.grid[row][column].equipe;
                     ++n;
                 }
+                n = 1;
+                while(row+n < this.grid.length){
+                    console.log("coucoi");
+                    if(!this.grid[row+n][column] || this.grid[row+n][column].name == 'River' ||this.grid[row+n][column].equipe == this.grid[row][column].equipe){
+                        break;
+                    }
+                    this.grid[row+n][column].select = true;
+                    if(this.grid[row+n][column].equipe =="none")
+                    this.grid[row+n][column].equipe = this.grid[row][column].equipe;
+                    
+                    if(this.grid[row+n][column].name != 'empty'){
+                        break;
+                    }
+                    
+                    ++n;
+                }
+                n = 1;
+                while(row-n >= 0){
+                    if(!this.grid[row-n][column] || this.grid[row-n][column].name == 'River' ||this.grid[row-n][column].equipe == this.grid[row][column].equipe){
+                        break;
+                    }
+                    this.grid[row-n][column].select = true;
+                    if(this.grid[row-n][column].equipe =="none")
+                    this.grid[row-n][column].equipe = this.grid[row][column].equipe;
+                    ++n;
+                }
+                
             
             }
             this.previousPlay.pion = this.grid[row][column];
@@ -220,8 +247,8 @@ class Stratego extends Observable{
         this.grid[2][6]= new Pion('Spy',1);
         this.grid[2][6].select = false;
 
-        this.grid[4][1]= new Pion('Scout',1);
-        this.grid[4][1].select = false;
+        this.grid[2][1]= new Pion('Scout',0);
+        this.grid[2][1].select = false;
         console.log(this.grid);
     }
 }
