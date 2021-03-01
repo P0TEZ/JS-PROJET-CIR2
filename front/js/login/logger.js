@@ -1,7 +1,7 @@
 let logger = (function(){
 
     function postLog(username,mdp) {
-        console.log(username, mdp);
+        //console.log(username, mdp);
         $.ajax({
             type: "POST",
             url: "/login/",

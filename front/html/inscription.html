@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Strago</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body> 
+        <h1>Veuillez saisir un nom d'utilisateur : </h1>
+        <form id="InscritpionForm" action="">
+            <input id="username" autocomplete="off" placeholder="Username" />
+            <input id="mdp" autocomplete="off" placeholder="MDP" />
+            <input id="mdp2" autocomplete="off" placeholder="MDP" />
+
+
+            <input type="submit" value="Se connecter!"/>
+        </form>
+        
+        <script> let socket = io();</script>
+        <script src="../js/inscription/ajax_inscription.js"></script>
+    <script src="../js/inscription/inscription.js"></script>
+    </body>
+</html>
