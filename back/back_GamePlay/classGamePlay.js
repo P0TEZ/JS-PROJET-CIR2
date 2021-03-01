@@ -4,7 +4,7 @@ class Stratego extends Observable{
         super();
         this.grid= this.gridSetUp();
         this.bluePlayerPionList = new Array();
-        this.RedPlayerPionList = new Array();
+        this.redPlayerPionList = new Array();
         
         this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
         this.winner='none';
@@ -56,36 +56,16 @@ class Stratego extends Observable{
     getCaseState(i,j){
         return this.grid[i][j];
     }
-
-    set(Pion, i, j){
-    
-        if(this.grid[i][j] === undefined && this.isFinished() === 0 && this.getCaseState() !== 'River' && this.started){
-            if( attack(Pion,i,j) == 1){
-                this.grid[i][j] = Pion;
-            }
-            if(this.currentPlayer === 0){
-                this.currentPlayer=1;
-            }else{
-                this.currentPlayer=0;
-            }
-        }
-
-        if(!this.started){
-            if ( 0<=i<=3 && 0<=j<=3){
-                this.grid[i][j]= Pion;
-                if (this.currentPlayer === 0){
-                    this.currentPlayer=1;
-                }else{
-                    this.currentPlayer=0;
-                }
-            }
-
-            this.started=true;
-        }
-    }
     addPion(row,column,name,equipe){
         if(this.grid[row][column].name ==='empty'){
             this.grid[row][column] = new Pion(name,equipe);
+
+            if(equipe == 'bleu'){
+                this.bluePlayerPionList.push(name);
+            }else if(equipe == 'red'){
+                this.redPlayerPionList.push(name);
+            }
+            console.log(this.bluePlayerPionList);
             return 0;
         }
         else{
@@ -139,7 +119,10 @@ class Stratego extends Observable{
                 }
             }
         }else{
-            this.addPion(row,column,'Scout','blue');
+            if(!this.addPion(row,column,'Scout',this.currentPlayer)){
+                this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
+                console.log(this.currentPlayer);
+            }
         }
     }
     isAllUnSelect(){
