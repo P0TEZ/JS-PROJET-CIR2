@@ -60,9 +60,11 @@ class Stratego extends Observable{
         if(this.grid[row][column].name ==='empty'){
             this.grid[row][column] = new Pion(name,equipe);
 
-            if(equipe == 'bleu'){
+            console.log("----"+equipe);
+            if(equipe === "bleu"){
+                console.log("erzrzer");
                 this.bluePlayerPionList.push(name);
-            }else if(equipe == 'red'){
+            }else if(equipe === 'red'){
                 this.redPlayerPionList.push(name);
             }
             console.log(this.bluePlayerPionList);
