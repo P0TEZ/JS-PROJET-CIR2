@@ -2,14 +2,15 @@ class Stratego extends Observable{
 
     constructor(){
         super();
-        this.currentPlayer=0;
+        this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
         this.grid= this.gridSetUp();
-        this.winner=0;
-        this.started= false;
+        this.winner='none';
+        this.started= true;
 
         this.previousPlay = {"pion": null, "row": null, "column":null};
 
         this.setup();
+        console.log(this.currentPlayer);
     }
     gridSetUp(){
         let grille = new Array(10);
@@ -29,9 +30,6 @@ class Stratego extends Observable{
                 }
             }
         }
-
-
-
         return grille;
     }
     reset(){
@@ -112,110 +110,23 @@ class Stratego extends Observable{
         }
     }
     play(row,column){
+        let selected = this.grid[row][column];
+        if(this.grid[row][column].name == 'River') return 1;
 
-    if(this.grid[row][column].name == 'River') return 1;
-
-        if(this.isAllUnSelect() && this.grid[row][column].name != 'empty' && this.grid[row][column].name != 'River' && this.grid[row][column].name != 'Flag' && this.grid[row][column].name != 'Bomb'){
-            this.grid[row][column].select = true;
-            if(this.grid[row][column].name != 'Scout'){
-                for(let i =-1;i<=1;i+=2){
-                    if(row+i < this.grid.length && row+i >=0 && this.grid[row+i][column].name != 'River' && this.grid[row+i][column].equipe != this.grid[row][column].equipe){
-                        this.grid[row+i][column].select = true;
-                        if(this.grid[row+i][column].equipe =="none")
-                        this.grid[row+i][column].equipe = this.grid[row][column].equipe;
-                    }
-                    if(column+i < this.grid.length && column+i >=0 && this.grid[row][column+i].name != 'River' && this.grid[row][column+i].equipe != this.grid[row][column].equipe){
-                        this.grid[row][column+i].select = true;
-                        if(this.grid[row][column+i].equipe =="none")
-                        this.grid[row][column+i].equipe = this.grid[row][column].equipe;
-                    }
-                }
-            }else{
-                let n=1;
-
-                while(column+n < this.grid.length){
-                    if(!this.grid[row][column+n] || this.grid[row][column+n].name == 'River' ||this.grid[row][column+n].equipe == this.grid[row][column].equipe){
-                        break;
-                    }
-                    this.grid[row][column+n].select = true;
-                    if(this.grid[row][column+n].equipe =="none")
-                    this.grid[row][column+n].equipe = this.grid[row][column].equipe;
-                    
-                    if(this.grid[row][column+n].name != 'empty'){
-                        break;
-                    }
-                    
-                    ++n;
-                }
-                n = 1;
-                while(column-n >= 0){
-                    if(!this.grid[row][column-n] || this.grid[row][column-n].name == 'River' ||this.grid[row][column-n].equipe == this.grid[row][column].equipe){
-                        break;
-                    }
-                    this.grid[row][column-n].select = true;
-                    if(this.grid[row][column-n].equipe =="none")
-                    this.grid[row][column-n].equipe = this.grid[row][column].equipe;
-                    ++n;
-                }
-                n = 1;
-                while(row+n < this.grid.length){
-                    console.log("coucoi");
-                    if(!this.grid[row+n][column] || this.grid[row+n][column].name == 'River' ||this.grid[row+n][column].equipe == this.grid[row][column].equipe){
-                        break;
-                    }
-                    this.grid[row+n][column].select = true;
-                    if(this.grid[row+n][column].equipe =="none")
-                    this.grid[row+n][column].equipe = this.grid[row][column].equipe;
-                    
-                    if(this.grid[row+n][column].name != 'empty'){
-                        break;
-                    }
-                    
-                    ++n;
-                }
-                n = 1;
-                while(row-n >= 0){
-                    if(!this.grid[row-n][column] || this.grid[row-n][column].name == 'River' ||this.grid[row-n][column].equipe == this.grid[row][column].equipe){
-                        break;
-                    }
-                    this.grid[row-n][column].select = true;
-                    if(this.grid[row-n][column].equipe =="none")
-                    this.grid[row-n][column].equipe = this.grid[row][column].equipe;
-                    ++n;
-                }
-                
+        if(this.started){
+            if(this.isAllUnSelect() && selected.name != 'empty' && selected.name != 'River' && selected.name != 'Flag' && selected.name != 'Bomb' && selected.equipe === this.currentPlayer){
             
+                this.generatePath(row,column);
             }
-            this.previousPlay.pion = this.grid[row][column];
-            this.previousPlay.row = row;
-            this.previousPlay.column = column;
-            return 0;
-        }
-
-        if(this.grid[row][column].select == true){
-            if(this.grid[row][column].name =="empty"){
-                this.grid[row][column] = this.previousPlay.pion;
-                this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
-            }
-            else if(this.grid[row][column].equipe != this.previousPlay["pion"].equipe){
-                let result = this.attack(this.previousPlay.pion,row,column);
-
-                switch (result){
-                    case 0:
-                        this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
-                        break;
-                    case 1:
-                        this.grid[row][column] = this.previousPlay.pion;
-                        this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
-                        break;
-                    case 2:
-                        this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
-                        this.grid[row][column] = new Pion('empty','none');
-                        break;
-                }
+            else if(this.grid[row][column].select == true){
                 
+                this.pionMove(row,column);
+
+                if( row != this.previousPlay.row || column != this.previousPlay.column){
+                    this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
+                    console.log(this.currentPlayer);
+                }
             }
-            this.unSelectAll();
         }
     }
     isAllUnSelect(){
@@ -243,11 +154,120 @@ class Stratego extends Observable{
             }
         }
     }
+    generatePath(row,column){
+        this.grid[row][column].select = true;
+        if(this.grid[row][column].name != 'Scout'){
+            for(let i =-1;i<=1;i+=2){
+                if(row+i < this.grid.length && row+i >=0 && this.grid[row+i][column].name != 'River' && this.grid[row+i][column].equipe != this.grid[row][column].equipe){
+                    this.grid[row+i][column].select = true;
+                    if(this.grid[row+i][column].equipe =="none")
+                    this.grid[row+i][column].equipe = this.grid[row][column].equipe;
+                }
+                if(column+i < this.grid.length && column+i >=0 && this.grid[row][column+i].name != 'River' && this.grid[row][column+i].equipe != this.grid[row][column].equipe){
+                    this.grid[row][column+i].select = true;
+                    if(this.grid[row][column+i].equipe =="none")
+                    this.grid[row][column+i].equipe = this.grid[row][column].equipe;
+                }
+            }
+        }else{
+            let n=1;
+
+            while(column+n < this.grid.length){
+                if(!this.grid[row][column+n] || this.grid[row][column+n].name == 'River' ||this.grid[row][column+n].equipe == this.grid[row][column].equipe){
+                    break;
+                }
+                this.grid[row][column+n].select = true;
+                if(this.grid[row][column+n].equipe =="none")
+                this.grid[row][column+n].equipe = this.grid[row][column].equipe;
+                
+                if(this.grid[row][column+n].name != 'empty'){
+                    break;
+                }
+                
+                ++n;
+            }
+            n = 1;
+            while(column-n >= 0){
+                if(!this.grid[row][column-n] || this.grid[row][column-n].name == 'River' ||this.grid[row][column-n].equipe == this.grid[row][column].equipe){
+                    break;
+                }
+                this.grid[row][column-n].select = true;
+                if(this.grid[row][column-n].equipe =="none")
+                this.grid[row][column-n].equipe = this.grid[row][column].equipe;
+
+                if(this.grid[row][column-n].name != 'empty'){
+                    break;
+                }
+
+                ++n;
+            }
+            n = 1;
+            while(row+n < this.grid.length){
+                if(!this.grid[row+n][column] || this.grid[row+n][column].name == 'River' ||this.grid[row+n][column].equipe == this.grid[row][column].equipe){
+                    break;
+                }
+                this.grid[row+n][column].select = true;
+                if(this.grid[row+n][column].equipe =="none")
+                this.grid[row+n][column].equipe = this.grid[row][column].equipe;
+                
+                if(this.grid[row+n][column].name != 'empty'){
+                    break;
+                }
+                
+                ++n;
+            }
+            n = 1;
+            while(row-n >= 0){
+                if(!this.grid[row-n][column] || this.grid[row-n][column].name == 'River' ||this.grid[row-n][column].equipe == this.grid[row][column].equipe){
+                    break;
+                }
+                this.grid[row-n][column].select = true;
+                if(this.grid[row-n][column].equipe =="none")
+                this.grid[row-n][column].equipe = this.grid[row][column].equipe;
+
+                if(this.grid[row-n][column].name != 'empty'){
+                    break;
+                }
+
+                ++n;
+            }
+            
+        
+        }
+        this.previousPlay.pion = this.grid[row][column];
+        this.previousPlay.row = row;
+        this.previousPlay.column = column;
+    }
+    pionMove(row,column){
+        if(this.grid[row][column].name =="empty"){
+            this.grid[row][column] = this.previousPlay.pion;
+            this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
+        }
+        else if(this.grid[row][column].equipe != this.previousPlay["pion"].equipe){
+            let result = this.attack(this.previousPlay.pion,row,column);
+
+            switch (result){
+                case 0:
+                    this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
+                    break;
+                case 1:
+                    this.grid[row][column] = this.previousPlay.pion;
+                    this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
+                    break;
+                case 2:
+                    this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
+                    this.grid[row][column] = new Pion('empty','none');
+                    break;
+            }
+            
+        }
+        this.unSelectAll();
+    }
     setup(){
-        this.grid[2][6]= new Pion('Spy',1);
+        this.grid[2][6]= new Pion('Scout',1);
         this.grid[2][6].select = false;
 
-        this.grid[2][1]= new Pion('Scout',0);
+        this.grid[2][1]= new Pion('Scout',1);
         this.grid[2][1].select = false;
         console.log(this.grid);
     }

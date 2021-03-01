@@ -76,6 +76,3 @@ partie_1.grilleReload();
 
 
 window.onresize = partie_1.grilleResize;
-
-
-console.log(module.getId("Miner"));
