@@ -1,13 +1,26 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+body > * {
+  margin: auto;
+}
+
 #plateau {
   padding: 5px;
   background-image: url("../img/bg.jpg");
   background-size: 100%;
-  width: calc(100vh - 10px);
-  height: calc(100vh - 10px);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  gap: 10px 10px;
+  gap: 2%;
+}
+
+ul#bluePionList {
+  background-color: #3498db;
+}
+ul#redPionList {
+  background-color: #e74c3c;
 }
 
 /*# sourceMappingURL=partie.css.map */

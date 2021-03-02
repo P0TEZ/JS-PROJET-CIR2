@@ -285,7 +285,7 @@ class Stratego extends Observable{
         this.unSelectAll();
     }
     setup(){
-        this.addPion(2,2,'Scout','blue');
+        this.addPion(2,2,'Bomb','blue');
 
         this.addPion(2,7,'Scout','blue');
 
