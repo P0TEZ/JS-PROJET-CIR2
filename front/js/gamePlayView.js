@@ -7,7 +7,8 @@ class gamePlayView {
         this.name = name;
         this.grille = this.grilleStetter();
 
-        this.playerPionListReload();    
+        this.playerPionListSetter();
+        this.grilleResize();
     /*    this.eventSetter();*/
     }
 
@@ -53,38 +54,56 @@ class gamePlayView {
         }
     }
 
+    playerPionListSetter(){
+        let bluePionList = document.getElementById('bluePionList');
+        let redPionList = document.getElementById('redPionList');
+
+        for (const pion of modulePion.getAllPiece()) {
+            let pionImg = document.createElement("img");
+            pionImg.className = "pion";
+            pionImg.src = imgLink + pion.img;
+            bluePionList.append(pionImg);
+
+            pionImg = document.createElement("img");
+            pionImg.className = "pion";
+            pionImg.src = imgLink + pion.img;
+            redPionList.append(pionImg);
+        }
+    }
+
     playerPionListReload(){
-        let body = document.body;
         let bluePionList = document.getElementById('bluePionList');
         bluePionList.innerHTML = "";
         let redPionList = document.getElementById('redPionList');
         redPionList.innerHTML = "";
 
-        for (const pion of this.game.bluePlayerPionList.sort()) {
-            /*let pionImg = document.createElement("img");
-            pionImg.className = "pion";
-            pionImg.src = imgLink + pion + ".png";
+        // for (const pion of this.game.bluePlayerPionList.sort()) {
+        //     /*let pionImg = document.createElement("img");
+        //     pionImg.className = "pion";
+        //     pionImg.src = imgLink + pion + ".png";
 
-            bluePionList.append(pionImg);*/
-            let elmt = document.createElement("li");
-            elmt.innerHTML = pion;
-            bluePionList.append(elmt);
-        }
-        for (const pion of this.game.redPlayerPionList.sort()) {
-            let elmt = document.createElement("li");
-            elmt.innerHTML = pion;
-            redPionList.append(elmt);
-        }
+        //     bluePionList.append(pionImg);*/
+        //     let elmt = document.createElement("li");
+        //     elmt.innerHTML = pion;
+        //     bluePionList.append(elmt);
+        // }
+        // for (const pion of this.game.redPlayerPionList.sort()) {
+        //     let elmt = document.createElement("li");
+        //     elmt.innerHTML = pion;
+        //     redPionList.append(elmt);
+        // }
 
-        body.append(bluePionList);
-        body.append(redPionList);
     }
 
     grilleResize(){
         let body = document.body;
-        body.style.flexDirection="column";
         let plateau = document.getElementById("plateau");            
         
+        body.style.flexDirection="column";
+        document.getElementById("bluePionList").className = "inRow";
+        document.getElementById("redPionList").className = "inRow";
+
+
         if(window.innerWidth<window.innerHeight){
             if(!(window.innerHeight < body.clientHeight)){
                 plateau.style.width="calc(100vw - 10px)";
@@ -93,7 +112,6 @@ class gamePlayView {
                 plateau.style.width="calc(100vw - 22px)";
                 plateau.style.height="calc(100vw - 22px)";
             }
-            console.log(window.innerHeight+"|"+body.clientHeight);
         }else{
             if((window.innerWidth < body.clientWidth)){
                 plateau.style.width="calc(100vh - 10px)";
@@ -102,9 +120,13 @@ class gamePlayView {
                 plateau.style.width="calc(100vh - 22px)";
                 plateau.style.height="calc(100vh - 10px)";
             }
-        }if(window.innerWidth>(window.innerHeight+window.innerWidth/10)){
+        }if(window.innerWidth>(window.innerHeight+window.innerWidth*8/50)){
             body.style.flexDirection="row";
+            document.getElementById("bluePionList").className = "inColumn";
+            document.getElementById("redPionList").className = "inColumn";
         }
+
+        window.scrollTo(0,(body.clientHeight-window.innerHeight)/2);
     }
 }
 
@@ -112,5 +134,7 @@ class gamePlayView {
 let game_1 = new Stratego();
 let partie_1 = new gamePlayView(game_1,'game_1View');
 partie_1.grilleReload();
+
+console.log(modulePion.getAllPiece());
 
 window.onresize = partie_1.grilleResize;

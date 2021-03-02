@@ -1,6 +1,7 @@
 @import "libs/colors.scss";
 
 body{
+    overflow-x: hidden;
     display: flex;
     //flex-direction: column;
     justify-content: center;
@@ -23,11 +24,40 @@ body{
     gap: 2%;
 }
 
-ul{
+#plateau>img.pion{
+    width: 100%;
+    height: 100%;  
+}
+
+#redPionList,#bluePionList{
+    color: $black;
+    display: flex;
+    justify-content: space-around;
     &#bluePionList{
         background-color: $playerBlue;
     }
     &#redPionList{
         background-color: $playerRed;
     }
+    &.inRow{
+        width: calc(100vw-12px);
+        padding: 1vw;
+        &>img.pion{
+            width: 8vw;
+        }
+        flex-direction: row;        
+    }
+    &.inColumn{
+        height: 100vh;
+        &>img.pion{
+            height: 8vh;
+        }
+        flex-direction: column;
+    }
+
+    &>img.pion{
+        border-radius: 0px;
+        //opacity: 0.5;
+        //border: 1px solid black;
+    }    
 }

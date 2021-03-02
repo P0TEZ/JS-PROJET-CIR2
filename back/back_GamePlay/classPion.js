@@ -18,6 +18,9 @@ let modulePion = (function(){
                 }
             }
         },
+        getAllPiece(){
+            return pionData.filter(pion=>pion.number);
+        }
         
     }
 })();
