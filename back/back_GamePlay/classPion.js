@@ -1,19 +1,16 @@
 let modulePion = (function(){
     
     return{
-        getId(name){
-            for(let i=0; i<pionData.length; i++){
-                if(pionData[i].name == name){
-                    return i++;
-                }
-            }
+        getIndex(name){
+            let index = pionData.findIndex((pion) => pion.name == name);
+            return index;
         },
-        getStrength(name){return pionData[this.getId(name)].strength;},
-        getSpeciality(name){return pionData[this.getId(name)].speciality;},
-        getImg(name){return pionData[this.getId(name)].img;},
+        getStrength(name){return pionData[this.getIndex(name)].strength;},
+        getSpeciality(name){return pionData[this.getIndex(name)].speciality;},
+        getImg(name){return pionData[this.getIndex(name)].img;},
         getNumber(name="none"){
             if(name !="none"){
-                return pionData[this.getId(name)].number;
+                return pionData[this.getIndex(name)].number;
             }else{
                 let count=0;
                 for (const pion of pionData) {
