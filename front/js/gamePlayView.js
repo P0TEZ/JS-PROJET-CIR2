@@ -46,14 +46,14 @@ class gamePlayView {
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){
                 if(this.game.grid[row][column]){
-                this.grille[row][column].setAttribute('team',this.game.grid[row][column].equipe);
-                this.grille[row][column].setAttribute('select',this.game.grid[row][column].select);
-                if(this.game.grid[row][column].name !='empty' && this.game.grid[row][column].name !='River'){
-                    this.grille[row][column].src = imgLink + this.game.grid[row][column].name + ".png";
-                }else{
-                    this.grille[row][column].src = " ";
+                    this.grille[row][column].setAttribute('team',this.game.grid[row][column].equipe);
+                    this.grille[row][column].setAttribute('select',this.game.grid[row][column].select);
+                    if(this.game.grid[row][column].name !='empty' && this.game.grid[row][column].name !='River'){
+                        this.grille[row][column].src = imgLink + this.game.grid[row][column].name + ".png";
+                    }else{
+                        this.grille[row][column].src = " ";
+                    }
                 }
-            }
             }
         }
     }
@@ -73,6 +73,5 @@ class gamePlayView {
 let game_1 = new Stratego();
 let partie_1 = new gamePlayView(game_1,'game_1View');
 partie_1.grilleReload();
-
 
 window.onresize = partie_1.grilleResize;

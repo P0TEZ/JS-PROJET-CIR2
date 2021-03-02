@@ -8,7 +8,7 @@ class Stratego extends Observable{
         
         this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
         this.winner='none';
-        this.started= false;
+        this.started= true;
 
         this.previousPlay = {"pion": null, "row": null, "column":null};
 
@@ -56,19 +56,26 @@ class Stratego extends Observable{
     getCaseState(i,j){
         return this.grid[i][j];
     }
-    addPion(row,column,name,equipe){
+    addPion(row,column,name,equipe='none'){
         if(this.grid[row][column].name ==='empty'){
-            this.grid[row][column] = new Pion(name,equipe);
-
-            console.log("----"+equipe);
-            if(equipe === "bleu"){
-                console.log("erzrzer");
-                this.bluePlayerPionList.push(name);
-            }else if(equipe === 'red'){
-                this.redPlayerPionList.push(name);
+            
+            if(equipe === "blue" && this.bluePlayerPionList.filter(pionName=>name === pionName).length<modulePion.getNumber(name)){
+                if(row < 3){
+                    this.grid[row][column] = new Pion(name,equipe);
+                    this.bluePlayerPionList.push(name);
+                    return 0;
+                }
+            }else if(equipe === 'red' && this.redPlayerPionList.filter(pionName=>name === pionName).length<modulePion.getNumber(name)){
+                if(row > 6){
+                    this.grid[row][column] = new Pion(name,equipe);
+                    this.redPlayerPionList.push(name);
+                    return 0;
+                }
+            }else if(equipe === 'none'){
+                this.grid[row][column] = new Pion(name,equipe);
+                return 0;
             }
-            console.log(this.bluePlayerPionList);
-            return 0;
+            return 1;            
         }
         else{
             return 1;
@@ -117,13 +124,15 @@ class Stratego extends Observable{
 
                 if( row != this.previousPlay.row || column != this.previousPlay.column){
                     this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
-                    console.log(this.currentPlayer);
                 }
             }
         }else{
-            if(!this.addPion(row,column,'Scout',this.currentPlayer)){
+            if(!this.addPion(row,column,'Spy',this.currentPlayer)){
                 this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
                 console.log(this.currentPlayer);
+            }
+            if(this.redPlayerPionList.length + this.bluePlayerPionList == 2*modulePion.getNumber){
+                this.started = true;
             }
         }
     }
@@ -247,26 +256,39 @@ class Stratego extends Observable{
             switch (result){
                 case 0:
                     this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
+                    if(this.previousPlay.pion.equipe == 'blue'){
+                        this.bluePlayerPionList.pop(this.bluePlayerPionList.findIndex(pionName=>pionName === this.previousPlay.pion.name));
+                    }else if(this.previousPlay.pion.equipe == 'red'){
+                        this.redPlayerPionList.pop(this.redPlayerPionList.findIndex(pionName=>pionName === this.previousPlay.pion.name));
+                    }
                     break;
                 case 1:
                     this.grid[row][column] = this.previousPlay.pion;
                     this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
+                    if(this.previousPlay.pion.equipe == 'blue'){
+                        this.redPlayerPionList.pop(this.redPlayerPionList.findIndex(pionName=>pionName === this.grid[row][column].name));
+                    }else if(this.previousPlay.pion.equipe == 'red'){
+                        this.bluePlayerPionList.pop(this.bluePlayerPionList.findIndex(pionName=>pionName === this.grid[row][column].name));
+                    }
                     break;
                 case 2:
                     this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
                     this.grid[row][column] = new Pion('empty','none');
+                    
+                    this.redPlayerPionList.pop(this.redPlayerPionList.findIndex(pionName=>pionName === this.grid[row][column].name));
+                    this.bluePlayerPionList.pop(this.bluePlayerPionList.findIndex(pionName=>pionName === this.grid[row][column].name));
                     break;
             }
-            
+            console.log(this.bluePlayerPionList);
+            console.log(this.redPlayerPionList);
         }
         this.unSelectAll();
     }
     setup(){
         this.addPion(2,2,'Scout','blue');
 
-        this.grid[2][1]= new Pion('Scout','blue');
+        this.addPion(2,7,'Scout','blue');
 
-        this.grid[9][1]= new Pion('Scout','red');
-        console.log(this.grid);
+        this.addPion(9,1,'Scout','red');
     }
 }
