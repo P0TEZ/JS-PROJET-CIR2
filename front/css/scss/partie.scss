@@ -3,14 +3,13 @@
 body{
     overflow-x: hidden;
     display: flex;
-    //flex-direction: column;
+    //background-color: #8FCE7D;
+    background: linear-gradient(90deg, $playerBlue 0%, $playerBlue 50%, $playerRed 50%, $playerRed 100%);
     justify-content: center;
-    &>*{
-        margin: auto;
-    }
 }
 
 #plateau{
+    margin: auto;
     padding: 5px;
     background-image: url("../img/bg.jpg");
     background-size: 100%;

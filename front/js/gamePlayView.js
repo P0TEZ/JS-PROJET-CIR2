@@ -72,10 +72,10 @@ class gamePlayView {
     }
 
     playerPionListReload(){
-        let bluePionList = document.getElementById('bluePionList');
-        bluePionList.innerHTML = "";
-        let redPionList = document.getElementById('redPionList');
-        redPionList.innerHTML = "";
+        // let bluePionList = document.getElementById('bluePionList');
+        // bluePionList.innerHTML = "";
+        // let redPionList = document.getElementById('redPionList');
+        // redPionList.innerHTML = "";
 
         // for (const pion of this.game.bluePlayerPionList.sort()) {
         //     /*let pionImg = document.createElement("img");

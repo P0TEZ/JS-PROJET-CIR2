@@ -1,13 +1,12 @@
 body {
   overflow-x: hidden;
   display: flex;
+  background: linear-gradient(90deg, #3498db 0%, #3498db 50%, #e74c3c 50%, #e74c3c 100%);
   justify-content: center;
-}
-body > * {
-  margin: auto;
 }
 
 #plateau {
+  margin: auto;
   padding: 5px;
   background-image: url("../img/bg.jpg");
   background-size: 100%;
