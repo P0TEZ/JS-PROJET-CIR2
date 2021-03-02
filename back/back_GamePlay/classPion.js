@@ -3,7 +3,7 @@ let modulePion = (function(){
     return{
         getIndex(name){
             let index = pionData.findIndex((pion) => pion.name == name);
-            return index;
+            return index != -1?index:0;
         },
         getStrength(name){return pionData[this.getIndex(name)].strength;},
         getSpeciality(name){return pionData[this.getIndex(name)].speciality;},
