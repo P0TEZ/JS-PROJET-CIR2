@@ -61,6 +61,11 @@ class gamePlayView {
         redPionList.innerHTML = "";
 
         for (const pion of this.game.bluePlayerPionList.sort()) {
+            /*let pionImg = document.createElement("img");
+            pionImg.className = "pion";
+            pionImg.src = imgLink + pion + ".png";
+
+            bluePionList.append(pionImg);*/
             let elmt = document.createElement("li");
             elmt.innerHTML = pion;
             bluePionList.append(elmt);
@@ -90,7 +95,7 @@ class gamePlayView {
             }
             console.log(window.innerHeight+"|"+body.clientHeight);
         }else{
-            if((window.innerHeight < body.clientHeight)){
+            if((window.innerWidth < body.clientWidth)){
                 plateau.style.width="calc(100vh - 10px)";
                 plateau.style.height="calc(100vh - 10px)";
             }else{
