@@ -59,15 +59,18 @@ class gamePlayView {
         let redPionList = document.getElementById('redPionList');
 
         for (const pion of modulePion.getAllPiece()) {
-            let pionImg = document.createElement("img");
-            pionImg.className = "pion";
-            pionImg.src = imgLink + pion.img;
-            bluePionList.append(pionImg);
+            let conteneur = document.createElement("div");
+            conteneur.className = pion.name;
+            conteneur.innerHTML = 0+"/"+pion.number;
+            conteneur.style.backgroundImage ="url("+imgLink + pion.img+")";
+            bluePionList.append(conteneur);
 
-            pionImg = document.createElement("img");
-            pionImg.className = "pion";
-            pionImg.src = imgLink + pion.img;
-            redPionList.append(pionImg);
+            conteneur = document.createElement("div");
+            conteneur.className = pion.name;
+            conteneur.innerHTML = 0+"/"+pion.number;
+            conteneur.style.backgroundImage ="url("+imgLink + pion.img+")";
+            redPionList.append(conteneur);
+
         }
     }
 

@@ -29,9 +29,9 @@ body{
 }
 
 #redPionList,#bluePionList{
-    color: $black;
     display: flex;
     justify-content: space-around;
+
     &#bluePionList{
         background-color: $playerBlue;
     }
@@ -40,23 +40,28 @@ body{
     }
     &.inRow{
         width: calc(100vw-12px);
-        padding: 1vw;
-        &>img.pion{
+        flex-direction: row; 
+        div{
             width: 8vw;
-        }
-        flex-direction: row;        
+            height: 8vw;
+            line-height: 8vw;
+        }        
     }
     &.inColumn{
         height: 100vh;
-        &>img.pion{
+        padding: 0vh 1vh;
+        flex-direction: column; 
+        div{
+            width: 8vh;
             height: 8vh;
+            line-height: 8vh;
         }
-        flex-direction: column;
     }
-
-    &>img.pion{
-        border-radius: 0px;
-        //opacity: 0.5;
-        //border: 1px solid black;
-    }    
+    div{
+        font-size: 180%;
+        background-size: 100%;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: $black;
+    }  
+   
 }

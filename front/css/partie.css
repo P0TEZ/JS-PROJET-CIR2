@@ -22,7 +22,6 @@ body {
 }
 
 #redPionList, #bluePionList {
-  color: #424949;
   display: flex;
   justify-content: space-around;
 }
@@ -34,21 +33,28 @@ body {
 }
 #redPionList.inRow, #bluePionList.inRow {
   width: calc(100vw-12px);
-  padding: 1vw;
   flex-direction: row;
 }
-#redPionList.inRow > img.pion, #bluePionList.inRow > img.pion {
+#redPionList.inRow div, #bluePionList.inRow div {
   width: 8vw;
+  height: 8vw;
+  line-height: 8vw;
 }
 #redPionList.inColumn, #bluePionList.inColumn {
   height: 100vh;
+  padding: 0vh 1vh;
   flex-direction: column;
 }
-#redPionList.inColumn > img.pion, #bluePionList.inColumn > img.pion {
+#redPionList.inColumn div, #bluePionList.inColumn div {
+  width: 8vh;
   height: 8vh;
+  line-height: 8vh;
 }
-#redPionList > img.pion, #bluePionList > img.pion {
-  border-radius: 0px;
+#redPionList div, #bluePionList div {
+  font-size: 180%;
+  background-size: 100%;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #424949;
 }
 
 /*# sourceMappingURL=partie.css.map */

@@ -278,6 +278,9 @@ img.pion[select=true] {
   border-radius: 15%;
   outline: none;
 }
+img.pion[select=true]:hover {
+  opacity: 0.9;
+}
 
 /*
     other:

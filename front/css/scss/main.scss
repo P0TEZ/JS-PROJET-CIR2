@@ -208,6 +208,10 @@ img.pion{
         opacity: 1;
         border-radius: 15%;
         outline: none;
+
+        &:hover{
+            opacity: 0.9;
+        }
     }
 
 }
