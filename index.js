@@ -44,9 +44,9 @@ app.get('/', (req, res) => {
   // Si l'utilisateur n'est pas connecté
   if (!sessionData.username) {
     // res.sendFile(__dirname + '/front/html/login.html');
-    res.sendFile(__dirname + '/front/html/inscription.html');
+    res.sendFile(__dirname + '/front/html/login.html');
   } else {
-    res.sendFile(__dirname + '/front/html/index.html');
+    res.sendFile(__dirname + '/front/html/login.html');
   }
 
 });
@@ -85,7 +85,10 @@ app.post('/login', urlencodedparser, (req, res) => {
 
       //console.log(result);
 
-      if (result.length == 0) console.log("votre mdp est incorrect");
+      if (result.length == 0) {
+        console.log("votre mdp est incorrect");
+       
+      } 
       else {
 
         // console.log('>> results: ', result );
@@ -97,15 +100,17 @@ app.post('/login', urlencodedparser, (req, res) => {
         //req.list = json1;
         //console.log(json1); 
 
-        if (json1[0].id) {
+        if (typeof(json1[0].id)!='undefined') {
           //console.log("le mdp existe");
           //console.log(login);
           let sql2 = "SELECT id FROM inscrit WHERE username= ? ";
 
           connection.query(sql2, login, function (err, result2) {
             if (err) throw err;
-            //console.log(result2);
-            if (result2.length == 0) console.log("votre pseudo est incorrect");
+            //sconsole.log(result2);
+            if (result2.length == 0) {
+              console.log("votre pseudo est incorrect");
+            }
             else {
 
               //console.log('>> results: ', result2 );
@@ -116,12 +121,15 @@ app.post('/login', urlencodedparser, (req, res) => {
               //console.log('>> VOICI L ID 2 : ', json2[0].id);
               //req.list = json2;
 
-              if (json2[0].id) {
+              if (typeof(json1[0].id)!='undefined') {
                 //console.log("trest arret");
                 // console.log("affichage de result ",result); 
 
                 if (json1[0].id == json2[0].id) {
                   console.log("vous etes connecte");
+                  
+                  //REDIRIGER vers leaderboard.html
+                  
                 } else {
                   console.log("il y a une erreur dans votre authentification");
                 }
@@ -132,6 +140,22 @@ app.post('/login', urlencodedparser, (req, res) => {
         }
       }
     });
+  }
+
+});
+app.get('/login', (req, res) => {
+
+  let sessionData = req.session;
+
+  // Test des modules 
+  states.printServerStatus();
+  states.printProfStatus();
+  let test = new Theoden();
+
+  if (!sessionData.username) {
+    res.sendFile(__dirname + '/front/html/leaderboard.html');
+  } else {
+    res.sendFile(__dirname + '/front/html/leaderboard.html');
   }
 
 });
@@ -207,14 +231,4 @@ connection.connect(err => {
   else {
     console.log("connexion effectue");
   }
-  let id = '0';
-  let username = "yop";
-  let mdp = "ere";
-
-  let data = [id, username, mdp];
-
-  connection.query("INSERT INTO inscrit SET id =?, username=?, mdp=?", data, (err, rslt, field) => {
-    if (err) throw err;
-    console.log(rslt);
-  });
 });

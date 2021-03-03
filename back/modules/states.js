@@ -1,8 +1,8 @@
 module.exports = {
     printServerStatus() {
-        console.log('Server ok');
+        //console.log('Server ok');
     },
     printProfStatus() {
-        console.log('Need Coffee');
+        //console.log('Need Coffee');
     }
 }
