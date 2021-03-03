@@ -85,7 +85,7 @@ app.post('/login', urlencodedparser, (req, res) => {
 
       //console.log(result);
 
-      if (result.length == 0) console.log("votre mdp est incorrect");
+      if (result.lenght == 0) console.log("votre mdp est incorrect");
       else {
 
         // console.log('>> results: ', result );
@@ -97,7 +97,7 @@ app.post('/login', urlencodedparser, (req, res) => {
         //req.list = json1;
         //console.log(json1); 
 
-        if (json1[0].id) {
+        if (typeof (json1[0].id) != 'undefined') {
           //console.log("le mdp existe");
           //console.log(login);
           let sql2 = "SELECT id FROM inscrit WHERE username= ? ";
@@ -105,18 +105,18 @@ app.post('/login', urlencodedparser, (req, res) => {
           connection.query(sql2, login, function (err, result2) {
             if (err) throw err;
             //console.log(result2);
-            if (result2.length == 0) console.log("votre pseudo est incorrect");
+            if (result2.lenght == 0) console.log("votre pseudo est incorrect");
             else {
 
               //console.log('>> results: ', result2 );
               let string = JSON.stringify(result2);
               //console.log('>> string: ', string );
-              var json2 = JSON.parse(string);
+              let json2 = JSON.parse(string);
               //console.log('>> json: ', json2);
               //console.log('>> VOICI L ID 2 : ', json2[0].id);
               //req.list = json2;
 
-              if (json2[0].id) {
+              if (typeof (json2[0].id) != 'undefined') {
                 //console.log("trest arret");
                 // console.log("affichage de result ",result); 
 
@@ -136,9 +136,12 @@ app.post('/login', urlencodedparser, (req, res) => {
 
 });
 
-// AJOUT D'UNE PERSONNE DANS LA BDD
 
-app.post('/inscription',urlencodedparser, (req, res) => {
+//////////////////////////////////////////////
+// AJOUT D'UNE PERSONNE DANS LA BDD///////////
+//////////////////////////////////////////////
+
+app.post('/inscription', urlencodedparser, (req, res) => {
 
   const login = req.body.login
   const mdp = req.body.mdp
@@ -146,29 +149,73 @@ app.post('/inscription',urlencodedparser, (req, res) => {
 
   console.log(login);
 
+  // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
     //return res.status(400).json({ errors: errors.array() });
-  }else {
+  } else {
     // Store login
     req.session.username = login;
     req.session.mdp = mdp;
     req.session.mdp2 = mdp2;
+
 
     //console.log(login);
 
     req.session.save()
     res.redirect('/');
 
-    let sql1="SELECT username FROM inscrit WHERE "
+    if (mdp == mdp2) {
+      console.log("les mdp sont pareils");
+
+      let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
+
+      connection.query(sql, mdp, function (err, result) {
+        if (err) throw err;
+
+        console.log(result);
+
+        if (result.length == 0) {
+          console.log("continuer votre inscription");
+
+          let sql = "SELECT username FROM inscrit WHERE username= ? ";
+
+          connection.query(sql, login, function (err, result2) {
+            if (err) throw err;
+
+            console.log(result2);
+
+            if (result2.length ==0){
+              console.log("continuer tjr votre inscription");
+
+              let sql="INSERT INTO inscrit SET username=?, mdp=? ";
+              
+              let data=[login,mdp]; 
+
+              connection.query(sql, data, function (err, result) {
+                if (err) throw err;
+
+                console.log("vous etes inscrit dans la bdd"); 
+
+              });
 
 
+            } 
+            else{
+              console.log("votre login est deja pris")
+            }
+          });
+
+        }
+        else {
+          console.log("votre mdp existe deja");
+        }
+      });
+    }else{
+      console.log("les mdp sont différents"); 
+    }
   }
-
-
-
-
 });
 
 io.on('connection', (socket) => {
