@@ -127,9 +127,9 @@ app.post('/login', urlencodedparser, (req, res) => {
 
                 if (json1[0].id == json2[0].id) {
                   console.log("vous etes connecte");
-                  
-                  //REDIRIGER vers leaderboard.html
-                  
+
+                  //res.redirect('/leaderboard');
+
                 } else {
                   console.log("il y a une erreur dans votre authentification");
                 }
@@ -143,57 +143,109 @@ app.post('/login', urlencodedparser, (req, res) => {
   }
 
 });
-app.get('/login', (req, res) => {
 
-  let sessionData = req.session;
+// app.get('/login', (req, res) => {
 
-  // Test des modules 
-  states.printServerStatus();
-  states.printProfStatus();
-  let test = new Theoden();
+//   let sessionData = req.session;
 
-  if (!sessionData.username) {
-    res.sendFile(__dirname + '/front/html/leaderboard.html');
-  } else {
-    res.sendFile(__dirname + '/front/html/leaderboard.html');
-  }
+//   // Test des modules 
+//   states.printServerStatus();
+//   states.printProfStatus();
+//   let test = new Theoden();
 
-});
+//   if (!sessionData.username) {
+//     res.sendFile(__dirname + '/front/html/leaderboard.html');
+//   } else {
+//     res.sendFile(__dirname + '/front/html/leaderboard.html');
+//   }
 
-// AJOUT D'UNE PERSONNE DANS LA BDD
+// });
 
-app.post('/inscription',urlencodedparser, (req, res) => {
+
+//////////////////////////////////////////////
+// AJOUT D'UNE PERSONNE DANS LA BDD///////////
+//////////////////////////////////////////////
+
+app.post('/inscription', urlencodedparser, (req, res) => {
 
   const login = req.body.login
   const mdp = req.body.mdp
   const mdp2 = req.body.mdp2
 
+
   console.log(login);
 
+  // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
     //return res.status(400).json({ errors: errors.array() });
-  }else {
+  } else {
     // Store login
     req.session.username = login;
     req.session.mdp = mdp;
     req.session.mdp2 = mdp2;
+
 
     //console.log(login);
 
     req.session.save()
     res.redirect('/');
 
-    let sql1="SELECT username FROM inscrit WHERE "
+    if (mdp == mdp2) {
+      console.log("les mdp sont pareils");
+
+      let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
+
+  
+      connection.query(sql, mdp, function (err, result) {
+        if (err) throw err;
+
+        console.log(result);
+
+        if (result.length == 0) {
+          console.log("continuer votre inscription");
+
+          let sql = "SELECT username FROM inscrit WHERE username= ? ";
+
+          connection.query(sql, login, function (err, result2) {
+            if (err) throw err;
+
+            console.log(result2);
+
+            if (result2.length ==0){
+              console.log("continuer tjr votre inscription");
+
+              let sql="INSERT INTO inscrit SET username=?, mdp=? ";
+              
+              let data=[login,mdp]; 
+
+              connection.query(sql, data, function (err, result) {
+                if (err) throw err;
+
+                console.log("vous etes inscrit dans la bdd"); 
+
+              });
 
 
+            } 
+            else{
+              console.log("votre login est deja pris")
+            }
+          });
+
+        }
+        else {
+          console.log("votre mdp existe deja");
+        }
+      });
+    }else{
+      console.log("les mdp sont différents"); 
+    }
   }
-
-
-
-
 });
+
+
 
 io.on('connection', (socket) => {
   console.log('a user connected');
@@ -212,8 +264,8 @@ io.on('connection', (socket) => {
 
 });
 
-http.listen(4254, () => {
-  console.log('serveur lance sur le port 4256 http://localhost:4254/ ;');
+http.listen(4253, () => {
+  console.log('serveur lance sur le port 4256 http://localhost:4253/ ;');
 });
 
 
