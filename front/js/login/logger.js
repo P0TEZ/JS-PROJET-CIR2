@@ -9,8 +9,13 @@ let logger = (function(){
                 login: username,
                 mdp : mdp
             },
-            success: () => {
-                window.location.href = "/";
+            success: (data) => {
+                if(data == 'ok') {
+                    window.location.href = "/leaderboard";
+                }
+                else {
+                console.log(data);
+                }
             },
         }); 
     }

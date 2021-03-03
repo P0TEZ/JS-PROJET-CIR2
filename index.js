@@ -69,13 +69,11 @@ app.post('/login', urlencodedparser, (req, res) => {
     //return res.status(400).json({ errors: errors.array() });
   } else {
     // Store login
-    req.session.username = login;
-    req.session.mdp = mdp;
-
+  
     //console.log(login);
 
     req.session.save()
-    res.redirect('/');
+    //res.redirect('/');
 
 
     let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
@@ -87,7 +85,8 @@ app.post('/login', urlencodedparser, (req, res) => {
 
       if (result.length == 0) {
         console.log("votre mdp est incorrect");
-       
+        //res.send text
+        res.status(200).send('votre mdp est incorrect');
       } 
       else {
 
@@ -127,12 +126,10 @@ app.post('/login', urlencodedparser, (req, res) => {
 
                 if (json1[0].id == json2[0].id) {
                   console.log("vous etes connecte");
-
-                  function doesModifyBody (request, response, next) {
-                   res.redirect('/leaderboard'); 
-                  };
-                  doesModifyBody(); 
-
+                  
+                  req.session.username = login;
+                  //res.redirect('/leaderboard'); 
+                  res.send('ok');
                 } else {
                   console.log("il y a une erreur dans votre authentification");
                 }
@@ -149,14 +146,16 @@ app.post('/login', urlencodedparser, (req, res) => {
 
 app.get('/leaderboard', (req, res) => {
   let sessionData = req.session;
-
+  console.log("test");
   // Test des modules 
   states.printServerStatus();
   states.printProfStatus();
   let test = new Theoden();
-
-    return res.sendFile(__dirname + '/front/html/leaderboard.html');
-  
+  if(sessionData.username) {
+    res.sendFile(__dirname + '/front/html/leaderboard.html');
+  }else {
+    res.sendFile(__dirname + '/front/html/login.html');
+  }
 });
 
 
