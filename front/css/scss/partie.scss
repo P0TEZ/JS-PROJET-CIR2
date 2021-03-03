@@ -4,7 +4,6 @@ body{
     overflow-x: hidden;
     display: flex;
     //background-color: #8FCE7D;
-    background: linear-gradient(90deg, $playerBlue 0%, $playerBlue 50%, $playerRed 50%, $playerRed 100%);
     justify-content: center;
 }
 
@@ -31,6 +30,19 @@ body{
 #redPionList,#bluePionList{
     display: flex;
     justify-content: space-around;
+    div{
+        background-size: 100%;
+        background-repeat: round;
+        
+        font-size: 130%;
+        -webkit-text-stroke-width: 0.8px;
+        -webkit-text-stroke-color: $black;
+        
+        &[select="true"]{
+            background-color: transparentize($white,0.4);
+            border-radius: 25%;
+        }
+    }  
 
     &#bluePionList{
         background-color: $playerBlue;
@@ -56,12 +68,5 @@ body{
             height: 8vh;
             line-height: 8vh;
         }
-    }
-    div{
-        font-size: 180%;
-        background-size: 100%;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: $black;
-    }  
-   
+    }   
 }

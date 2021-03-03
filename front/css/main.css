@@ -255,9 +255,11 @@ img.pion {
 }
 img.pion[team=red] {
   background-color: #e74c3c;
+  opacity: 100%;
 }
 img.pion[team=blue] {
   background-color: #3498db;
+  opacity: 100%;
 }
 img.pion[team=none] {
   background-color: #a1a1a1;

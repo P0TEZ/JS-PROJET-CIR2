@@ -8,14 +8,15 @@ let modulePion = (function(){
         getStrength(name){return pionData[this.getIndex(name)].strength;},
         getSpeciality(name){return pionData[this.getIndex(name)].speciality;},
         getImg(name){return pionData[this.getIndex(name)].img;},
-        getNumber(name="none"){
-            if(name !="none"){
+        getNumber(name){
+            if(name !="all"){
                 return pionData[this.getIndex(name)].number;
             }else{
                 let count=0;
-                for (const pion of pionData) {
-                    if(pion.name) count += pion.number;
+                for (const pion of this.getAllPiece()) {
+                    count += parseInt(this.getNumber(pion.name));
                 }
+                return count;
             }
         },
         getAllPiece(){

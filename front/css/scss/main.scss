@@ -183,9 +183,11 @@ img.pion{
     
     &[team="red"]{
         background-color: $playerRed;
+        opacity: 100%;
     }
     &[team="blue"]{
         background-color: $playerBlue;
+        opacity: 100%;
     }
     &[team="none"]{
         background-color: $playerNone;

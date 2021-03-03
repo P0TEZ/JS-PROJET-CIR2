@@ -1,7 +1,6 @@
 body {
   overflow-x: hidden;
   display: flex;
-  background: linear-gradient(90deg, #3498db 0%, #3498db 50%, #e74c3c 50%, #e74c3c 100%);
   justify-content: center;
 }
 
@@ -24,6 +23,17 @@ body {
 #redPionList, #bluePionList {
   display: flex;
   justify-content: space-around;
+}
+#redPionList div, #bluePionList div {
+  background-size: 100%;
+  background-repeat: round;
+  font-size: 130%;
+  -webkit-text-stroke-width: 0.8px;
+  -webkit-text-stroke-color: #424949;
+}
+#redPionList div[select=true], #bluePionList div[select=true] {
+  background-color: rgba(249, 249, 249, 0.6);
+  border-radius: 25%;
 }
 #redPionList#bluePionList, #bluePionList#bluePionList {
   background-color: #3498db;
@@ -49,12 +59,6 @@ body {
   width: 8vh;
   height: 8vh;
   line-height: 8vh;
-}
-#redPionList div, #bluePionList div {
-  font-size: 180%;
-  background-size: 100%;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: #424949;
 }
 
 /*# sourceMappingURL=partie.css.map */

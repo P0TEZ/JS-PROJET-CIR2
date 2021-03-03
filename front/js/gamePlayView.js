@@ -32,6 +32,16 @@ class gamePlayView {
                     this.grilleReload();
                     this.playerPionListReload();
                 });
+                /*
+                grille[row][column].addEventListener("mouseover",event=>{
+                    if(this.game.grid[row][column].equipe == "none")
+                    grille[row][column].style.opacity = "100%";
+                });
+                 grille[row][column].addEventListener("mouseout",event=>{
+                    if(this.game.grid[row][column].equipe == "none")
+                    grille[row][column].style.opacity = "0%";
+                });
+                */            
                 plateau.appendChild(grille[row][column]);
             }
         }
@@ -75,26 +85,21 @@ class gamePlayView {
     }
 
     playerPionListReload(){
-        // let bluePionList = document.getElementById('bluePionList');
-        // bluePionList.innerHTML = "";
-        // let redPionList = document.getElementById('redPionList');
-        // redPionList.innerHTML = "";
+        let bluePionList = document.getElementById('bluePionList');       
+        let redPionList = document.getElementById('redPionList');  
 
-        // for (const pion of this.game.bluePlayerPionList.sort()) {
-        //     /*let pionImg = document.createElement("img");
-        //     pionImg.className = "pion";
-        //     pionImg.src = imgLink + pion + ".png";
+        for (const pion of modulePion.getAllPiece()) {
+            let div = bluePionList.getElementsByClassName(pion.name);
+            let number = this.game.bluePlayerPionList.filter(aPion=>aPion === pion.name).length;
 
-        //     bluePionList.append(pionImg);*/
-        //     let elmt = document.createElement("li");
-        //     elmt.innerHTML = pion;
-        //     bluePionList.append(elmt);
-        // }
-        // for (const pion of this.game.redPlayerPionList.sort()) {
-        //     let elmt = document.createElement("li");
-        //     elmt.innerHTML = pion;
-        //     redPionList.append(elmt);
-        // }
+            div[0].innerHTML = number+"/"+pion.number;
+        }
+        for (const pion of modulePion.getAllPiece()) {
+            let div = redPionList.getElementsByClassName(pion.name);
+            let number = this.game.redPlayerPionList.filter(aPion=>aPion === pion.name).length;
+
+            div[0].innerHTML = number+"/"+pion.number;
+        }
 
     }
 
