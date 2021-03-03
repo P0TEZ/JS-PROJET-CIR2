@@ -45,9 +45,9 @@ app.get('/', (req, res) => {
   if (!sessionData.username) {
     // res.sendFile(__dirname + '/front/html/login.html');
     res.sendFile(__dirname + '/front/html/login.html');
-  } else {
-    res.sendFile(__dirname + '/front/html/login.html');
-  }
+   }//else {
+  //   res.sendFile(__dirname + '/front/html/login.html');
+  // }
 
 });
 
@@ -128,7 +128,10 @@ app.post('/login', urlencodedparser, (req, res) => {
                 if (json1[0].id == json2[0].id) {
                   console.log("vous etes connecte");
 
-                  //res.redirect('/leaderboard');
+                  function doesModifyBody (request, response, next) {
+                   res.redirect('/leaderboard'); 
+                  };
+                  doesModifyBody(); 
 
                 } else {
                   console.log("il y a une erreur dans votre authentification");
@@ -144,22 +147,18 @@ app.post('/login', urlencodedparser, (req, res) => {
 
 });
 
-// app.get('/login', (req, res) => {
+app.get('/leaderboard', (req, res) => {
+  let sessionData = req.session;
 
-//   let sessionData = req.session;
+  // Test des modules 
+  states.printServerStatus();
+  states.printProfStatus();
+  let test = new Theoden();
 
-//   // Test des modules 
-//   states.printServerStatus();
-//   states.printProfStatus();
-//   let test = new Theoden();
+    return res.sendFile(__dirname + '/front/html/leaderboard.html');
+  
+});
 
-//   if (!sessionData.username) {
-//     res.sendFile(__dirname + '/front/html/leaderboard.html');
-//   } else {
-//     res.sendFile(__dirname + '/front/html/leaderboard.html');
-//   }
-
-// });
 
 
 //////////////////////////////////////////////
