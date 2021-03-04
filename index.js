@@ -45,9 +45,9 @@ app.get('/', (req, res) => {
   if (!sessionData.username) {
     // res.sendFile(__dirname + '/front/html/login.html');
     res.sendFile(__dirname + '/front/html/login.html');
-   }//else {
-  //   res.sendFile(__dirname + '/front/html/login.html');
-  // }
+   }else {
+     res.sendFile(__dirname + '/front/html/login.html');
+   }
 
 });
 
@@ -84,9 +84,7 @@ app.post('/login', urlencodedparser, (req, res) => {
       //console.log(result);
 
       if (result.length == 0) {
-        console.log("votre mdp est incorrect");
-        //res.send text
-        res.status(200).send('votre mdp est incorrect');
+        res.send('err_mdp'); //Votre mot de passe est incorrect
       } 
       else {
 
@@ -109,6 +107,7 @@ app.post('/login', urlencodedparser, (req, res) => {
             //sconsole.log(result2);
             if (result2.length == 0) {
               console.log("votre pseudo est incorrect");
+              res.send('err_pseudo'); //Votre pseudo est incorrect
             }
             else {
 
@@ -128,12 +127,8 @@ app.post('/login', urlencodedparser, (req, res) => {
                   console.log("vous etes connecte");
                   
                   req.session.username = login;
-                  //res.redirect('/leaderboard'); 
                   res.send('ok');
-                } else {
-                  console.log("il y a une erreur dans votre authentification");
-                }
-
+                } 
               }
             }
           });
@@ -192,7 +187,7 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 
     if (mdp == mdp2) {
       console.log("les mdp sont pareils");
-
+      
       let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
 
   
