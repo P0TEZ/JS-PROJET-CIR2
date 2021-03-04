@@ -248,7 +248,15 @@ io.on('connection', (socket) => {
     srvSockets.forEach(user => {
       console.log(user.handshake.session.username);
     });
-    //io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
+    io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
+  });
+
+  socket.on('message', (msg) => {
+    console.log('message: ' + msg);
+    //Envoie le message pour tous!
+    io.emit('new-message', socket.handshake.session.username + ' : ' + msg);
+    //Autre alternative : envoyer le message à tous les autres socket ormis celui qui envoie
+    //socket.broadcast.emit('new-message', msg);
   });
 
   socket.on('disconnect', () => {
