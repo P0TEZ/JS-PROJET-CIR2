@@ -1,7 +1,5 @@
 socket.emit('login', '');
 
-
-
 socket.on('user-message', msg => {
     console.log("je passe par la 23"); 
     let item = document.createElement('div');

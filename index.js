@@ -185,7 +185,7 @@ app.post('/inscription', urlencodedparser, (req, res) => {
     //console.log(login);
 
     req.session.save()
-    res.redirect('/');
+    //res.redirect('/');
 
     if (mdp == mdp2) {
       console.log("les mdp sont pareils");
@@ -274,6 +274,21 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('Un eleve s\'est déconnecté');
+    
+    // if (socket) {
+    //   // delete session object
+    //   console.log("req session");
+    //   socket.handshake.session.destroy(function(err) {
+    //       if(err) {
+    //           return next(err);
+    //       } else {
+    //         socket.handshake.session = null;
+    //           console.log("logout successful");
+    //           //return res.sendFile(__dirname + '/front/html/login.html');
+    //           io.emit('deco', 1);
+    //       }
+    //   });
+  //}  
   });
 
 });
