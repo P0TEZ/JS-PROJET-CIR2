@@ -11,6 +11,7 @@ const Theoden = require('./back/models/Theoden');
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
+const { count } = require('console');
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -127,6 +128,7 @@ app.post('/login', urlencodedparser, (req, res) => {
                   console.log("vous etes connecte");
                   
                   req.session.username = login;
+                  req.session.mdp = mdp;
                   res.send('ok');
                 } 
               }
@@ -217,7 +219,7 @@ app.post('/inscription', urlencodedparser, (req, res) => {
                 if (err) throw err;
 
                 console.log("vous etes inscrit dans la bdd"); 
-
+                
               });
 
 
@@ -248,15 +250,26 @@ io.on('connection', (socket) => {
     srvSockets.forEach(user => {
       console.log(user.handshake.session.username);
     });
+    let val = io.engine.clientsCount;
+    if(val > 2) {
+      val = val % 2;
+    }
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
+    io.emit('search', val);
+
+    io.emit('new-new-message', 'connexion ' + socket.handshake.session.username );
+
+    //compte
+    io.emit('user-message', socket.handshake.session.username );
+    io.emit('mdp-message', socket.handshake.session.mdp );
   });
 
   socket.on('message', (msg) => {
     console.log('message: ' + msg);
     //Envoie le message pour tous!
-    io.emit('new-message', socket.handshake.session.username + ' : ' + msg);
+    io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
     //Autre alternative : envoyer le message à tous les autres socket ormis celui qui envoie
-    //socket.broadcast.emit('new-message', msg);
+    //socket.broadcast.emit('new-message2', msg);
   });
 
   socket.on('disconnect', () => {
@@ -265,8 +278,8 @@ io.on('connection', (socket) => {
 
 });
 
-http.listen(4253, () => {
-  console.log('serveur lance sur le port 4256 http://localhost:4253/ ;');
+http.listen(4255, () => {
+  console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
 });
 
 
