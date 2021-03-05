@@ -257,8 +257,6 @@ io.on('connection', (socket) => {
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
     io.emit('search', val);
 
-    io.emit('new-new-message', 'connexion ' + socket.handshake.session.username );
-
     //compte
     io.emit('user-message', socket.handshake.session.username );
     io.emit('mdp-message', socket.handshake.session.mdp );

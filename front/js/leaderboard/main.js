@@ -43,10 +43,3 @@ socket.on('search', value => {
     }
 });
 
-socket.on('new-new-message', msg => {
-    //console.log("je passe par la 2"); 
-    let item = document.createElement('div');
-    item.textContent = msg;
-    user.appendChild(item);
-
-});

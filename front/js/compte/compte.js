@@ -14,3 +14,7 @@ socket.on('mdp-message', msg => {
     compte_mdp.appendChild(item);
 
 });
+
+function deco() {
+    
+}

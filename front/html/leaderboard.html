@@ -5,19 +5,22 @@
     
   </head>
 <body>
-  <a href="../html/compte.html" id="user" style="float: right;"> </a>
+  <a href="../html/compte.html" id="user" style="float: right;">Votre Compte</a>
     <div> 
-      <h1>leaderboard </h1> 
+      <h1>HUB</h1> 
     </div>
-    <ul id="connect"></ul>
+    <h3><ul id="connect"></ul></h3>
+    <h4>Chat Français :</h4>
+    
     <ul id="chat"></ul>
-    <ul id="messages"></ul>
+    
     <form id="chatForm" action="">
     <input id="input" autocomplete="off" /><button>Send</button>
     </form>
-
-
     
+    
+    <ul id="messages"></ul>
+
     <script> let socket = io();</script>
 
     <div id="element" style="padding: 2% 0% 0% 30%;">
@@ -27,6 +30,8 @@
       <script src = "../js/leaderboard/creat_tab_data.js"> </script>
       <script src = "../js/leaderboard/main.js"> </script>
     </div>
+    
+
     
     <!-- <script src = "../js/leaderboard.js"> </script> -->
 </html>
