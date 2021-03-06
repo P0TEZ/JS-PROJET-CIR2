@@ -219,23 +219,26 @@ app.post('/inscription', urlencodedparser, (req, res) => {
                 if (err) throw err;
 
                 console.log("vous etes inscrit dans la bdd"); 
-                
+                res.send('inscrit');
               });
 
 
             } 
             else{
-              console.log("votre login est deja pris")
+              console.log("votre login est deja pris");
+              res.send('existe_login');
             }
           });
 
         }
         else {
           console.log("votre mdp existe deja");
+          res.send('existe_mdp');
         }
       });
     }else{
       console.log("les mdp sont différents"); 
+      res.send('differents');
     }
   }
 });

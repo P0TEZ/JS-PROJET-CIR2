@@ -10,8 +10,34 @@ let ajax_inscritpion = (function(){
                 mdp : mdp, 
                 mdp2 : mdp2
             },
-            success: () => {
-                window.location.href = "/";
+            success: (data) => {
+                let page = document.body;
+                let text = document.createElement('p');
+
+                if(data == 'inscrit') {
+                    text = document.createElement('p');
+                    text.innerHTML = "Incription validée";
+                    page.append(text);
+                    console.log(data);
+                }
+                if(data == 'existe_login') {
+                    text = document.createElement('p');
+                    text.innerHTML = "Le username est déjà pris";
+                    page.append(text);
+                    console.log(data);
+                }
+                if(data == 'existe_mdp') {
+                    text = document.createElement('p');
+                    text.innerHTML = "Le mot de passe est déjà pris";
+                    page.append(text);
+                    console.log(data);
+                }
+                if(data == 'differents') {
+                    text = document.createElement('p');
+                    text.innerHTML = "Les mots de passe sont différents";
+                    page.append(text);
+                    console.log(data);
+                }
             },
         }); 
     }
