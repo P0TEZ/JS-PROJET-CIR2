@@ -42,14 +42,8 @@ app.get('/', (req, res) => {
   states.printProfStatus();
   let test = new Theoden();
 
-  // Si l'utilisateur n'est pas connecté
-  if (!sessionData.username) {
-    // res.sendFile(__dirname + '/front/html/login.html');
-    res.sendFile(__dirname + '/front/html/login.html');
-   }else {
-     res.sendFile(__dirname + '/front/html/login.html');
-   }
-
+  //Redirection sur la page de login
+  res.sendFile(__dirname + '/front/html/login.html');
 });
 
 ///////////////////////////////////////////////////
@@ -61,72 +55,45 @@ app.post('/login', urlencodedparser, (req, res) => {
   const login = req.body.login
   const mdp = req.body.mdp
 
-  //console.log(login, mdp);
-
   // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
-    //return res.status(400).json({ errors: errors.array() });
   } else {
-    // Store login
-  
-    //console.log(login);
 
-    req.session.save()
-    //res.redirect('/');
-
+    req.session.save();
 
     let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
 
     connection.query(sql, mdp, function (err, result) {
       if (err) throw err;
 
-      //console.log(result);
-
+      //Vérification si le mot de passe est correct
       if (result.length == 0) {
-        res.send('err_mdp'); //Votre mot de passe est incorrect
+        res.send('err_mdp'); 
       } 
       else {
-
-        // console.log('>> results: ', result );
         let string = JSON.stringify(result);
-        //console.log('>> string: ', string );
         let json1 = JSON.parse(string);
-        //console.log('>> json: ', json1);
-        //console.log('>> VOICI L ID 1: ', json1[0].id);
-        //req.list = json1;
-        //console.log(json1); 
 
         if (typeof(json1[0].id)!='undefined') {
-          //console.log("le mdp existe");
-          //console.log(login);
+          
           let sql2 = "SELECT id FROM inscrit WHERE username= ? ";
 
           connection.query(sql2, login, function (err, result2) {
             if (err) throw err;
-            //sconsole.log(result2);
+
+            //Vérification si le pseudo est correct
             if (result2.length == 0) {
               console.log("votre pseudo est incorrect");
-              res.send('err_pseudo'); //Votre pseudo est incorrect
+              res.send('err_pseudo'); 
             }
             else {
-
-              //console.log('>> results: ', result2 );
               let string = JSON.stringify(result2);
-              //console.log('>> string: ', string );
               var json2 = JSON.parse(string);
-              //console.log('>> json: ', json2);
-              //console.log('>> VOICI L ID 2 : ', json2[0].id);
-              //req.list = json2;
 
               if (typeof(json1[0].id)!='undefined') {
-                //console.log("trest arret");
-                // console.log("affichage de result ",result); 
-
                 if (json1[0].id == json2[0].id) {
-                  console.log("vous etes connecte");
-                  
                   req.session.username = login;
                   req.session.mdp = mdp;
                   res.send('ok');
@@ -143,11 +110,12 @@ app.post('/login', urlencodedparser, (req, res) => {
 
 app.get('/leaderboard', (req, res) => {
   let sessionData = req.session;
-  console.log("test");
+
   // Test des modules 
   states.printServerStatus();
   states.printProfStatus();
   let test = new Theoden();
+
   if(sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
   }else {
@@ -162,67 +130,55 @@ app.get('/leaderboard', (req, res) => {
 //////////////////////////////////////////////
 
 app.post('/inscription', urlencodedparser, (req, res) => {
-
+  //Récupération des données
   const login = req.body.login
   const mdp = req.body.mdp
   const mdp2 = req.body.mdp2
-
-
-  console.log(login);
 
   // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
-    //return res.status(400).json({ errors: errors.array() });
   } else {
-    // Store login
+    
     req.session.username = login;
     req.session.mdp = mdp;
     req.session.mdp2 = mdp2;
 
-
-    //console.log(login);
-
     req.session.save()
-    //res.redirect('/');
 
-    if (mdp == mdp2) {
-      console.log("les mdp sont pareils");
-      
+    //Gestion du login et des mdp si les champs sont vides
+    if((login && mdp && mdp2) != '') {
+      if (mdp == mdp2) {
+
       let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
 
-  
       connection.query(sql, mdp, function (err, result) {
         if (err) throw err;
-
         console.log(result);
 
+        //Verification si le mot de passe est disponible
         if (result.length == 0) {
-          console.log("continuer votre inscription");
-
+          
           let sql = "SELECT username FROM inscrit WHERE username= ? ";
 
           connection.query(sql, login, function (err, result2) {
             if (err) throw err;
-
             console.log(result2);
 
-            if (result2.length ==0){
-              console.log("continuer tjr votre inscription");
+            //Verification si le login est disponible
+            if (result2.length ==0) {
 
               let sql="INSERT INTO inscrit SET username=?, mdp=? ";
               
               let data=[login,mdp]; 
-
+              
               connection.query(sql, data, function (err, result) {
                 if (err) throw err;
 
-                console.log("vous etes inscrit dans la bdd"); 
+                console.log("Inscription d'un utilisateur dans la BDD"); 
                 res.send('inscrit');
               });
-
-
             } 
             else{
               console.log("votre login est deja pris");
@@ -236,9 +192,12 @@ app.post('/inscription', urlencodedparser, (req, res) => {
           res.send('existe_mdp');
         }
       });
-    }else{
-      console.log("les mdp sont différents"); 
-      res.send('differents');
+      }else{
+        console.log("les mdp sont différents"); 
+        res.send('differents');
+      }
+    }else {
+      res.send('null');
     }
   }
 });
@@ -246,35 +205,36 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('Un utilisateur s\'est connecté');
 
   socket.on("login", () => {
-    let srvSockets = io.sockets.sockets;
-    srvSockets.forEach(user => {
-      console.log(user.handshake.session.username);
-    });
-    let val = io.engine.clientsCount;
+    //let srvSockets = io.sockets.sockets;
+    // srvSockets.forEach(user => {
+    //   console.log(user.handshake.session.username);
+    // });
+
+    let val = io.engine.clientsCount; //Récupération du nombre d'utilisateur connecté sur la page leaderboard
     if(val > 2) {
-      val = val % 2;
+      val = val % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
     }
+    //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
     io.emit('search', val);
 
-    //compte
-    io.emit('user-message', socket.handshake.session.username );
-    io.emit('mdp-message', socket.handshake.session.mdp );
+    //Page Compte
+    io.emit('show-user-username', socket.handshake.session.username ); //Affichage de l'username sur la page compte
+    io.emit('show-user-mdp', socket.handshake.session.mdp ); //Affichage du mot de passe sur la page compte
   });
 
   socket.on('message', (msg) => {
+    //Affichage en console
     console.log('message: ' + msg);
-    //Envoie le message pour tous!
+    //Envoie le message pour tous, Affichage du chat sur la page leaderboard
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
-    //Autre alternative : envoyer le message à tous les autres socket ormis celui qui envoie
-    //socket.broadcast.emit('new-message2', msg);
   });
 
   socket.on('disconnect', () => {
-    console.log('Un eleve s\'est déconnecté');
+    console.log('Un utilisateur s\'est déconnecté');
     
     // if (socket) {
     //   // delete session object
@@ -289,7 +249,7 @@ io.on('connection', (socket) => {
     //           io.emit('deco', 1);
     //       }
     //   });
-  //}  
+    //}  
   });
 
 });
@@ -298,9 +258,7 @@ http.listen(4255, () => {
   console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
 });
 
-
-// connexion a la bdd 
-
+//Connection à la base de donnée
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -311,6 +269,6 @@ let connection = mysql.createConnection({
 connection.connect(err => {
   if (err) throw err;
   else {
-    console.log("connexion effectue");
+    console.log("Connexion Réussite");
   }
 });

@@ -8,28 +8,30 @@ let inputMessage = document.getElementById('input');
 
 socket.emit('login', '');
 
+//Gestion d'envoi de message (Chat) sur la page leaderboard
 chatForm.addEventListener('submit', event => {
-    event.preventDefault(); //remember
+    event.preventDefault();
     if (input.value) {
         socket.emit('message', inputMessage.value);
         inputMessage.value = '';
     }
 });
 
+//Affichage si un utilisateur se connecte sur la page leaderboard
 socket.on('new-message', msg => {
-    //console.log("je passe par la "); 
     let item = document.createElement('li');
     item.textContent = msg;
     connect.appendChild(item);
 });
 
-socket.on('new-message2', msg => {
-    //console.log("je passe par la "); 
+//Affichage du chat sur la page leaderboard
+socket.on('new-message2', msg => { 
     let item = document.createElement('li');
     item.textContent = msg;
     chat.appendChild(item);
 });
 
+//Affichage de la recherche de joueurs sur la page leaderboard
 socket.on('search', value => {
     let item = document.createElement('p');
     msg = 'Recherche de joueurs en cours ... : ' + value + '/2';

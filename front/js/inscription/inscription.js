@@ -3,11 +3,8 @@ let input = document.getElementById('username');
 let input_mdp = document.getElementById('mdp');
 let input_mdp2 = document.getElementById('mdp2');
 
-
-
-//Envoi du login via le module de connexion
+//Envoi de l'inscription via le module
 form.addEventListener('submit', event => {
-    //alert("ca marche"); 
     event.preventDefault();
-    ajax_inscritpion.sendLogin(input.value, input_mdp.value, input_mdp2.value);
+    ajax_inscritpion.sendInscription(input.value, input_mdp.value, input_mdp2.value);
 });

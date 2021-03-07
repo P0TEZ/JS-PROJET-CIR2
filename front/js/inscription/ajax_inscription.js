@@ -1,7 +1,6 @@
 let ajax_inscritpion = (function(){
 
     function postLog(username,mdp,mdp2) {
-        //console.log(username, mdp);
         $.ajax({
             type: "POST",
             url: "/inscription/",
@@ -10,6 +9,7 @@ let ajax_inscritpion = (function(){
                 mdp : mdp, 
                 mdp2 : mdp2
             },
+            //Affichage des différentes informations en fonction du success ou non de la requete ajax
             success: (data) => {
                 let page = document.body;
                 let text = document.createElement('p');
@@ -38,12 +38,18 @@ let ajax_inscritpion = (function(){
                     page.append(text);
                     console.log(data);
                 }
+                if(data == 'null') {
+                    text = document.createElement('p');
+                    text.innerHTML = "Merci de remplir correctement l'inscription";
+                    page.append(text);
+                    console.log(data);
+                }
             },
         }); 
     }
 
     return{ 
-        sendLogin(username,mdp,mdp2){ 
+        sendInscription(username,mdp,mdp2){ 
             postLog(username,mdp,mdp2);
         } 
     } 
