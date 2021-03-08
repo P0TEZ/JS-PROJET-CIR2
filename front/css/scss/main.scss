@@ -190,7 +190,8 @@ img.pion{
         opacity: 100%;
     }
     &[team="none"]{
-        background-color: $playerNone;
+        border-radius: 15%;
+        border: 0.1px solid transparentize($black, 0.5);
     }
     &[src=" "]:not([select="true"]){
         transition-delay: 0s;

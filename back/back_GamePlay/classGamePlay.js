@@ -133,6 +133,7 @@ class Stratego extends Observable{
                 for (const pion of pionList) {
                     if(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         if(!this.addPion(row,column,pion.name,this.currentPlayer)){
+                            if(!(this.redPlayerPionList.length) == modulePion.getNumber('all'))
                             this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
                             console.log(this.currentPlayer);   
                         }
@@ -142,6 +143,7 @@ class Stratego extends Observable{
                 for (const pion of pionList) {
                     if(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         if(!this.addPion(row,column,pion.name,this.currentPlayer)){
+                            if(!(this.bluePlayerPionList.length) == modulePion.getNumber('all'))
                             this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
                             console.log(this.currentPlayer);   
                         }
@@ -364,7 +366,7 @@ class Stratego extends Observable{
         this.addPion(1,7,'Bomb','blue');
         this.addPion(8,7,'Bomb','red');
         
-       this.autoFill('blue');
+       //this.autoFill('blue');
        this.autoFill('red');
     }
 }
