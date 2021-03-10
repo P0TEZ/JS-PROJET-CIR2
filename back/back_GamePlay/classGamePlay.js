@@ -366,7 +366,7 @@ class Stratego extends Observable{
         this.addPion(1,7,'Bomb','blue');
         this.addPion(8,7,'Bomb','red');
         
-       //this.autoFill('blue');
+       this.autoFill('blue');
        this.autoFill('red');
     }
 }
