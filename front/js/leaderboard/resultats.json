@@ -1,0 +1,27 @@
+{
+  "joueurs": [
+    [
+      {
+        "username": "test",
+        "nb_win": 41,
+        "nb_loose": 1,
+        "time": 4,
+        "score": 17
+      },
+      {
+        "username": "SamLeNul",
+        "nb_win": 3,
+        "nb_loose": 19,
+        "time": 46,
+        "score": 24
+      },
+      {
+        "username": "PilouLeBoss",
+        "nb_win": 18,
+        "nb_loose": 2,
+        "time": 12,
+        "score": 3600
+      }
+    ]
+  ]
+}

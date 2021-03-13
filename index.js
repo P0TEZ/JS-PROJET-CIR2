@@ -254,6 +254,28 @@ io.on('connection', (socket) => {
 
 });
 
+//INSERTION TAB RESULT FICHIER JSON
+
+fs.readFile(__dirname + '/front/js/leaderboard/resultats.json', (err,data) => {
+  if(err) throw err;
+
+  const results = JSON.parse(data);
+  
+  let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    results.joueurs.splice(0,100); //Affiche que les 100 premiers
+    results.joueurs.push(result);
+
+    let mydatas = JSON.stringify(results, null, 2);
+
+    fs.writeFile(__dirname + '/front/js/leaderboard/resultats.json', mydatas, (err)  => {
+      if(err) throw err;
+    });
+  });
+});
+
+
 http.listen(4255, () => {
   console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
 });

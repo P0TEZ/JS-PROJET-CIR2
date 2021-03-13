@@ -1,6 +1,6 @@
 // FICHIER QUI VA RECUP TOUT LES PARTICIPANTS DANS UN TABLEAU 
 
-    let joueurs = [{     //exemple de participants  
+    let joueurs = [{     
         username:'sam',
         nb_win:'2',
         nb_loose: '1',

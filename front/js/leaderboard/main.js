@@ -44,4 +44,3 @@ socket.on('search', value => {
         messages.appendChild(start);
     }
 });
-
