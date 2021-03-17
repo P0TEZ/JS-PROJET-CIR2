@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    
+  </head>
+<body>
+  <a href="../html/compte.html" id="user" style="float: right;">Votre Compte</a>
+    <div> 
+      <h1>HUB</h1> 
+    </div>
+    <h3><ul id="connect"></ul></h3>
+    <h4>Chat Français :</h4>
+    
+    <ul id="chat"></ul>
+    
+    <form id="chatForm" action="">
+    <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+    
+    
+    <ul id="messages"></ul>
+
+    <script> let socket = io();</script>
+
+    <div id="element" style="padding: 2% 0% 0% 30%;">
+      <script src="../js/leaderboard/resultats.json"></script>
+      <script src = "../js/leaderboard/leaderboard.js"> </script>
+      <script src = "../js/leaderboard/stock_participants_data.js"> </script>
+      <script src = "../js/leaderboard/create_line.js"> </script>
+      <script src = "../js/leaderboard/creat_tab_data.js"> </script>
+      <script src = "../js/leaderboard/main.js"> </script>
+    </div>
+    
+</html>

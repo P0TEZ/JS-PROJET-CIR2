@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Strago</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body> 
+        <h1>Connexion :</h1>
+        <form id="loginForm" action="">
+            <input id="username" autocomplete="off" placeholder="Username" />
+            <input id="mdp" type="password" autocomplete="off" placeholder="MDP" />
+
+            <input type="submit" value="Se connecter!"/>
+        </form>
+        <a href="../html/inscription.html" > <input type="button" value="Inscritpion"></a>
+        <script> let socket = io();</script>
+        <script src="../js/login/logger.js"></script>
+        <script src="../js/login/login.js"></script>
+    </body>
+</html>
