@@ -111,7 +111,19 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   }
 });
 
+app.get('/partie', (req, res) => {
+  let sessionData = req.session;
 
+
+  let game_1 = new Theoden_gamePlay();
+  let partie_1 = new Theoden_gameplayview(game_1,'game_1View');
+  partie_1.grilleReload();
+
+  console.log(Theoden_modulePion.getAllPiece());
+
+  window.onresize = partie_1.grilleResize();
+
+});
 
 io.on('connection', (socket) => {
   console.log('Un utilisateur s\'est connecté');
