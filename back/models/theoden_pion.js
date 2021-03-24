@@ -1,11 +1,11 @@
 class Theoden_pion {
     constructor(name,joueur){
         this.name = name;
-        this.number = Theoden_modulePion.getNumber(this.name);
-        this.strength = Theoden_modulePion.getStrength(this.name);
-        this.speciality = Theoden_modulePion.getSpeciality(this.name);
+        this.number = modulePion.getNumber(this.name);
+        this.strength = modulePion.getStrength(this.name);
+        this.speciality = modulePion.getSpeciality(this.name);
         this.select = false;
-        this.img = Theoden_modulePion.getImg(this.name);
+        this.img = modulePion.getImg(this.name);
         if(joueur == 0 || joueur ==="red"){
             this.equipe="red";
         }else if(joueur == 1 || joueur ==="blue"){
@@ -17,7 +17,7 @@ class Theoden_pion {
     }
 }
 
-let Theoden_modulePion = (function(){
+let modulePion = (function(){
 
     return{
         getIndex(name){
