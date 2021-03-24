@@ -17,30 +17,35 @@ let ajax_inscritpion = (function(){
                 if(data == 'inscrit') {
                     text = document.createElement('p');
                     text.innerHTML = "Incription validée";
+                    text.id = 'validé';
                     page.append(text);
                     console.log(data);
                 }
                 if(data == 'existe_login') {
                     text = document.createElement('p');
                     text.innerHTML = "Le username est déjà pris";
+                    text.id = 'erreur';
                     page.append(text);
                     console.log(data);
                 }
                 if(data == 'existe_mdp') {
                     text = document.createElement('p');
                     text.innerHTML = "Le mot de passe est déjà pris";
+                    text.id = 'erreur';
                     page.append(text);
                     console.log(data);
                 }
                 if(data == 'differents') {
                     text = document.createElement('p');
                     text.innerHTML = "Les mots de passe sont différents";
+                    text.id = 'erreur';
                     page.append(text);
                     console.log(data);
                 }
                 if(data == 'null') {
                     text = document.createElement('p');
                     text.innerHTML = "Merci de remplir correctement l'inscription";
+                    text.id = 'erreur';
                     page.append(text);
                     console.log(data);
                 }

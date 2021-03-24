@@ -17,12 +17,14 @@ let logger = (function(){
                 }
                 if(data == 'err_mdp') {
                     text = document.createElement('p');
+                    text.id = 'erreur';
                     text.innerHTML = "Votre mot de passe est incorrect";
                     page.append(text);
                     console.log(data);
                 }
                 if(data == 'err_pseudo') {
                     text.innerHTML = "Votre pseudo est incorrect";
+                    text.id = 'erreur';
                     page.append(text);
                     console.log(data);
                 }
