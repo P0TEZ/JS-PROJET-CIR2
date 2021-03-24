@@ -129,18 +129,31 @@ io.on('connection', (socket) => {
   console.log('Un utilisateur s\'est connecté');
 
   socket.on("login", () => {
-    //let srvSockets = io.sockets.sockets;
-    // srvSockets.forEach(user => {
-    //   console.log(user.handshake.session.username);
-    // });
 
-    let val = io.engine.clientsCount; //Récupération du nombre d'utilisateur connecté sur la page leaderboard
-    if(val > 2) {
-      val = val % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
+    let srvSockets = io.sockets.sockets;
+    let count =0; 
+    srvSockets.forEach(user => {
+      console.log(user.handshake.session.username);
+      if(user.handshake.session.username){
+        count++;
+
+      }
+    });
+
+    //Récupération du nombre d'utilisateur connecté sur la page leaderboard
+    console.log("avant if", count);
+    if(count > 2 && count%2 !=0) {
+      count = count % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
+    }else if( count%2 == 0){
+      while (count >2){
+        count -=2;
+      }
     }
+    console.log("apres if", count);
+
     //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
-    io.emit('search', val);
+    io.emit('search', count);
 
     //Page Compte
     io.emit('show-user-username', socket.handshake.session.username ); //Affichage de l'username sur la page compte
