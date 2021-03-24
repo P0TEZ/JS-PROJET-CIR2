@@ -8,8 +8,8 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 
 const verifInscription = require('./back/modules/verifInscription');
-const states = require('./back/modules/states');
-const Theoden = require('./back/models/Theoden');
+const states = require('./back/modules/');
+const Theoden = require('./back/models/theoden.js');
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
@@ -113,6 +113,10 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 
 app.get('/partie', (req, res) => {
   let sessionData = req.session;
+
+  socket.on("partie", (socket) =>{
+    io.emit('click')
+  });
 
 
   let game_1 = new Theoden_gamePlay();

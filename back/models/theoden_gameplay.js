@@ -1,4 +1,4 @@
-class Theoden_gamePlay extends Theoden_observable{
+class gamePlay extends observable{
 
     constructor(){
         super();
@@ -17,4 +17,4 @@ class Theoden_gamePlay extends Theoden_observable{
     }
 }
 
-module_gameplay.exports = Theoden_observable;
+module.exports = gamePlay;
