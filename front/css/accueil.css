@@ -38,11 +38,9 @@ form input[type=password] {
 }
 form input[type=submit].connexion {
   grid-area: connexion;
-  height: 3rem;
 }
 form a {
   grid-area: register;
-  height: 3rem;
 }
 
 footer, h1 {

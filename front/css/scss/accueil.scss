@@ -42,12 +42,11 @@ form{
 
     input[type="submit"].connexion{
         grid-area: connexion;
-        height: 3rem;
+        //height: 3rem;
     }
 
     a{
         grid-area: register;
-        height: 3rem;
     }
 }
 
