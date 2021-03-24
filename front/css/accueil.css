@@ -42,7 +42,7 @@ form input[type=submit].connexion {
 }
 form a {
   grid-area: register;
-  line-height: 32px;
+  height: 3rem;
 }
 
 footer, h1 {
