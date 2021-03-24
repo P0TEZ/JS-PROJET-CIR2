@@ -92,7 +92,7 @@ table {
   font-family: "Roboto";
   src: url(../FONT/RobotoCondensed-Regular.ttf);
 }
-button, input {
+button, input, a.fakeBtn {
   box-shadow: 1px 5px 5px 0px #555e5e;
 }
 
@@ -169,7 +169,7 @@ p {
   font-weight: normal;
 }
 
-a, b, i, u, li, span {
+a:not(.fakeBtn), b, i, u, li, span {
   font-size: inherit;
   font-weight: inherit;
   text-align: inherit;
@@ -179,7 +179,7 @@ li {
   color: inherit;
 }
 
-a {
+a:not(.fakeBtn) {
   cursor: pointer;
   color: #21ae94;
   font-weight: normal;
@@ -189,8 +189,12 @@ a {
       color: darken($primary, 50);
   }*/
 }
-a:hover {
+a:not(.fakeBtn):hover {
   text-decoration: underline;
+}
+
+a.fakeBtn {
+  text-decoration: none;
 }
 
 b {
@@ -205,7 +209,7 @@ u {
   text-decoration: underline;
 }
 
-button, input {
+button, input, a.fakeBtn {
   margin: 0.5rem 0px;
   position: relative;
   font-size: 1.5rem;
@@ -223,17 +227,17 @@ input:not([type=submit]):focus {
   outline: 1.5px solid #21ae94;
 }
 
-button, input[type=submit] {
+button, input[type=submit], a.fakeBtn {
   border-radius: 10rem;
   padding: 0.5rem 2rem;
-  width: 100%;
+  line-height: 32px;
 }
-button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus {
+button:hover, button:focus, input[type=submit]:hover, input[type=submit]:focus, a.fakeBtn:hover, a.fakeBtn:focus {
   background-color: #28d0b1;
   text-decoration: underline;
   cursor: pointer;
 }
-button:active, input[type=submit]:active {
+button:active, input[type=submit]:active, a.fakeBtn:active {
   background-color: #34d8ba;
   transform: translate(0.1rem, 0.2rem);
 }

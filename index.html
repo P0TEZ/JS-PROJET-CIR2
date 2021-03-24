@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="front/css/accueil.css">
 
     <title>STRATEGO</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     
@@ -18,9 +21,12 @@
     <p id="tip" class="small align-center text-color-primary"></p>
     </div>
 
-    <form>
-        <input type="text" placeholder="PSEUDO"/>
-        <input class="bg-primary" type="submit" value="Jouer"/>
+    <form id="loginForm" action="">
+        <input type="text" placeholder="Nom d'Utilisateur"/>
+        <input type="password" placeholder="Mot De Passe"/>
+        <input class="bg-primary connexion" type="submit" value="Connexion"/>
+       <!-- <input class="bg-primary register" type="submit" value="Inscription"/> -->
+        <a class="bg-primary fakeBtn register" href="front/html/inscription.html">Inscription</a>
     </form>
 
     <footer>
@@ -30,6 +36,10 @@
 
     <script src="front/js/tips-data.js"></script>
     <script src="front/js/tips-display.js"></script>
+
+    <script> let socket = io();</script>
+    <script src="front/js/login/logger.js"></script>
+    <script src="front/js/login/login.js"></script>
 
 </body>
 </html>

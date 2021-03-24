@@ -24,17 +24,25 @@ body footer {
 
 form {
   display: grid;
-  grid-template-columns: 1fr 10rem 1fr;
-  grid-template-rows: repeat(2, 1fr);
-  grid-template-areas: "text text text" ". submit .";
+  grid-template-columns: 4fr 0.5rem 4fr;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: " text text text " "mdp mdp mdp" "register . connexion";
 }
 form input[type=text] {
   grid-area: text;
   height: 2rem;
 }
-form input[type=submit] {
-  grid-area: submit;
+form input[type=password] {
+  grid-area: mdp;
+  height: 2rem;
+}
+form input[type=submit].connexion {
+  grid-area: connexion;
   height: 3rem;
+}
+form a {
+  grid-area: register;
+  line-height: 32px;
 }
 
 footer, h1 {
@@ -53,7 +61,7 @@ footer, h1 {
 }
 @media screen and (max-height: 410px) {
   body {
-    grid-template-rows: 35vh 20vh 30vh 5vh 8vh;
+    grid-template-rows: 35vh 20vh 30vh 5vh 30vh;
   }
 }
 @media screen and (max-height: 320px) {
