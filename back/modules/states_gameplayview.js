@@ -1,22 +1,10 @@
-let imgLink ="../img/";
-
-class gamePlayView {
-    
-    constructor(game, name){
-        this.game = game;
-        this.name = name;
-        this.grille = this.grilleStetter();
-
-        this.playerPionListSetter();
+let module_gameplayview;
+module_gameplayview.exports={
+    grilleStetter(){
         this.grilleResize();
-    /*    this.eventSetter();*/
-    }
 
-    grilleStetter(){           
-        this.grilleResize();
-        
         let grille = new Array(10);
-        
+
         for(let row=0;row<grille.length;++row){
 
             grille[row] = new Array(10);
@@ -41,12 +29,12 @@ class gamePlayView {
                     if(this.game.grid[row][column].equipe == "none")
                     grille[row][column].style.opacity = "0%";
                 });
-                */            
+                */
                 plateau.appendChild(grille[row][column]);
             }
         }
         return grille;
-    }
+    },
 
     grilleReload(){
         for(let row=0;row<this.grille.length;++row){
@@ -62,7 +50,7 @@ class gamePlayView {
                 }
             }
         }
-    }
+    },
 
     playerPionListSetter(){
         let bluePionList = document.getElementById('bluePionList');
@@ -82,11 +70,11 @@ class gamePlayView {
             redPionList.append(conteneur);
 
         }
-    }
+    },
 
     playerPionListReload(){
-        let bluePionList = document.getElementById('bluePionList');       
-        let redPionList = document.getElementById('redPionList');  
+        let bluePionList = document.getElementById('bluePionList');
+        let redPionList = document.getElementById('redPionList');
 
         for (const pion of modulePion.getAllPiece()) {
             let div = bluePionList.getElementsByClassName(pion.name);
@@ -101,12 +89,12 @@ class gamePlayView {
             div[0].innerHTML = number+"/"+pion.number;
         }
 
-    }
+    },
 
     grilleResize(){
         let body = document.body;
-        let plateau = document.getElementById("plateau");            
-        
+        let plateau = document.getElementById("plateau");
+
         body.style.flexDirection="column";
         document.getElementById("bluePionList").className = "inRow";
         document.getElementById("redPionList").className = "inRow";
@@ -136,13 +124,5 @@ class gamePlayView {
 
         window.scrollTo(0,(body.clientHeight-window.innerHeight)/2);
     }
+
 }
-
-
-let game_1 = new Stratego();
-let partie_1 = new gamePlayView(game_1,'game_1View');
-partie_1.grilleReload();
-
-console.log(modulePion.getAllPiece());
-
-window.onresize = partie_1.grilleResize;

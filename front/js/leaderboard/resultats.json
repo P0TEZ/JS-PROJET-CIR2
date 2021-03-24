@@ -1,13 +1,11 @@
 {
   "joueurs": [
-    [
-      {
-        "username": "pilou",
-        "nb_win": 125,
-        "nb_loose": 12,
-        "time": 18,
-        "score": 12
-      }
-    ]
+    {
+      "username": "pilou",
+      "nb_win": 125,
+      "nb_loose": 12,
+      "time": 18,
+      "score": 12
+    }
   ]
 }

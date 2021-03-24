@@ -1,12 +1,20 @@
 // ECRITURE DU TABLEAU DANS LA PAGE HTML
 
-let elmt = document.getElementById("element")
-elmt.appendChild(create_tab_data.draw()); 
+//let elmt = document.getElementById("element")
+//elmt.appendChild(create_tab_data.draw()); 
 
 let chatForm = document.getElementById('chatForm');
 let inputMessage = document.getElementById('input');
 
 socket.emit('login', '');
+
+socket.on('resultats-leaderboard', msg => {
+    Module_Stock.setData(msg);
+    console.log(Module_Stock.Username(0));
+    let elmt = document.getElementById("element")
+    elmt.appendChild(create_tab_data.draw(msg));   
+});
+
 
 //Gestion d'envoi de message (Chat) sur la page leaderboard
 chatForm.addEventListener('submit', event => {
