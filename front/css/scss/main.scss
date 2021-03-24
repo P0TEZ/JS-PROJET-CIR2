@@ -88,7 +88,7 @@ p{
     font-weight: normal;
 }
 
-a,b,i,u,li,span{
+a:not(.fakeBtn),b,i,u,li,span{
     font-size: inherit;
     font-weight: inherit;
     text-align: inherit;
@@ -98,7 +98,7 @@ li{
     color: inherit;
 }
 
-a{  
+a:not(.fakeBtn){  
     cursor: pointer;
     color:$primary;
     font-weight: normal;
@@ -113,6 +113,10 @@ a{
     }*/
 }
 
+a.fakeBtn{
+    text-decoration: none;
+}
+
 b{
     font-weight: bolder;
 }
@@ -125,7 +129,7 @@ u{
     text-decoration: underline;
 }
 
-button,input{
+button,input,a.fakeBtn{
     @extend %shadow;
     
     margin: 0.5rem 0px;
@@ -149,11 +153,12 @@ input:not([type="submit"]){
     }
 }
 
-button,input[type="submit"]{
+button,input[type="submit"],a.fakeBtn{
     border-radius: 10rem;
     padding: 0.5rem 2rem;
-    width: 100%;
     
+    line-height:32px;
+
     &:hover,&:focus{
         background-color: lighten($primary, 8);
         text-decoration: underline;
