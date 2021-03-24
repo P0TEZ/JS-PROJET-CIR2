@@ -15,11 +15,11 @@ let create_tab_data = (function(){
         return linelemnt;
     }
     return{
-        draw() {
+        draw(msg) {
             let tab = document.createElement("table");
             tab.appendChild(firstline());
             
-            for(let i=0; i<joueurs.length;i++){
+            for(let i=0; i<msg.length;i++){
                 tab.appendChild(create_line.getLine(i));
             }
             return tab; 

@@ -1,14 +1,17 @@
 // MODULE POUR RECUP LES DONNEES 
 
 let Module_Stock = (function(){
-    const data= joueurs; 
-
-    //console.log(data[0].username);
+    let data;
+    
+    function setData(msg) {
+        data = msg;
+        return data;
+    }
 
     function getScore(index){
-        console.log(data[index].score); 
         return (data[index].score);
     }
+    //Pas de prochaine ligne donc undefined a voir !!!!!
     function getUsername(index){
         return(data[index].username); 
     }
@@ -24,6 +27,7 @@ let Module_Stock = (function(){
     
 
     return {
+        setData: msg =>setData(msg),
         Username: index=>getUsername(index),
         Win: index=>getNb_win(index),
         Loose: index=>getNb_loose(index),
@@ -32,3 +36,24 @@ let Module_Stock = (function(){
     }
 
 })(); 
+/*
+let Module_Stock2 = (function(){
+    let data;
+    
+    function setData(msg) {
+        data = msg;
+        console.log(data);
+    }
+
+    function getUsername(index){
+        console.log(data[index].username); 
+        return(data[index].username); 
+    }
+ 
+    return {
+        setData: msg =>setData(msg),
+        Username: index=>getUsername(index),
+    }
+ 
+})();
+*/

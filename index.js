@@ -6,6 +6,8 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
+
+const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
 const Theoden = require('./back/models/Theoden');
 const sharedsession = require("express-socket.io-session");
@@ -34,8 +36,6 @@ io.use(sharedsession(session, {
 }));
 
 app.get('/', (req, res) => {
-
-  let sessionData = req.session;
 
   // Test des modules 
   states.printServerStatus();
@@ -68,49 +68,15 @@ app.post('/login', urlencodedparser, (req, res) => {
     connection.query(sql, mdp, function (err, result) {
       if (err) throw err;
 
-      //Vérification si le mot de passe est correct
-      if (result.length == 0) {
-        res.send('err_mdp'); 
-      } 
-      else {
-        let string = JSON.stringify(result);
-        let json1 = JSON.parse(string);
-
-        if (typeof(json1[0].id)!='undefined') {
-          
-          let sql2 = "SELECT id FROM inscrit WHERE username= ? ";
-
-          connection.query(sql2, login, function (err, result2) {
-            if (err) throw err;
-
-            //Vérification si le pseudo est correct
-            if (result2.length == 0) {
-              console.log("votre pseudo est incorrect");
-              res.send('err_pseudo'); 
-            }
-            else {
-              let string = JSON.stringify(result2);
-              var json2 = JSON.parse(string);
-
-              if (typeof(json1[0].id)!='undefined') {
-                if (json1[0].id == json2[0].id) {
-                  req.session.username = login;
-                  req.session.mdp = mdp;
-                  res.send('ok');
-                } 
-              }
-            }
-          });
-        }
-      }
+      //Vérification de la page login
+      states.verifMdp(connection, req, res, result, login, mdp);
     });
   }
-
 });
 
 app.get('/leaderboard', (req, res) => {
-  let sessionData = req.session;
 
+  let sessionData = req.session;
   // Test des modules 
   states.printServerStatus();
   states.printProfStatus();
@@ -121,6 +87,7 @@ app.get('/leaderboard', (req, res) => {
   }else {
     res.sendFile(__dirname + '/front/html/login.html');
   }
+  
 });
 
 
@@ -140,65 +107,7 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   if (!errors.isEmpty()) {
     console.log(errors);
   } else {
-    
-    req.session.username = login;
-    req.session.mdp = mdp;
-    req.session.mdp2 = mdp2;
-
-    req.session.save()
-
-    //Gestion du login et des mdp si les champs sont vides
-    if((login && mdp && mdp2) != '') {
-      if (mdp == mdp2) {
-
-      let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
-
-      connection.query(sql, mdp, function (err, result) {
-        if (err) throw err;
-        console.log(result);
-
-        //Verification si le mot de passe est disponible
-        if (result.length == 0) {
-          
-          let sql = "SELECT username FROM inscrit WHERE username= ? ";
-
-          connection.query(sql, login, function (err, result2) {
-            if (err) throw err;
-            console.log(result2);
-
-            //Verification si le login est disponible
-            if (result2.length ==0) {
-
-              let sql="INSERT INTO inscrit SET username=?, mdp=? ";
-              
-              let data=[login,mdp]; 
-              
-              connection.query(sql, data, function (err, result) {
-                if (err) throw err;
-
-                console.log("Inscription d'un utilisateur dans la BDD"); 
-                res.send('inscrit');
-              });
-            } 
-            else{
-              console.log("votre login est deja pris");
-              res.send('existe_login');
-            }
-          });
-
-        }
-        else {
-          console.log("votre mdp existe deja");
-          res.send('existe_mdp');
-        }
-      });
-      }else{
-        console.log("les mdp sont différents"); 
-        res.send('differents');
-      }
-    }else {
-      res.send('null');
-    }
+    verifInscription.verifLoginMdp(connection,req, res, login, mdp, mdp2);
   }
 });
 
@@ -224,6 +133,12 @@ io.on('connection', (socket) => {
     //Page Compte
     io.emit('show-user-username', socket.handshake.session.username ); //Affichage de l'username sur la page compte
     io.emit('show-user-mdp', socket.handshake.session.mdp ); //Affichage du mot de passe sur la page compte
+
+    let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
+    connection.query(sql, function (err, result) {
+      if (err) throw err; 
+      socket.emit('resultats-leaderboard',result);
+    });
   });
 
   socket.on('message', (msg) => {
@@ -263,9 +178,9 @@ fs.readFile(__dirname + '/front/js/leaderboard/resultats.json', (err,data) => {
   
   let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
   connection.query(sql, function (err, result) {
-    if (err) throw err;
+    if (err) throw err; //console.log(result);
     results.joueurs.splice(0,100); //Affiche que les 100 premiers
-    results.joueurs.push(result);
+    results.joueurs = result;
 
     let mydatas = JSON.stringify(results, null, 2);
 
