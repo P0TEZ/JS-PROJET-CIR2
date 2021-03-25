@@ -7,13 +7,13 @@ const bodyParser = require('body-parser');
 const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 
-const verifInscription = require('./back/modules/verifInscription');
-const states = require('./back/modules/states');
-const Theoden = require('./back/models/Theoden');
-// const gameplay = require('./back/models/classGameplay');
-// const observable = require('./back/models/Observable');
-// const gameplayview = require('./back/models/gameplayview');
-// const pion = require('./back/models/classPion');
+const verifInscription = require('./back/modules/verifInscription.js');
+const states = require('./back/modules/states.js');
+const Theoden = require('./back/models/theoden.js');
+//const gameplay = require('./back/models/gameplay.js');
+//const observable = require('./back/models/observable.js');
+//const gameplayview = require('./back/models/gameplayview.js');
+//const pion = require('./back/models/pion.js');
 
 
 
@@ -21,6 +21,7 @@ const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
 const { count } = require('console');
+const { isNullOrUndefined } = require('util');
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -83,18 +84,21 @@ app.post('/login', urlencodedparser, (req, res) => {
 
 app.get('/leaderboard', (req, res) => {
 
+  console.log("wejden");
+
+
   let sessionData = req.session;
   // Test des modules 
   states.printServerStatus();
   states.printProfStatus();
   let test = new Theoden();
 
-  if(sessionData.username) {
+  if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
-  }else {
+  } else {
     res.sendFile(__dirname + '/front/html/login.html');
   }
-  
+
 });
 
 
@@ -114,21 +118,20 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   if (!errors.isEmpty()) {
     console.log(errors);
   } else {
-    verifInscription.verifLoginMdp(connection,req, res, login, mdp, mdp2);
+    verifInscription.verifLoginMdp(connection, req, res, login, mdp, mdp2);
   }
 });
 
 app.get('/partie', (req, res) => {
-  let sessionData = req.session;
+
+  console.log("kaaris");
 
 
-  let game_1 = new Gameplay();
-  let partie_1 = new Gameplayview(game_1,'game_1View');
-  partie_1.grilleReload();
-
-  console.log(Theoden_modulePion.getAllPiece());
-
-  window.onresize = partie_1.grilleResize();
+  if (sessionData.username) {
+    res.sendFile(__dirname + '/front/html/partie.html');
+  } else {
+    res.sendFile(__dirname + '/front/html/login.html');
+  }
 
 });
 
@@ -138,39 +141,44 @@ io.on('connection', (socket) => {
   socket.on("login", () => {
 
     let srvSockets = io.sockets.sockets;
-    let count =0; 
+    let count = 0;
     srvSockets.forEach(user => {
       console.log(user.handshake.session.username);
-      if(user.handshake.session.username){
+      if (user.handshake.session.username) {
         count++;
 
       }
     });
 
     //Récupération du nombre d'utilisateur connecté sur la page leaderboard
-    console.log("avant if", count);
-    if(count > 2 && count%2 !=0) {
+    //console.log("avant if", count);
+    if (count > 2 && count % 2 != 0) {
       count = count % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
-    }else if( count%2 == 0){
-      while (count >2){
-        count -=2;
+    } else if (count % 2 == 0) {
+      while (count > 2) {
+        count -= 2;
       }
     }
-    console.log("apres if", count);
+    //console.log("apres if", count);
 
     //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
     io.emit('search', count);
 
     //Page Compte
-    io.emit('show-user-username', socket.handshake.session.username ); //Affichage de l'username sur la page compte
-    io.emit('show-user-mdp', socket.handshake.session.mdp ); //Affichage du mot de passe sur la page compte
+    io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
+    io.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
 
-    let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
+    let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score`";
     connection.query(sql, function (err, result) {
-      if (err) throw err; 
-      socket.emit('resultats-leaderboard',result);
+      if (err) throw err;
+      socket.emit('resultats-leaderboard', result);
     });
+  });
+
+  socket.on("partie", () => {
+    let text = "coucou";
+    io.emit('coucou', text);
   });
 
   socket.on('message', (msg) => {
@@ -182,7 +190,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('Un utilisateur s\'est déconnecté');
-    
+
     // if (socket) {
     //   // delete session object
     //   console.log("req session");
@@ -203,21 +211,21 @@ io.on('connection', (socket) => {
 
 //INSERTION TAB RESULT FICHIER JSON
 
-fs.readFile(__dirname + '/front/js/leaderboard/resultats.json', (err,data) => {
-  if(err) throw err;
+fs.readFile(__dirname + '/front/js/leaderboard/resultats.json', (err, data) => {
+  if (err) throw err;
 
   const results = JSON.parse(data);
-  
-  let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
+
+  let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score`";
   connection.query(sql, function (err, result) {
     if (err) throw err; //console.log(result);
-    results.joueurs.splice(0,100); //Affiche que les 100 premiers
+    results.joueurs.splice(0, 100); //Affiche que les 100 premiers
     results.joueurs = result;
 
     let mydatas = JSON.stringify(results, null, 2);
 
-    fs.writeFile(__dirname + '/front/js/leaderboard/resultats.json', mydatas, (err)  => {
-      if(err) throw err;
+    fs.writeFile(__dirname + '/front/js/leaderboard/resultats.json', mydatas, (err) => {
+      if (err) throw err;
     });
   });
 });
