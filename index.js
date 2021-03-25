@@ -122,13 +122,12 @@ app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
 
-  // let game_1 = new Gameplay();
-  // let partie_1 = new Gameplayview(game_1,'game_1View');
-  // partie_1.grilleReload();
 
-  // console.log(modulePion.getAllPiece());
-
-  // window.onresize = partie_1.grilleResize();
+  if(sessionData.username) {
+    res.sendFile(__dirname + '/front/html/partie.html');
+  }else {
+    res.sendFile(__dirname + '/front/html/login.html');
+  }
 
 });
 
@@ -179,6 +178,18 @@ io.on('connection', (socket) => {
     //Envoie le message pour tous, Affichage du chat sur la page leaderboard
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
+
+
+  socket.on("partie",()=>{
+
+    let game_1 = new gameplay();
+    let partie_1 = new gameplayview(game_1,'game_1View');
+    partie_1.grilleReload();
+
+    window.onresize = partie_1.grilleResize();
+
+
+  }); 
 
   socket.on('disconnect', () => {
     console.log('Un utilisateur s\'est déconnecté');
