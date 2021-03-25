@@ -10,10 +10,10 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
 const Theoden = require('./back/models/Theoden');
-// const gameplay = require('./back/models/classGameplay');
-// const observable = require('./back/models/Observable');
-// const gameplayview = require('./back/models/gameplayview');
-// const pion = require('./back/models/classPion');
+const pion = require('./back/models/classPion');
+const observable = require('./back/models/Observable');
+const gameplay = require('./back/models/classGameplay');
+const gameplayview = require('./back/models/gameplayview');
 
 
 
