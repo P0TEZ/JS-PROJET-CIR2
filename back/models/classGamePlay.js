@@ -1,3 +1,5 @@
+const Observable = require("./Observable");
+
 class GamePlay extends Observable{
 
     constructor(){

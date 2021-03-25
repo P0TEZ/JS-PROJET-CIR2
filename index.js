@@ -11,7 +11,7 @@ const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
 const Theoden = require('./back/models/Theoden');
 const pion = require('./back/models/classPion');
-const observable = require('./back/models/Observable');
+const Observable = require('./back/models/Observable');
 const gameplay = require('./back/models/classGameplay');
 const gameplayview = require('./back/models/gameplayview');
 
@@ -122,13 +122,13 @@ app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
 
-  let game_1 = new Gameplay();
-  let partie_1 = new Gameplayview(game_1,'game_1View');
-  partie_1.grilleReload();
+  // let game_1 = new Gameplay();
+  // let partie_1 = new Gameplayview(game_1,'game_1View');
+  // partie_1.grilleReload();
 
-  console.log(Theoden_modulePion.getAllPiece());
+  // console.log(modulePion.getAllPiece());
 
-  window.onresize = partie_1.grilleResize();
+  // window.onresize = partie_1.grilleResize();
 
 });
 
