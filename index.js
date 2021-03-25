@@ -8,8 +8,20 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 
 const verifInscription = require('./back/modules/verifInscription');
+<<<<<<< Updated upstream
 const states = require('./back/modules/states.js');
 const Theoden = require('./back/models/theoden.js');
+=======
+const states = require('./back/modules/states');
+const Theoden = require('./back/models/Theoden');
+const gameplay = require('./back/models/gameplay');
+const observable = require('./back/models/observable');
+const gameplayview = require('./back/models/gameplayview');
+const pion = require('./back/models/pion');
+
+
+
+>>>>>>> Stashed changes
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
@@ -114,13 +126,9 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
-  socket.on("partie", (socket) =>{
-    io.emit('click')
-  });
 
-
-  let game_1 = new Theoden_gamePlay();
-  let partie_1 = new Theoden_gameplayview(game_1,'game_1View');
+  let game_1 = new Gameplay();
+  let partie_1 = new Gameplayview(game_1,'game_1View');
   partie_1.grilleReload();
 
   console.log(Theoden_modulePion.getAllPiece());

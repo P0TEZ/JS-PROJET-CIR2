@@ -1,4 +1,4 @@
-class Theoden_gameplayview{
+class Gameplayview{
     constructor(game, name){
         this.game = game;
         this.name = name;
@@ -42,7 +42,7 @@ class Theoden_gameplayview{
             }
         }
         return grille;
-    },
+    }
 
     grilleReload(){
         for(let row=0;row<this.grille.length;++row){
@@ -58,7 +58,7 @@ class Theoden_gameplayview{
                 }
             }
         }
-    },
+    }
 
     playerPionListSetter(){
         let bluePionList = document.getElementById('bluePionList');
@@ -78,7 +78,7 @@ class Theoden_gameplayview{
             redPionList.append(conteneur);
 
         }
-    },
+    }
 
     playerPionListReload(){
         let bluePionList = document.getElementById('bluePionList');
@@ -97,7 +97,7 @@ class Theoden_gameplayview{
             div[0].innerHTML = number+"/"+pion.number;
         }
 
-    },
+    }
 
     grilleResize(){
         let body = document.body;
@@ -132,6 +132,6 @@ class Theoden_gameplayview{
 
         window.scrollTo(0,(body.clientHeight-window.innerHeight)/2);
     }
+
 }
 
-module.exports = Theoden_gameplayview;

@@ -1,5 +1,20 @@
-let module_gameplay;
-module_gameplay.exports={
+class Gameplay extends Observable{
+
+    constructor(){
+        super();
+        this.grid= this.gridSetUp();
+        this.bluePlayerPionList = new Array();
+        this.redPlayerPionList = new Array();
+
+        this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
+        this.winner='none';
+        this.started= false;
+
+        this.previousPlay = {"pion": null, "row": null, "column":null};
+
+        this.setup();
+        console.log(this.currentPlayer);
+    }
     gridSetUp(){
         let grille = new Array(10);
 
@@ -19,7 +34,7 @@ module_gameplay.exports={
             }
         }
         return grille;
-    },
+    }
 
     reset(){
         for(let i=0; i<this.grid.length;i++){
@@ -29,19 +44,19 @@ module_gameplay.exports={
         }
 
         this.currentPlayer=0;
-    },
+    }
 
     getCurrentPlayer(){
         return this.currentPlayer;
-    },
+    }
 
     getWinner(){
         return this.winner;
-    },
+    }
 
     getCaseState(i,j){
         return this.grid[i][j];
-    },
+    }
 
     addPion(row,column,name,equipe='none'){
         if(this.grid[row][column].name ==='empty'){
@@ -67,7 +82,7 @@ module_gameplay.exports={
         else{
             return 1;
         }
-    },
+    }
 
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
@@ -96,7 +111,7 @@ module_gameplay.exports={
                 return 0;
             }
         }
-    },
+    }
 
     play(row,column){
         let selected = this.grid[row][column];
@@ -143,7 +158,7 @@ module_gameplay.exports={
                 this.started = true;
             }
         }
-    },
+    }
 
     isAllUnSelect(){
         let AllUnSelect = true;
@@ -157,7 +172,7 @@ module_gameplay.exports={
             }
         }
         return AllUnSelect;
-    },
+    }
 
     unSelectAll(){
         for(let row=0;row<this.grid.length;++row){
@@ -170,7 +185,7 @@ module_gameplay.exports={
                 }
             }
         }
-    },
+    }
 
     generatePath(row,column){
         this.grid[row][column].select = true;
@@ -255,7 +270,7 @@ module_gameplay.exports={
         this.previousPlay.pion = this.grid[row][column];
         this.previousPlay.row = row;
         this.previousPlay.column = column;
-    },
+    }
 
     pionMove(row,column){
         if(this.grid[row][column].name =="empty"){
@@ -295,7 +310,7 @@ module_gameplay.exports={
             //console.log(this.redPlayerPionList);
         }
         this.unSelectAll();
-    },
+    }
     autoFill(equipe=this.currentPlayer){
         let pionList = modulePion.getAllPiece();
 
@@ -327,7 +342,7 @@ module_gameplay.exports={
         if((this.redPlayerPionList.length + this.bluePlayerPionList.length) >= 2*modulePion.getNumber('all')){
             this.started = true;
         }
-    },
+    }
     setup(){
         this.addPion(0,0,'Scout','blue');
         this.addPion(9,0,'Scout','red');
@@ -363,3 +378,4 @@ module_gameplay.exports={
         this.autoFill('red');
     }
 }
+
