@@ -7,10 +7,17 @@
     
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/partie.css">
+    <script src="/socket.io/socket.io.js"></script>
+
+    
+
 
     <title>STRATEGO</title>
 </head>
 <body>
+
+    <script> let socket = io();</script>
+
     <ul id="bluePionList" class="inColumn">  </ul>
 
     <div id="plateau">  </div>
@@ -22,6 +29,10 @@
 
     <script src="../../back/models/classGamePlay.js"></script>
     <script src="../../back/models/gameplayview.js"></script>
+    <script src="../js/partie/partie.js"></script>
+
+
+
 
 </body>
 </html>
