@@ -8,7 +8,7 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 
 const verifInscription = require('./back/modules/verifInscription');
-const states = require('./back/modules/');
+const states = require('./back/modules/states.js');
 const Theoden = require('./back/models/theoden.js');
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
