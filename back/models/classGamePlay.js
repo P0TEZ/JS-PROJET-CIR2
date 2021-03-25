@@ -1,4 +1,4 @@
-class Stratego extends Observable{
+class GamePlay extends Observable{
 
     constructor(){
         super();
@@ -370,3 +370,5 @@ class Stratego extends Observable{
        this.autoFill('red');
     }
 }
+
+module.exports = GamePlay;

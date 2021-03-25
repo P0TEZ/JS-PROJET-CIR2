@@ -135,3 +135,4 @@ class Gameplayview{
 
 }
 
+module.exports = Gameplayview;

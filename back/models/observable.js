@@ -47,3 +47,5 @@ class event{//class qui fait le lien entre un nom et un callback
     }
 
 }
+
+module.exports = Observable;

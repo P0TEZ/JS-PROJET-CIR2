@@ -46,3 +46,5 @@ class Pion{
 
     }
 }
+
+module.exports = Pion;
