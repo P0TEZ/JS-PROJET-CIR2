@@ -8,20 +8,15 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 
 const verifInscription = require('./back/modules/verifInscription');
-<<<<<<< Updated upstream
-const states = require('./back/modules/states.js');
-const Theoden = require('./back/models/theoden.js');
-=======
 const states = require('./back/modules/states');
 const Theoden = require('./back/models/Theoden');
-const gameplay = require('./back/models/gameplay');
-const observable = require('./back/models/observable');
-const gameplayview = require('./back/models/gameplayview');
-const pion = require('./back/models/pion');
+// const gameplay = require('./back/models/classGameplay');
+// const observable = require('./back/models/Observable');
+// const gameplayview = require('./back/models/gameplayview');
+// const pion = require('./back/models/classPion');
 
 
 
->>>>>>> Stashed changes
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');

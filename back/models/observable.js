@@ -1,10 +1,12 @@
 class Observable{
+
     constructor(){
         this.callBacks = [];
     }
+
     on(eventName, callback){
 
-        //Si il n'y pas deja un element du meme nom
+        //Si il n'y pas deja un element du meme nom 
         if(this.callBacks.findIndex(aCallback =>{return eventName === aCallback.name}) === -1){
             this.callBacks.push(new event(eventName,callback));
         }
@@ -37,7 +39,6 @@ class Observable{
     }
 }
 
-
 class event{//class qui fait le lien entre un nom et un callback
 
     constructor(eventName,callback){
@@ -46,5 +47,3 @@ class event{//class qui fait le lien entre un nom et un callback
     }
 
 }
-
-

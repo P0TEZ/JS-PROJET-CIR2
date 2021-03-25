@@ -1,11 +1,11 @@
-class Gameplay extends Observable{
+class Stratego extends Observable{
 
     constructor(){
         super();
         this.grid= this.gridSetUp();
         this.bluePlayerPionList = new Array();
         this.redPlayerPionList = new Array();
-
+        
         this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
         this.winner='none';
         this.started= false;
@@ -17,7 +17,7 @@ class Gameplay extends Observable{
     }
     gridSetUp(){
         let grille = new Array(10);
-
+        
         for(let row=0;row<grille.length;++row){
 
             grille[row] = new Array(10);
@@ -25,9 +25,9 @@ class Gameplay extends Observable{
             for(let column = 0; column<grille[row].length;++column){
                 grille[row][column]= new Pion('empty','none');
                 grille[row][column].name = 'empty';
-
+                
                 if(row<6 && row>3){
-                    if((column<4 && column>1)||(column>5 && column<8)){
+                     if((column<4 && column>1)||(column>5 && column<8)){
                         grille[row][column]= new Pion('River','none');
                     }
                 }
@@ -35,7 +35,6 @@ class Gameplay extends Observable{
         }
         return grille;
     }
-
     reset(){
         for(let i=0; i<this.grid.length;i++){
             for(let j=0; j<this.grid.length;i++){
@@ -57,10 +56,9 @@ class Gameplay extends Observable{
     getCaseState(i,j){
         return this.grid[i][j];
     }
-
     addPion(row,column,name,equipe='none'){
         if(this.grid[row][column].name ==='empty'){
-
+            
             if(equipe === "blue" && this.bluePlayerPionList.filter(pionName=>name === pionName).length<modulePion.getNumber(name)){
                 if(row < 4){
                     this.grid[row][column] = new Pion(name,equipe);
@@ -77,13 +75,12 @@ class Gameplay extends Observable{
                 this.grid[row][column] = new Pion(name,equipe);
                 return 0;
             }
-            return 1;
+            return 1;            
         }
         else{
             return 1;
         }
     }
-
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
             if(Pion.name === "Miner" && this.grid[i][j].name === "Bomb"){
@@ -112,18 +109,17 @@ class Gameplay extends Observable{
             }
         }
     }
-
     play(row,column){
         let selected = this.grid[row][column];
         if(this.grid[row][column].name == 'River') return 1;
 
         if(this.started){
             if(this.isAllUnSelect() && selected.name != 'empty' && selected.name != 'River' && selected.name != 'Flag' && selected.name != 'Bomb' && selected.equipe === this.currentPlayer){
-
+            
                 this.generatePath(row,column);
             }
             else if(this.grid[row][column].select == true){
-
+                
                 this.pionMove(row,column);
 
                 if( row != this.previousPlay.row || column != this.previousPlay.column){
@@ -138,8 +134,8 @@ class Gameplay extends Observable{
                     if(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         if(!this.addPion(row,column,pion.name,this.currentPlayer)){
                             if(!(this.redPlayerPionList.length) == modulePion.getNumber('all'))
-                                this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
-                            console.log(this.currentPlayer);
+                            this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
+                            console.log(this.currentPlayer);   
                         }
                     }
                 }
@@ -148,8 +144,8 @@ class Gameplay extends Observable{
                     if(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         if(!this.addPion(row,column,pion.name,this.currentPlayer)){
                             if(!(this.bluePlayerPionList.length) == modulePion.getNumber('all'))
-                                this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
-                            console.log(this.currentPlayer);
+                            this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
+                            console.log(this.currentPlayer);   
                         }
                     }
                 }
@@ -157,9 +153,8 @@ class Gameplay extends Observable{
             if((this.redPlayerPionList.length + this.bluePlayerPionList.length) >= 2*modulePion.getNumber('all')){
                 this.started = true;
             }
-        }
+        }               
     }
-
     isAllUnSelect(){
         let AllUnSelect = true;
         for(let row=0;row<this.grid.length;++row){
@@ -173,7 +168,6 @@ class Gameplay extends Observable{
         }
         return AllUnSelect;
     }
-
     unSelectAll(){
         for(let row=0;row<this.grid.length;++row){
             for(let column = 0; column<this.grid[row].length;++column){
@@ -181,12 +175,11 @@ class Gameplay extends Observable{
                     this.grid[row][column].select = false;
                     if(this.grid[row][column].name =="empty"){
                         this.grid[row][column].equipe = "none";
-                    }
+                    }                  
                 }
             }
         }
     }
-
     generatePath(row,column){
         this.grid[row][column].select = true;
         if(this.grid[row][column].name != 'Scout'){
@@ -194,12 +187,12 @@ class Gameplay extends Observable{
                 if(row+i < this.grid.length && row+i >=0 && this.grid[row+i][column].name != 'River' && this.grid[row+i][column].equipe != this.grid[row][column].equipe){
                     this.grid[row+i][column].select = true;
                     if(this.grid[row+i][column].equipe =="none")
-                        this.grid[row+i][column].equipe = this.grid[row][column].equipe;
+                    this.grid[row+i][column].equipe = this.grid[row][column].equipe;
                 }
                 if(column+i < this.grid.length && column+i >=0 && this.grid[row][column+i].name != 'River' && this.grid[row][column+i].equipe != this.grid[row][column].equipe){
                     this.grid[row][column+i].select = true;
                     if(this.grid[row][column+i].equipe =="none")
-                        this.grid[row][column+i].equipe = this.grid[row][column].equipe;
+                    this.grid[row][column+i].equipe = this.grid[row][column].equipe;
                 }
             }
         }else{
@@ -211,12 +204,12 @@ class Gameplay extends Observable{
                 }
                 this.grid[row][column+n].select = true;
                 if(this.grid[row][column+n].equipe =="none")
-                    this.grid[row][column+n].equipe = this.grid[row][column].equipe;
-
+                this.grid[row][column+n].equipe = this.grid[row][column].equipe;
+                
                 if(this.grid[row][column+n].name != 'empty'){
                     break;
                 }
-
+                
                 ++n;
             }
             n = 1;
@@ -226,7 +219,7 @@ class Gameplay extends Observable{
                 }
                 this.grid[row][column-n].select = true;
                 if(this.grid[row][column-n].equipe =="none")
-                    this.grid[row][column-n].equipe = this.grid[row][column].equipe;
+                this.grid[row][column-n].equipe = this.grid[row][column].equipe;
 
                 if(this.grid[row][column-n].name != 'empty'){
                     break;
@@ -241,12 +234,12 @@ class Gameplay extends Observable{
                 }
                 this.grid[row+n][column].select = true;
                 if(this.grid[row+n][column].equipe =="none")
-                    this.grid[row+n][column].equipe = this.grid[row][column].equipe;
-
+                this.grid[row+n][column].equipe = this.grid[row][column].equipe;
+                
                 if(this.grid[row+n][column].name != 'empty'){
                     break;
                 }
-
+                
                 ++n;
             }
             n = 1;
@@ -256,7 +249,7 @@ class Gameplay extends Observable{
                 }
                 this.grid[row-n][column].select = true;
                 if(this.grid[row-n][column].equipe =="none")
-                    this.grid[row-n][column].equipe = this.grid[row][column].equipe;
+                this.grid[row-n][column].equipe = this.grid[row][column].equipe;
 
                 if(this.grid[row-n][column].name != 'empty'){
                     break;
@@ -264,14 +257,13 @@ class Gameplay extends Observable{
 
                 ++n;
             }
-
-
+            
+        
         }
         this.previousPlay.pion = this.grid[row][column];
         this.previousPlay.row = row;
         this.previousPlay.column = column;
     }
-
     pionMove(row,column){
         if(this.grid[row][column].name =="empty"){
             this.grid[row][column] = this.previousPlay.pion;
@@ -298,10 +290,10 @@ class Gameplay extends Observable{
                     this.grid[row][column] = this.previousPlay.pion;
                     this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
                     break;
-                case 2:
+                case 2:    
                     this.redPlayerPionList.splice(this.redPlayerPionList.findIndex(pionName=>pionName === this.grid[row][column].name),1);
                     this.bluePlayerPionList.splice(this.bluePlayerPionList.findIndex(pionName=>pionName === this.grid[row][column].name),1);
-
+                    
                     this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
                     this.grid[row][column] = new Pion('empty','none');
                     break;
@@ -313,14 +305,14 @@ class Gameplay extends Observable{
     }
     autoFill(equipe=this.currentPlayer){
         let pionList = modulePion.getAllPiece();
-
+        
         if(equipe == 'blue'){
             while(this.bluePlayerPionList.length < modulePion.getNumber('all')){
                 for (const pion of pionList) {
                     while(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length < pion.number){
                         for(let row=0;row<5;++row){
                             for(let column = 0; column<this.grid[row].length;++column){
-                                if(this.grid[row][column].name == 'empty') this.addPion(row,column,pion.name,'blue');
+                                if(this.grid[row][column].name == 'empty') this.addPion(row,column,pion.name,'blue'); 
                             }
                         }
                     }
@@ -332,7 +324,7 @@ class Gameplay extends Observable{
                     while(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length < pion.number){
                         for(let row=6;row<this.grid.length;++row){
                             for(let column = 0; column<this.grid[row].length;++column){
-                                if(this.grid[row][column].name == 'empty') this.addPion(row,column,pion.name,'red');
+                                if(this.grid[row][column].name == 'empty') this.addPion(row,column,pion.name,'red'); 
                             }
                         }
                     }
@@ -373,9 +365,8 @@ class Gameplay extends Observable{
         this.addPion(8,6,'Bomb','red');
         this.addPion(1,7,'Bomb','blue');
         this.addPion(8,7,'Bomb','red');
-
-        this.autoFill('blue');
-        this.autoFill('red');
+        
+       this.autoFill('blue');
+       this.autoFill('red');
     }
 }
-
