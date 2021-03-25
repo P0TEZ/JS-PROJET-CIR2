@@ -10,11 +10,14 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
 const Theoden = require('./back/models/theoden.js');
+const room = require ('./back/models/class_room.js');
+const module_class_room = require('./back/modules/module_room'); 
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
 const { count } = require('console');
 
+let queue =[];
 const session = require("express-session")({
   // CIR2-chat encode in sha256
   secret: "eb8fcc253281389225b4f7872f2336918ddc7f689e1fc41b64d5c4f378cdc438",
@@ -78,9 +81,18 @@ app.get('/leaderboard', (req, res) => {
 
   let sessionData = req.session;
   // Test des modules 
-  states.printServerStatus();
-  states.printProfStatus();
-  let test = new Theoden();
+
+  let tab = new Array(1);
+
+  if(sessionData) {
+    module_class_room.pushToQueue(queue, sessionData);
+    module_class_room.print(queue);
+  }
+
+
+
+
+  //let test = new room();
 
   if(sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
@@ -137,7 +149,7 @@ io.on('connection', (socket) => {
     let srvSockets = io.sockets.sockets;
     let count =0; 
     srvSockets.forEach(user => {
-      console.log(user.handshake.session.username);
+      //console.log(user.handshake.session.username);
       if(user.handshake.session.username){
         count++;
 
@@ -145,7 +157,7 @@ io.on('connection', (socket) => {
     });
 
     //Récupération du nombre d'utilisateur connecté sur la page leaderboard
-    console.log("avant if", count);
+    //console.log("avant if", count);
     if(count > 2 && count%2 !=0) {
       count = count % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
     }else if( count%2 == 0){
@@ -153,7 +165,7 @@ io.on('connection', (socket) => {
         count -=2;
       }
     }
-    console.log("apres if", count);
+    //console.log("apres if", count);
 
     //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');

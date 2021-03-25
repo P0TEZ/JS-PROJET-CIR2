@@ -45,7 +45,7 @@ socket.on('search', value => {
     msg = 'Recherche de joueurs en cours ... : ' + value + '/2';
     item.textContent = msg;
     messages.appendChild(item);
-    console.log("ps le meme fichier",value); 
+    //console.log("ps le meme fichier",value); 
     if(value == 2) {
         let start = document.createElement('button');
         var t = document.createTextNode("START GAME");
