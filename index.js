@@ -92,7 +92,7 @@ app.get('/leaderboard', (req, res) => {
     }
   }
   let roomGame = new room(queue[0], queue[1]);
-
+  //A faire : Si quitte page leaderboard + redirigé les joeurs de la room sur la page partie
 
 
   //let test = new room();
@@ -183,9 +183,9 @@ io.on('connection', (socket) => {
       if (err) throw err; 
       socket.emit('resultats-leaderboard',result);
     });
-
-    io.emit('show-room', queue.length);
-    io.emit('room-player', queue);
+    let verif = false;
+    io.emit('show-room', verif, queue.length);
+    io.emit('room-player', verif, queue);
   });
 
   socket.on('message', (msg) => {

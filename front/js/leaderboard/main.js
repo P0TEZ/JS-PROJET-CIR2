@@ -59,15 +59,18 @@ socket.on('search', value => {
 });
 */
 
-socket.on('show-room', value => {
-    let item = document.createElement('p');
-    msg = 'Recherche de joueurs en cours ... : ' + value + '/2';
-    item.textContent = msg;
-    messages.appendChild(item);
+socket.on('show-room', (verif, value) => {
+    if (verif == false) {
+        let item = document.createElement('p');
+        msg = 'Recherche de joueurs en cours ... : ' + value + '/2';
+        item.textContent = msg;
+        messages.appendChild(item);
+        verif = true;
+    }
 });
 
-socket.on('room-player', (queue) => {
-    if (queue.length >= 2) {
+socket.on('room-player', (verif, queue) => {
+    if (queue.length >= 2 && verif == false) {
         let item2 = document.createElement('p');
         msg2 = 'Une partie a été trouvé entre : ' + queue[0] + ' et ' + queue[1] + ' ! ';
         item2.textContent = msg2;
@@ -79,7 +82,7 @@ socket.on('room-player', (queue) => {
         messages.appendChild(item3);
 
         var cpt = 10;
-        
+
         item3.id = "Crono";
         val = 10;
         item3.textContent += val;
@@ -106,7 +109,8 @@ socket.on('room-player', (queue) => {
         deco.appendChild(t);
         messages.appendChild(deco);
         start.addEventListener('click', event => {
-            window.location.href = "/";
+            window.location.href = "/"; //Same as deconnection - Prb de recharge de page 
         });
+        verif = true;
     }
 });
