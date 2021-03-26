@@ -182,13 +182,12 @@ io.on('connection', (socket) => {
 
   socket.on("partie",()=>{
 
-    let game_1 = new gameplay();
-    let partie_1 = new gameplayview(game_1,'game_1View');
-    partie_1.grilleReload();
+    let game1 = new gameplay();
+    let partie1 = new gameplayview(game1,'game_1View'); 
+    //partie1.grilleReload();
 
-    window.onresize = partie_1.grilleResize();
-
-
+    io.emit('grilleSetter', partie1.grilleStetter());
+    io.emit('grilleResize'); 
   }); 
 
   socket.on('disconnect', () => {

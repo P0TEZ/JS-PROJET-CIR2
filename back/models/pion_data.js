@@ -14,3 +14,5 @@ let pionData = [
     {id:'98', name:'empty', strength:'0'},
     {id:'99', name:'River'},
 ];
+
+module.exports = pionData;

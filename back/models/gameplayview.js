@@ -1,14 +1,18 @@
-class Gameplayview{
-    constructor(game, name){
+class Gameplayview {
+    constructor(game, name) {
         this.game = game;
         this.name = name;
-        this.grille = this.grilleStetter();
+        //this.grille = this.grilleStetter();
 
-        this.playerPionListSetter();
-        this.grilleResize();
+        //this.playerPionListSetter();
+        //this.grilleResize();
         /*    this.eventSetter();*/
     }
-    grilleStetter(){
+
+    grilleStetter() {
+        console.log("testgrilesetter");
+        return("laçamarche");
+    }     /*
         this.grilleResize();
 
         let grille = new Array(10);
@@ -18,7 +22,6 @@ class Gameplayview{
             grille[row] = new Array(10);
 
             for(let column = 0; column<grille[row].length;++column){
-
                 grille[row][column] = document.createElement("img");
                 grille[row][column].className = "pion";
                 grille[row][column].src = " ";
@@ -37,7 +40,7 @@ class Gameplayview{
                     if(this.game.grid[row][column].equipe == "none")
                     grille[row][column].style.opacity = "0%";
                 });
-                */
+                
                 plateau.appendChild(grille[row][column]);
             }
         }
@@ -132,7 +135,7 @@ class Gameplayview{
 
         window.scrollTo(0,(body.clientHeight-window.innerHeight)/2);
     }
-
+    */
 }
 
 module.exports = Gameplayview;
