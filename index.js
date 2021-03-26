@@ -18,6 +18,7 @@ const fs = require('fs');
 const { count } = require('console');
 
 let queue =[];
+
 const session = require("express-session")({
   // CIR2-chat encode in sha256
   secret: "eb8fcc253281389225b4f7872f2336918ddc7f689e1fc41b64d5c4f378cdc438",
@@ -78,17 +79,19 @@ app.post('/login', urlencodedparser, (req, res) => {
 });
 
 app.get('/leaderboard', (req, res) => {
-
+  
   let sessionData = req.session;
   // Test des modules 
 
   let tab = new Array(1);
-
   if(sessionData) {
-    module_class_room.pushToQueue(queue, sessionData);
-    module_class_room.print(queue);
+    if(module_class_room.isInRoom(queue,sessionData) != 1) {
+      module_class_room.deleteQueue(queue);
+      module_class_room.pushToQueue(queue, sessionData);
+      module_class_room.print(queue);
+    }
   }
-
+  let roomGame = new room(queue[0], queue[1]);
 
 
 
@@ -180,6 +183,9 @@ io.on('connection', (socket) => {
       if (err) throw err; 
       socket.emit('resultats-leaderboard',result);
     });
+
+    io.emit('show-room', queue.length);
+    io.emit('room-player', queue);
   });
 
   socket.on('message', (msg) => {
