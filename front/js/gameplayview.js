@@ -1,18 +1,20 @@
+//const modulePion = require("../../back/models/classPion");
+
 class Gameplayview {
-    constructor(game, name) {
+    constructor(game, name, pion, modulePion) {
         this.game = game;
         this.name = name;
-        //this.grille = this.grilleStetter();
+        this.grille = this.grilleStetter();
 
-        //this.playerPionListSetter();
-        //this.grilleResize();
-        /*    this.eventSetter();*/
+        this.playerPionListSetter(pion, modulePion);
+        this.grilleResize();
+        this.eventSetter();
     }
 
     grilleStetter() {
-        console.log("testgrilesetter");
-        return("laçamarche");
-    }     /*
+        // console.log("testgrilesetter");
+        // return("laçamarche");
+         
         this.grilleResize();
 
         let grille = new Array(10);
@@ -31,7 +33,7 @@ class Gameplayview {
                     this.grilleReload();
                     this.playerPionListReload();
                 });
-                /*
+                
                 grille[row][column].addEventListener("mouseover",event=>{
                     if(this.game.grid[row][column].equipe == "none")
                     grille[row][column].style.opacity = "100%";
@@ -63,11 +65,11 @@ class Gameplayview {
         }
     }
 
-    playerPionListSetter(){
+    playerPionListSetter(pion, modulePion){
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
-        for (const pion of modulePion.getAllPiece()) {
+        for (pion of modulePion.getAllPiece()) {
             let conteneur = document.createElement("div");
             conteneur.className = pion.name;
             conteneur.innerHTML = 0+"/"+pion.number;
@@ -135,7 +137,7 @@ class Gameplayview {
 
         window.scrollTo(0,(body.clientHeight-window.innerHeight)/2);
     }
-    */
+    
 }
 
-module.exports = Gameplayview;
+//module.exports = Gameplayview;

@@ -13,14 +13,14 @@ const Theoden = require('./back/models/Theoden');
 const pion = require('./back/models/classPion');
 const Observable = require('./back/models/Observable');
 const gameplay = require('./back/models/classGameplay');
-const gameplayview = require('./back/models/gameplayview');
-
+//const Gameplayview = require('./front/js/gameplayview'); 
 
 
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
 const { count } = require('console');
+const modulePion = require('./back/models/classPion');
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -179,15 +179,22 @@ io.on('connection', (socket) => {
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
 
+  ////////////////////////////////////////
+  //////////  JEU ////////////////////////
+  ////////////////////////////////////////
 
   socket.on("partie",()=>{
 
     let game1 = new gameplay();
-    let partie1 = new gameplayview(game1,'game_1View'); 
-    //partie1.grilleReload();
+    //let partie1 = new Gameplayview(game1,'game_1View'); 
 
-    io.emit('grilleSetter', partie1.grilleStetter());
-    io.emit('grilleResize'); 
+    io.emit('view', (game1));
+    io.emit('getallpiece', (pion, modulePion));
+    //let partie1 = new gameplayview(game1,'game_1View'); 
+    //partie1.grilleReload();
+    
+    // io.emit('grilleSetter', partie1.grilleStetter());
+    // io.emit('grilleResize'); 
   }); 
 
   socket.on('disconnect', () => {
