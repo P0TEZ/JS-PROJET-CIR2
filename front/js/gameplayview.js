@@ -1,19 +1,18 @@
 //const modulePion = require("../../back/models/classPion");
+let imgLink = "../img/";
 
 class Gameplayview {
-    constructor(game, name, pion, modulePion) {
+    constructor(game, name, pion) {
         this.game = game;
         this.name = name;
-        this.grille = this.grilleStetter();
+        this.grille = this.grilleStetter(pion);
 
-        this.playerPionListSetter(pion, modulePion);
+        this.playerPionListSetter(pion);
         this.grilleResize();
-        this.eventSetter();
+        
     }
 
-    grilleStetter() {
-        // console.log("testgrilesetter");
-        // return("laçamarche");
+    grilleStetter(pion) {
          
         this.grilleResize();
 
@@ -30,8 +29,9 @@ class Gameplayview {
                 grille[row][column].addEventListener("click",event=>{
                     console.log(row+" / "+column);
                     this.game.play(row,column);
+                    
                     this.grilleReload();
-                    this.playerPionListReload();
+                    this.playerPionListReload(pion);
                 });
                 
                 grille[row][column].addEventListener("mouseover",event=>{
@@ -65,7 +65,7 @@ class Gameplayview {
         }
     }
 
-    playerPionListSetter(pion, modulePion){
+    playerPionListSetter(pion){
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
@@ -85,17 +85,17 @@ class Gameplayview {
         }
     }
 
-    playerPionListReload(){
+    playerPionListReload(pion){
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
-        for (const pion of modulePion.getAllPiece()) {
+        for ( pion of modulePion.getAllPiece()) {
             let div = bluePionList.getElementsByClassName(pion.name);
             let number = this.game.bluePlayerPionList.filter(aPion=>aPion === pion.name).length;
 
             div[0].innerHTML = number+"/"+pion.number;
         }
-        for (const pion of modulePion.getAllPiece()) {
+        for ( pion of modulePion.getAllPiece()) {
             let div = redPionList.getElementsByClassName(pion.name);
             let number = this.game.redPlayerPionList.filter(aPion=>aPion === pion.name).length;
 

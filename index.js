@@ -10,9 +10,10 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
 const Theoden = require('./back/models/Theoden');
-const pion = require('./back/models/classPion');
 const Observable = require('./back/models/Observable');
 const gameplay = require('./back/models/classGameplay');
+
+const Pion = require('./back/models/pion');
 //const Gameplayview = require('./front/js/gameplayview'); 
 
 
@@ -20,7 +21,7 @@ const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
 const { count } = require('console');
-const modulePion = require('./back/models/classPion');
+
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -186,15 +187,9 @@ io.on('connection', (socket) => {
   socket.on("partie",()=>{
 
     let game1 = new gameplay();
-    //let partie1 = new Gameplayview(game1,'game_1View'); 
+    let pion = new Pion();
+    io.emit('view', game1, pion);
 
-    io.emit('view', (game1));
-    io.emit('getallpiece', (pion, modulePion));
-    //let partie1 = new gameplayview(game1,'game_1View'); 
-    //partie1.grilleReload();
-    
-    // io.emit('grilleSetter', partie1.grilleStetter());
-    // io.emit('grilleResize'); 
   }); 
 
   socket.on('disconnect', () => {

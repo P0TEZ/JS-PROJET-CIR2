@@ -1,4 +1,4 @@
-const pionData = require("./pion_data");
+const pionData = require('./pion_data');
 
 let modulePion = (function(){
     
@@ -28,9 +28,4 @@ let modulePion = (function(){
     }
 })();
 
-
-
-
-module.exports = modulePion; 
-
-//module.exports = Pion;
+module.exports = modulePion;
