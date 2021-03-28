@@ -117,7 +117,7 @@ class GamePlay extends Observable{
     }
     play(row,column){
         let selected = this.grid[row][column];
-        console.log(row+"   "+column); 
+        //console.log(row+"   "+column); 
         if(this.grid[row][column].name == 'River') return 1;
 
         if(this.started){
@@ -159,8 +159,11 @@ class GamePlay extends Observable{
             }
             if((this.redPlayerPionList.length + this.bluePlayerPionList.length) >= 2*modulePion.getNumber('all')){
                 this.started = true;
+
             }
-        }               
+
+        }   
+        console.log("fin play"); 
     }
     isAllUnSelect(){
         let AllUnSelect = true;

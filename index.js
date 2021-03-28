@@ -196,16 +196,11 @@ io.on('connection', (socket) => {
 
     socket.on('play', (row,column)=>{
       game1.play(row,column);
-      //console.log(game1.grid); 
-
-      // console.log("socket on play"); 
-    });
-    
-    socket.on('getGrille',(exemple)=>{
-      console.log("getGrille"); 
-      //console.log( game1.grid); 
+      //console.log('je suis entre les deux'); 
       io.emit('returnGrid',game1.grid); 
-    }); 
+      socket.emit('reload'); 
+
+    });
   }); 
 
   socket.on('disconnect', () => {

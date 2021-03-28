@@ -32,7 +32,7 @@ class Gameplayview {
                     console.log(row+" / "+column);
                     console.log(this.game); 
                     //this.game.play(row,column);
-                    this.grilleReload();
+                    //this.grilleReload();
                     this.playerPionListReload(pion);
                 });
                 
@@ -52,7 +52,6 @@ class Gameplayview {
     }
 
     grilleReload(){
-        socket.emit('getGrille',true); 
         socket.on('returnGrid',(game) =>{
             //console.log(game); 
             this.game.grid = game;
