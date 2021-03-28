@@ -15,7 +15,18 @@ socket.on('show-user-mdp', msg => {
 
 });
 
+socket.emit('deco', '');
 //Fonction qui permet de supprimer la session de l'utilisateur
-function deco() {
-    //A faire ...
-}
+
+socket.on('decoo', (username, mdp, queue) => {
+    let test = document.getElementById('deco');
+    delete queue;
+    test.addEventListener("click", () => {
+        if (username) {
+            delete username;
+            delete mdp;
+            location.replace("/");
+            
+        }
+    });
+});

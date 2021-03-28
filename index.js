@@ -8,12 +8,16 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 
 const verifInscription = require('./back/modules/verifInscription');
-const states = require('./back/modules/');
+const states = require('./back/modules/states');
 const Theoden = require('./back/models/theoden.js');
+const room = require('./back/models/class_room.js');
+const module_class_room = require('./back/modules/module_room');
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
 const { count } = require('console');
+
+let queue = [];
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -78,13 +82,24 @@ app.get('/leaderboard', (req, res) => {
 
   let sessionData = req.session;
   // Test des modules 
-  states.printServerStatus();
-  states.printProfStatus();
-  let test = new Theoden();
 
-  if(sessionData.username) {
+  let tab = new Array(1);
+  if (sessionData) {
+    if (module_class_room.isInRoom(queue, sessionData) != 1) {
+      module_class_room.deleteQueue(queue);
+      module_class_room.pushToQueue(queue, sessionData);
+      module_class_room.print(queue);
+    }
+  }
+  let roomGame = new room(queue[0], queue[1]);
+  //A faire : Si quitte page leaderboard + redirigé les joeurs de la room sur la page partie
+
+
+  //let test = new room();
+
+  if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
-  }else {
+  } else {
     res.sendFile(__dirname + '/front/html/login.html');
   }
   
@@ -107,26 +122,27 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   if (!errors.isEmpty()) {
     console.log(errors);
   } else {
-    verifInscription.verifLoginMdp(connection,req, res, login, mdp, mdp2);
+    verifInscription.verifLoginMdp(connection, req, res, login, mdp, mdp2);
   }
 });
 
 app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
-  socket.on("partie", (socket) =>{
+  socket.on("partie", (socket) => {
     io.emit('click')
   });
 
 
   let game_1 = new Theoden_gamePlay();
-  let partie_1 = new Theoden_gameplayview(game_1,'game_1View');
+  let partie_1 = new Theoden_gameplayview(game_1, 'game_1View');
   partie_1.grilleReload();
 
   console.log(Theoden_modulePion.getAllPiece());
 
   window.onresize = partie_1.grilleResize();
 
+  
 });
 
 io.on('connection', (socket) => {
@@ -135,39 +151,42 @@ io.on('connection', (socket) => {
   socket.on("login", () => {
 
     let srvSockets = io.sockets.sockets;
-    let count =0; 
+    let count = 0;
     srvSockets.forEach(user => {
-      console.log(user.handshake.session.username);
-      if(user.handshake.session.username){
+      //console.log(user.handshake.session.username);
+      if (user.handshake.session.username) {
         count++;
 
       }
     });
 
     //Récupération du nombre d'utilisateur connecté sur la page leaderboard
-    console.log("avant if", count);
-    if(count > 2 && count%2 !=0) {
+    //console.log("avant if", count);
+    if (count > 2 && count % 2 != 0) {
       count = count % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
-    }else if( count%2 == 0){
-      while (count >2){
-        count -=2;
+    } else if (count % 2 == 0) {
+      while (count > 2) {
+        count -= 2;
       }
     }
-    console.log("apres if", count);
+    //console.log("apres if", count);
 
     //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
     io.emit('search', count);
 
     //Page Compte
-    io.emit('show-user-username', socket.handshake.session.username ); //Affichage de l'username sur la page compte
-    io.emit('show-user-mdp', socket.handshake.session.mdp ); //Affichage du mot de passe sur la page compte
+    io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
+    io.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
 
-    let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
+    let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score`";
     connection.query(sql, function (err, result) {
-      if (err) throw err; 
-      socket.emit('resultats-leaderboard',result);
+      if (err) throw err;
+      socket.emit('resultats-leaderboard', result);
     });
+    let verif = false;
+    io.emit('show-room', verif, queue.length);
+    io.emit('room-player', verif, queue);
   });
 
   socket.on('message', (msg) => {
@@ -177,48 +196,13 @@ io.on('connection', (socket) => {
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
 
-  socket.on('disconnect', () => {
+  socket.on('deco', () => {
     console.log('Un utilisateur s\'est déconnecté');
-    
-    // if (socket) {
-    //   // delete session object
-    //   console.log("req session");
-    //   socket.handshake.session.destroy(function(err) {
-    //       if(err) {
-    //           return next(err);
-    //       } else {
-    //         socket.handshake.session = null;
-    //           console.log("logout successful");
-    //           //return res.sendFile(__dirname + '/front/html/login.html');
-    //           io.emit('deco', 1);
-    //       }
-    //   });
-    //}  
+    io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
   });
-
-});
-
-//INSERTION TAB RESULT FICHIER JSON
-
-fs.readFile(__dirname + '/front/js/leaderboard/resultats.json', (err,data) => {
-  if(err) throw err;
-
-  const results = JSON.parse(data);
   
-  let sql="SELECT * FROM resultats ORDER BY `resultats`.`score`";
-  connection.query(sql, function (err, result) {
-    if (err) throw err; //console.log(result);
-    results.joueurs.splice(0,100); //Affiche que les 100 premiers
-    results.joueurs = result;
-
-    let mydatas = JSON.stringify(results, null, 2);
-
-    fs.writeFile(__dirname + '/front/js/leaderboard/resultats.json', mydatas, (err)  => {
-      if(err) throw err;
-    });
-  });
+  
 });
-
 
 http.listen(4255, () => {
   console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
