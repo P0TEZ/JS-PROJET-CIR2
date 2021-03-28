@@ -188,8 +188,24 @@ io.on('connection', (socket) => {
 
     let game1 = new gameplay();
     let pion = new Pion();
+    //io.emit('coucou',"coouco"); 
     io.emit('view', game1, pion);
 
+    
+    //socket.emit('play', '');
+
+    socket.on('play', (row,column)=>{
+      game1.play(row,column);
+      //console.log(game1.grid); 
+
+      // console.log("socket on play"); 
+    });
+    
+    socket.on('getGrille',(exemple)=>{
+      console.log("getGrille"); 
+      console.log( game1.grid); 
+      io.emit('returnGrid',game1.grid); 
+    }); 
   }); 
 
   socket.on('disconnect', () => {

@@ -38,6 +38,7 @@ class GamePlay extends Observable{
                 }
             }
         }
+        console.log("Grille SetUp success");
         return grille;
     }
     reset(){
@@ -116,6 +117,7 @@ class GamePlay extends Observable{
     }
     play(row,column){
         let selected = this.grid[row][column];
+        console.log(row+"   "+column); 
         if(this.grid[row][column].name == 'River') return 1;
 
         if(this.started){
@@ -186,7 +188,9 @@ class GamePlay extends Observable{
         }
     }
     generatePath(row,column){
+        console.log("generate path"+row+" | "+column); 
         this.grid[row][column].select = true;
+        console.log( this.grid[row][column]);
         if(this.grid[row][column].name != 'Scout'){
             for(let i =-1;i<=1;i+=2){
                 if(row+i < this.grid.length && row+i >=0 && this.grid[row+i][column].name != 'River' && this.grid[row+i][column].equipe != this.grid[row][column].equipe){

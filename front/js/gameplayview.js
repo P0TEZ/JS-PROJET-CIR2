@@ -1,4 +1,5 @@
 //const modulePion = require("../../back/models/classPion");
+
 let imgLink = "../img/";
 
 class Gameplayview {
@@ -6,6 +7,7 @@ class Gameplayview {
         this.game = game;
         this.name = name;
         this.grille = this.grilleStetter(pion);
+        //console.log(this.game); 
 
         this.playerPionListSetter(pion);
         this.grilleResize();
@@ -28,28 +30,34 @@ class Gameplayview {
                 grille[row][column].src = " ";
                 grille[row][column].addEventListener("click",event=>{
                     console.log(row+" / "+column);
-                    this.game.play(row,column);
-                    
+                    console.log(this.game); 
+                    //this.game.play(row,column);
                     this.grilleReload();
                     this.playerPionListReload(pion);
                 });
                 
-                grille[row][column].addEventListener("mouseover",event=>{
-                    if(this.game.grid[row][column].equipe == "none")
-                    grille[row][column].style.opacity = "100%";
-                });
-                 grille[row][column].addEventListener("mouseout",event=>{
-                    if(this.game.grid[row][column].equipe == "none")
-                    grille[row][column].style.opacity = "0%";
-                });
+                // grille[row][column].addEventListener("mouseover",event=>{
+                //     if(this.game.grid[row][column].equipe == "none")
+                //     grille[row][column].style.opacity = "100%";
+                // });
+                //  grille[row][column].addEventListener("mouseout",event=>{
+                //     if(this.game.grid[row][column].equipe == "none")
+                //     grille[row][column].style.opacity = "0%";
+                // });
                 
-                plateau.appendChild(grille[row][column]);
+                 plateau.appendChild(grille[row][column]);
             }
         }
         return grille;
     }
 
     grilleReload(){
+        socket.emit('getGrille',true); 
+        socket.on('returnGrid',(game) =>{
+            console.log(game); 
+            this.game.grid = game;
+            //console.log(game.grid); 
+        });
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){
                 if(this.game.grid[row][column]){
@@ -63,6 +71,7 @@ class Gameplayview {
                 }
             }
         }
+        console.log("socket emit de grille"+this.game.grid);
     }
 
     playerPionListSetter(pion){
