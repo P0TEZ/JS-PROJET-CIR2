@@ -381,6 +381,24 @@ class GamePlay extends Observable{
        this.autoFill('blue');
        this.autoFill('red');
     }
+    victory(){
+        if(this.winner) return 1;
+        if (bluePlayerPionList.length == 0 || redPlayerPionList.length == 0) return 1
+        if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
+            && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
+            && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
+            && !bluePlayerPionList.includes('Sergeant') && !bluePlayerPionList.includes('Scout')
+            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')) return 1;
+
+        if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
+            && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
+            && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
+            && !bluePlayerPionList.includes('Sergeant') && !bluePlayerPionList.includes('Scout')
+            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')) return 1;
+
+        return 0;
+
+    }
 }
 
 module.exports = GamePlay;
