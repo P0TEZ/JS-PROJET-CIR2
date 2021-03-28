@@ -1,20 +1,28 @@
 <html>
     <head>
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/inscription.css">
+
         <title>Strago</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
     </head>
     <body> 
-        <h1>Inscription :</h1>
+        <h1>Inscription:</h1>
         <form id="InscritpionForm" action="">
             <input id="username" autocomplete="off" placeholder="Username" />
             <input id="mdp" type="password" autocomplete="off" placeholder="MDP" />
             <input id="mdp2" type="password" autocomplete="off" placeholder="MDP" />
 
 
-            <input type="submit" value="S'inscrire"/>
+            <input class="bg-primary" type="submit" value="S'inscrire"/>
+            <a class="bg-primary fakeBtn" href="../html/login.html" >Se connecter<!-- <input type="button" value="Se connecter">--></a>
         </form>
-        <a href="../html/login.html" > <input type="button" value="Se connecter"></a>
+
+        <footer>
+                © 2021 Isen - 
+                <a href="https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2" target="_blank">GitHub</a>
+        </footer>
 
         <script> let socket = io();</script>
         <script src="../js/inscription/ajax_inscription.js"></script>
