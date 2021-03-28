@@ -54,7 +54,7 @@ class Gameplayview {
     grilleReload(){
         socket.emit('getGrille',true); 
         socket.on('returnGrid',(game) =>{
-            console.log(game); 
+            //console.log(game); 
             this.game.grid = game;
             //console.log(game.grid); 
         });
@@ -71,7 +71,7 @@ class Gameplayview {
                 }
             }
         }
-        console.log("socket emit de grille"+this.game.grid);
+        //console.log("socket emit de grille"+this.game.grid);
     }
 
     playerPionListSetter(pion){

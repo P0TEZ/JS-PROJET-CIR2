@@ -203,7 +203,7 @@ io.on('connection', (socket) => {
     
     socket.on('getGrille',(exemple)=>{
       console.log("getGrille"); 
-      console.log( game1.grid); 
+      //console.log( game1.grid); 
       io.emit('returnGrid',game1.grid); 
     }); 
   }); 

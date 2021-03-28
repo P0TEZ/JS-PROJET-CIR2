@@ -25,8 +25,9 @@ socket.on('view', (game1, pion) => {
             partie1.grille[row][column].addEventListener("click",event=>{
                 //this.game.play(row,column);
                 socket.emit('play',row,column); 
-                partie1.grilleReload(); 
+                 
                 socket.emit('getGrille', true); 
+                partie1.grilleReload();
                 //console.log(partie1.game.grid[row][column]); 
             });
         } 
