@@ -201,6 +201,12 @@ io.on('connection', (socket) => {
       socket.emit('reload'); 
 
     });
+
+    socket.on('victory', ()=>{
+      if(game1.victory()){
+        console.log("fin du jeu");
+      };
+    });
   }); 
 
   socket.on('disconnect', () => {

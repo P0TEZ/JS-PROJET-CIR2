@@ -31,12 +31,15 @@ socket.on('view', (game1, pion) => {
         } 
     }
     window.onresize = partie1.grilleResize();
-    
+
 
     socket.on('reload',()=>{
         partie1.grilleReload(); 
         console.log("fin reload"); 
-    }); 
+    });
+
+    socket.emit('victory');
+
 
 });
 
