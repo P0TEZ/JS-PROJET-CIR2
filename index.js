@@ -102,7 +102,7 @@ app.get('/leaderboard', (req, res) => {
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
   }
-
+  
 });
 
 
@@ -142,6 +142,7 @@ app.get('/partie', (req, res) => {
 
   window.onresize = partie_1.grilleResize();
 
+  
 });
 
 io.on('connection', (socket) => {
@@ -197,16 +198,10 @@ io.on('connection', (socket) => {
 
   socket.on('deco', () => {
     console.log('Un utilisateur s\'est déconnecté');
-    io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp);
-    for (let i = 0; i < queue.size; i++) {
-      console.log(i);
-      if (queue[i] == socket.handshake.session.username) {
-        queue.splice(i, 1);
-        console.log("c'est la", i);
-      }
-    }
+    io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
   });
-
+  
+  
 });
 
 http.listen(4255, () => {

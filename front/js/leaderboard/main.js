@@ -96,6 +96,9 @@ socket.on('room-player', (verif, queue) => {
                 var old_contenu = Crono.firstChild; // stock l'ancien contenu
                 Crono.removeChild(old_contenu); // supprime le contenu
                 var texte = document.createTextNode("Début de la partie dans : " + cpt); // crée le texte
+                if (cpt == 0) {
+                    window.location.href = "/partie";
+                }
                 Crono.appendChild(texte); // l'affiche
             }
             else // sinon brise la boucle
@@ -103,14 +106,18 @@ socket.on('room-player', (verif, queue) => {
                 clearInterval(timer);
             }
         }, 1000);
-
         let deco = document.createElement('button');
         var t = document.createTextNode("Annuler");
+        deco.id = "decoo-file";
         deco.appendChild(t);
         messages.appendChild(deco);
-        start.addEventListener('click', event => {
-            window.location.href = "/"; //Same as deconnection - Prb de recharge de page 
+        let test = document.getElementById('decoo-file');
+        test.addEventListener("click", () => {
+            delete queue;
+            window.location.href = "/";
+            
         });
         verif = true;
     }
 });
+
