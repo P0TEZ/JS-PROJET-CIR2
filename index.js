@@ -227,13 +227,13 @@ io.on('connection', (socket) => {
 
     let game1 = new gameplay();
     let pion = new Pion();
-    socket.emit('view', game1, pion);
+    io.emit('view', game1, pion);
     
 
     socket.on('play', (row, column) => {
       game1.play(row, column);
-      socket.emit('returnGrid', game1.grid);
-      socket.emit('reload');
+      io.emit('returnGrid', game1.grid);
+      io.emit('reload');
 
     });
 
