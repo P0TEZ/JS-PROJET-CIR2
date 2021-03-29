@@ -196,6 +196,7 @@ io.on('connection', (socket) => {
     io.emit('compte');
     socket.on('chrono', (val) => {
       console.log(val);
+      /*
       if (queue.length == 2 && val == 0) {
         for (let i = 0; i < queue.length; i++) {
           console.log("ok");
@@ -203,8 +204,9 @@ io.on('connection', (socket) => {
             io.emit('start-game');
           }
         }
-      }
+      }*/
     });
+
   });
 
   socket.on('message', (msg) => {
@@ -225,16 +227,12 @@ io.on('connection', (socket) => {
 
     let game1 = new gameplay();
     let pion = new Pion();
-    //io.emit('coucou',"coouco"); 
-    io.emit('view', game1, pion);
-
-
-    //socket.emit('play', '');
+    socket.emit('view', game1, pion);
+    
 
     socket.on('play', (row, column) => {
       game1.play(row, column);
-      //console.log('je suis entre les deux'); 
-      io.emit('returnGrid', game1.grid);
+      socket.emit('returnGrid', game1.grid);
       socket.emit('reload');
 
     });

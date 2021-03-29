@@ -1,14 +1,10 @@
 socket.emit('partie', '');
 
-
-
-
-
 socket.on('view', (game1, pion) => {
 
     let partie1 = new Gameplayview(game1, 'game_1View', pion);
     partie1.grilleReload();
-
+    
 /*
     socket.on('play',(row,column)=>{
         game1.play(row,column); 
@@ -24,7 +20,7 @@ socket.on('view', (game1, pion) => {
                 //this.game.play(row,column);
                 socket.emit('play',row,column); 
                 // console.log("100 messages"); 
-                //partie1.grilleReload();
+                partie1.grilleReload();
                 console.log(partie1.grille); 
                 //console.log(partie1.game.grid[row][column]); 
             });

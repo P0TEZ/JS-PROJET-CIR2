@@ -3,11 +3,10 @@
 let imgLink = "../img/";
 
 class Gameplayview {
-    constructor(game, name, pion) {
+    constructor(game, name, pion) { 
         this.game = game;
         this.name = name;
         this.grille = this.grilleStetter(pion);
-        //console.log(this.game); 
 
         this.playerPionListSetter(pion);
         this.grilleResize();
@@ -55,7 +54,7 @@ class Gameplayview {
         socket.on('returnGrid',(game) =>{
             //console.log(game); 
             this.game.grid = game;
-            //console.log(game.grid); 
+            console.log(game.grid); 
         });
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){

@@ -13,7 +13,10 @@ module.exports={
     },
     pushToQueue(queue, req) {
         let sessionData = req.session;
-        queue.push(sessionData.username);
+        if(sessionData.username != undefined) {
+            queue.push(sessionData.username);
+        }
+        
     },
     deleteQueue(queue) {
         if(queue.length >= 2) {

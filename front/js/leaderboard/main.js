@@ -98,10 +98,10 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 30;
+        var cpt = 5;
 
         item3.id = "Crono";
-        val = 30;
+        val = 5;
         item3.textContent += val;
 
         timer = setInterval(function () {
@@ -113,8 +113,10 @@ socket.on('room-player', (verif, queue) => {
                 var old_contenu = Crono.firstChild; // stock l'ancien contenu
                 Crono.removeChild(old_contenu); // supprime le contenu
                 var texte = document.createTextNode("Début de la partie dans : " + cpt); // crée le texte
-                socket.emit('chrono',cpt);
-                
+                //socket.emit('chrono',cpt);
+                if(cpt == 0) {
+                    window.location.href = "/partie";
+                }
                 Crono.appendChild(texte); // l'affiche
             }
             else // sinon brise la boucle
