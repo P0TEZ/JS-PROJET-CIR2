@@ -20,11 +20,12 @@ socket.emit('deco', '');
 
 socket.on('decoo', (username, mdp, queue) => {
     let test = document.getElementById('deco');
-    delete queue;
     test.addEventListener("click", () => {
         if (username) {
             delete username;
             delete mdp;
+            queue = [];
+            socket.emit('file-reset',queue);
             location.replace("/");
             
         }

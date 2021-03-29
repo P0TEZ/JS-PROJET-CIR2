@@ -104,7 +104,6 @@ app.get('/leaderboard', (req, res) => {
 
 
   //let test = new room();
-
   if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
   } else {
@@ -113,6 +112,16 @@ app.get('/leaderboard', (req, res) => {
 
 });
 
+app.get('/compte', (req, res) => {
+  
+  let sessionData = req.session;
+  
+  if (sessionData.username) {
+    res.sendFile(__dirname + '/front/html/compte.html');
+  } else {
+    res.sendFile(__dirname + '/front/html/login.html');
+  }
+});
 
 
 //////////////////////////////////////////////
@@ -189,6 +198,9 @@ io.on('connection', (socket) => {
     let verif = false;
     io.emit('show-room', verif, queue.length);
     io.emit('room-player', verif, queue);
+
+
+    io.emit('compte');
   });
 
   socket.on('message', (msg) => {

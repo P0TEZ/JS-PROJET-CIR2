@@ -69,6 +69,14 @@ socket.on('show-room', (verif, value) => {
     }
 });
 
+socket.on('compte', () => {
+    let val = document.getElementById('user')
+    val.addEventListener("click", () => {
+        window.location.href = "/compte";
+        
+    });
+});
+
 socket.on('room-player', (verif, queue) => {
     if (queue.length >= 2 && verif == false) {
         let item2 = document.createElement('p');
