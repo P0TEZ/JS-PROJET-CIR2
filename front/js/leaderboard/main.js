@@ -77,6 +77,15 @@ socket.on('compte', () => {
     });
 });
 
+socket.on('start-game', () =>{
+    window.location.href = "/partie";
+});
+
+socket.on('gamefull', (socket) => {
+    //socket.disconnect();
+    console.log("gamefull");
+});
+
 socket.on('room-player', (verif, queue) => {
     if (queue.length >= 2 && verif == false) {
         let item2 = document.createElement('p');
@@ -89,10 +98,10 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 10;
+        var cpt = 30;
 
         item3.id = "Crono";
-        val = 10;
+        val = 30;
         item3.textContent += val;
 
         timer = setInterval(function () {
@@ -104,9 +113,8 @@ socket.on('room-player', (verif, queue) => {
                 var old_contenu = Crono.firstChild; // stock l'ancien contenu
                 Crono.removeChild(old_contenu); // supprime le contenu
                 var texte = document.createTextNode("Début de la partie dans : " + cpt); // crée le texte
-                if (cpt == 0) {
-                    window.location.href = "/partie";
-                }
+                socket.emit('chrono',cpt);
+                
                 Crono.appendChild(texte); // l'affiche
             }
             else // sinon brise la boucle
@@ -120,10 +128,16 @@ socket.on('room-player', (verif, queue) => {
         deco.appendChild(t);
         messages.appendChild(deco);
         let test = document.getElementById('decoo-file');
-        test.addEventListener("click", () => {
-            delete queue;
-            window.location.href = "/";
-            
+        socket.on('decoo-file', username => {
+            socket.disconnect(true);
+            test.addEventListener("click", () => {
+                for(let i = 0; i < queue.length; i++) {
+                    if(queue[i]==username) {
+                        queue.splice(i,1);
+                    }
+                }
+                window.location.href = "/";
+            });
         });
         verif = true;
     }

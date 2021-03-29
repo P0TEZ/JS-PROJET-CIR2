@@ -11,7 +11,8 @@ module.exports={
     print(queue) {
         console.log(queue);
     },
-    pushToQueue(queue, sessionData) {
+    pushToQueue(queue, req) {
+        let sessionData = req.session;
         queue.push(sessionData.username);
     },
     deleteQueue(queue) {
@@ -20,5 +21,5 @@ module.exports={
                 queue.splice(i,2);
             } 
         }
-    }
+    },
 }

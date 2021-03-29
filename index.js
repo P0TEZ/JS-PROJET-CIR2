@@ -26,6 +26,7 @@ const fs = require('fs');
 const { count } = require('console');
 
 let queue = [];
+let isGameFull = false;
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -92,19 +93,24 @@ app.get('/leaderboard', (req, res) => {
   // Test des modules 
 
   let tab = new Array(1);
-  if (sessionData) {
+  if (sessionData && queue.length < 2) {
     if (module_class_room.isInRoom(queue, sessionData) != 1) {
       module_class_room.deleteQueue(queue);
-      module_class_room.pushToQueue(queue, sessionData);
+      module_class_room.pushToQueue(queue, req, res);
       module_class_room.print(queue);
     }
+  }else {
+    res.redirect("/");
+    isGameFull = true;
   }
   let roomGame = new room(queue[0], queue[1]);
+
+
   //A faire : Si quitte page leaderboard + redirigé les joeurs de la room sur la page partie
 
 
   //let test = new room();
-  if (sessionData.username) {
+  if (sessionData.username && queue.length <= 2) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
@@ -113,10 +119,10 @@ app.get('/leaderboard', (req, res) => {
 });
 
 app.get('/compte', (req, res) => {
-  
+
   let sessionData = req.session;
-  
-  if (sessionData.username) {
+
+  if (sessionData.username && queue.length <= 2) {
     res.sendFile(__dirname + '/front/html/compte.html');
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
@@ -147,7 +153,7 @@ app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
 
-  if (sessionData.username) {
+  if (sessionData.username && queue.length <= 2) {
     res.sendFile(__dirname + '/front/html/partie.html');
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
@@ -167,24 +173,10 @@ io.on('connection', (socket) => {
       //console.log(user.handshake.session.username);
       if (user.handshake.session.username) {
         count++;
-
       }
     });
-
-    //Récupération du nombre d'utilisateur connecté sur la page leaderboard
-    //console.log("avant if", count);
-    if (count > 2 && count % 2 != 0) {
-      count = count % 2; //Actualisation de la file d'attente si il y a plus de 2 personnes sur le site
-    } else if (count % 2 == 0) {
-      while (count > 2) {
-        count -= 2;
-      }
-    }
-    //console.log("apres if", count);
-
     //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
-    io.emit('search', count);
 
     //Page Compte
     io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
@@ -198,9 +190,21 @@ io.on('connection', (socket) => {
     let verif = false;
     io.emit('show-room', verif, queue.length);
     io.emit('room-player', verif, queue);
-
+    io.emit('decoo-file', socket.handshake.session.username);
+    console.log(queue);
 
     io.emit('compte');
+    socket.on('chrono', (val) => {
+      console.log(val);
+      if (queue.length == 2 && val == 0) {
+        for (let i = 0; i < queue.length; i++) {
+          console.log("ok");
+          if (queue[i] == socket.handshake.session.username) {
+            io.emit('start-game');
+          }
+        }
+      }
+    });
   });
 
   socket.on('message', (msg) => {
@@ -210,7 +214,9 @@ io.on('connection', (socket) => {
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
 
-
+  if(isGameFull == true) {
+    io.emit('gamefull', socket);
+  }
   ////////////////////////////////////////
   //////////  JEU ////////////////////////
   ////////////////////////////////////////
