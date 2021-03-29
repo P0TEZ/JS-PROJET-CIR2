@@ -47,13 +47,13 @@ socket.on('search', value => {
     item.textContent = msg;
     messages.appendChild(item);
     //console.log("ps le meme fichier",value); 
-    if (value == 2) {
+    if(value == 2) {
         let start = document.createElement('button');
         var t = document.createTextNode("START GAME");
         start.appendChild(t);
         messages.appendChild(start);
         start.addEventListener('click', event => {
-            window.location.href = "../../html/partie.html";
+            window.location.href="/partie";
         });
     }
 });

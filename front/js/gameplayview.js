@@ -1,14 +1,21 @@
-class Theoden_gameplayview{
-    constructor(game, name){
+//const modulePion = require("../../back/models/classPion");
+
+let imgLink = "../img/";
+
+class Gameplayview {
+    constructor(game, name, pion) {
         this.game = game;
         this.name = name;
-        this.grille = this.grilleStetter();
+        this.grille = this.grilleStetter(pion);
+        //console.log(this.game); 
 
-        this.playerPionListSetter();
+        this.playerPionListSetter(pion);
         this.grilleResize();
-        /*    this.eventSetter();*/
+        
     }
-    grilleStetter(){
+
+    grilleStetter(pion) {
+         
         this.grilleResize();
 
         let grille = new Array(10);
@@ -18,33 +25,38 @@ class Theoden_gameplayview{
             grille[row] = new Array(10);
 
             for(let column = 0; column<grille[row].length;++column){
-
                 grille[row][column] = document.createElement("img");
                 grille[row][column].className = "pion";
                 grille[row][column].src = " ";
                 grille[row][column].addEventListener("click",event=>{
                     console.log(row+" / "+column);
-                    this.game.play(row,column);
-                    this.grilleReload();
-                    this.playerPionListReload();
+                    console.log(this.game); 
+                    //this.game.play(row,column);
+                    //this.grilleReload();
+                    this.playerPionListReload(pion);
                 });
-                /*
-                grille[row][column].addEventListener("mouseover",event=>{
-                    if(this.game.grid[row][column].equipe == "none")
-                    grille[row][column].style.opacity = "100%";
-                });
-                 grille[row][column].addEventListener("mouseout",event=>{
-                    if(this.game.grid[row][column].equipe == "none")
-                    grille[row][column].style.opacity = "0%";
-                });
-                */
-                plateau.appendChild(grille[row][column]);
+                
+                // grille[row][column].addEventListener("mouseover",event=>{
+                //     if(this.game.grid[row][column].equipe == "none")
+                //     grille[row][column].style.opacity = "100%";
+                // });
+                //  grille[row][column].addEventListener("mouseout",event=>{
+                //     if(this.game.grid[row][column].equipe == "none")
+                //     grille[row][column].style.opacity = "0%";
+                // });
+                
+                 plateau.appendChild(grille[row][column]);
             }
         }
         return grille;
-    },
+    }
 
     grilleReload(){
+        socket.on('returnGrid',(game) =>{
+            //console.log(game); 
+            this.game.grid = game;
+            //console.log(game.grid); 
+        });
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){
                 if(this.game.grid[row][column]){
@@ -58,13 +70,14 @@ class Theoden_gameplayview{
                 }
             }
         }
-    },
+        //console.log("socket emit de grille"+this.game.grid);
+    }
 
-    playerPionListSetter(){
+    playerPionListSetter(pion){
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
-        for (const pion of modulePion.getAllPiece()) {
+        for (pion of modulePion.getAllPiece()) {
             let conteneur = document.createElement("div");
             conteneur.className = pion.name;
             conteneur.innerHTML = 0+"/"+pion.number;
@@ -78,26 +91,26 @@ class Theoden_gameplayview{
             redPionList.append(conteneur);
 
         }
-    },
+    }
 
-    playerPionListReload(){
+    playerPionListReload(pion){
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
-        for (const pion of modulePion.getAllPiece()) {
+        for ( pion of modulePion.getAllPiece()) {
             let div = bluePionList.getElementsByClassName(pion.name);
             let number = this.game.bluePlayerPionList.filter(aPion=>aPion === pion.name).length;
 
             div[0].innerHTML = number+"/"+pion.number;
         }
-        for (const pion of modulePion.getAllPiece()) {
+        for ( pion of modulePion.getAllPiece()) {
             let div = redPionList.getElementsByClassName(pion.name);
             let number = this.game.redPlayerPionList.filter(aPion=>aPion === pion.name).length;
 
             div[0].innerHTML = number+"/"+pion.number;
         }
 
-    },
+    }
 
     grilleResize(){
         let body = document.body;
@@ -132,6 +145,7 @@ class Theoden_gameplayview{
 
         window.scrollTo(0,(body.clientHeight-window.innerHeight)/2);
     }
+    
 }
 
-module.exports = Theoden_gameplayview;
+//module.exports = Gameplayview;

@@ -9,9 +9,17 @@ const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
-const Theoden = require('./back/models/theoden.js');
+//const Theoden = require('./back/models/theoden.js');
 const room = require('./back/models/class_room.js');
 const module_class_room = require('./back/modules/module_room');
+const Theoden = require('./back/models/Theoden');
+const Observable = require('./back/models/Observable');
+const gameplay = require('./back/models/classGameplay');
+
+const Pion = require('./back/models/pion');
+//const Gameplayview = require('./front/js/gameplayview'); 
+
+
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
@@ -102,7 +110,7 @@ app.get('/leaderboard', (req, res) => {
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
   }
-  
+
 });
 
 
@@ -129,20 +137,14 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
-  socket.on("partie", (socket) => {
-    io.emit('click')
-  });
+
+  if (sessionData.username) {
+    res.sendFile(__dirname + '/front/html/partie.html');
+  } else {
+    res.sendFile(__dirname + '/front/html/login.html');
+  }
 
 
-  let game_1 = new Theoden_gamePlay();
-  let partie_1 = new Theoden_gameplayview(game_1, 'game_1View');
-  partie_1.grilleReload();
-
-  console.log(Theoden_modulePion.getAllPiece());
-
-  window.onresize = partie_1.grilleResize();
-
-  
 });
 
 io.on('connection', (socket) => {
@@ -196,12 +198,42 @@ io.on('connection', (socket) => {
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
 
+
+  ////////////////////////////////////////
+  //////////  JEU ////////////////////////
+  ////////////////////////////////////////
+
+  socket.on("partie", () => {
+
+    let game1 = new gameplay();
+    let pion = new Pion();
+    //io.emit('coucou',"coouco"); 
+    io.emit('view', game1, pion);
+
+
+    //socket.emit('play', '');
+
+    socket.on('play', (row, column) => {
+      game1.play(row, column);
+      //console.log('je suis entre les deux'); 
+      io.emit('returnGrid', game1.grid);
+      socket.emit('reload');
+
+    });
+
+    socket.on('victory', () => {
+      if (game1.victory()) {
+        console.log("fin du jeu");
+      };
+    });
+  });
+
   socket.on('deco', () => {
     console.log('Un utilisateur s\'est déconnecté');
     io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
   });
-  
-  
+
+
 });
 
 http.listen(4255, () => {

@@ -7,24 +7,26 @@
     
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/partie.css">
+    <script src="/socket.io/socket.io.js"></script>
+
+    
+
 
     <title>STRATEGO</title>
 </head>
 <body>
+
+    <script> let socket = io();</script>
+
     <ul id="bluePionList" class="inColumn">  </ul>
 
     <div id="plateau">  </div>
 
     <ul id="redPionList" class="inColumn">  </ul>
-
-    <script src="../../back/models/theoden_pion.js"></script>
-    <script src="../../back/models/theoden_observable.js"></script>
-    <script src="../../back/modules/states_observable.js"></script>
-
-    <script src="../../back/models/theoden_gameplay.js"></script>
-    <script src="../../back/modules/states_gameplay.js"></script>
-    <script src="../../back/models/theoden_gameplayview.js"></script>
-    <script src="../../back/modules/states_gameplayview.js"></script>
+    
+    <script src="../js/classPion.js"></script>
+    <script src="../js/gameplayview.js"></script>
+    <script src="../js/partie/partie.js"></script>
 
 </body>
 </html>
