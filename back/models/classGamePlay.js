@@ -59,7 +59,7 @@ class GamePlay extends Observable{
         return this.winner;
     }
 
-    getCaseState(i,j){
+    getCaseState(i,j) {
         return this.grid[i][j];
     }
     addPion(row,column,name,equipe='none'){
@@ -381,21 +381,28 @@ class GamePlay extends Observable{
        this.autoFill('blue');
        this.autoFill('red');
     }
-    victory(){
-        if(this.winner) return 1;
-        if (bluePlayerPionList.length == 0 || redPlayerPionList.length == 0) return 1
+    end(){
+        let count=0;
+        if(this.winner) return 1; //plus de flag
         if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
             && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
             && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
             && !bluePlayerPionList.includes('Sergeant') && !bluePlayerPionList.includes('Scout')
-            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')) return 1;
+            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')){
+            this.winner="red";
+            count+=1;
+        }
 
         if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
             && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
             && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
             && !bluePlayerPionList.includes('Sergeant') && !bluePlayerPionList.includes('Scout')
-            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')) return 1;
-
+            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')){
+            this.winner="blue";
+            count+=1;
+        }
+        if(count == 1) return 2; //un joueur n'a plus de pion deplacable
+        if(count == 2) return 3; // draw
         return 0;
 
     }
