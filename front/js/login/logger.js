@@ -6,7 +6,8 @@ let logger = (function(){
             url: "/login/",
             data: {
                 login: username,
-                mdp : mdp
+                mdp : mdp,
+                couleur: "none",
             },
             success: (data) => {
                 let page = document.body;

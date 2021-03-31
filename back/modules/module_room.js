@@ -11,10 +11,17 @@ module.exports={
     print(queue) {
         console.log(queue);
     },
-    pushToQueue(queue, req) {
+    pushToQueue(couleur, queue, req) {
         let sessionData = req.session;
         if(sessionData.username != undefined) {
             queue.push(sessionData.username);
+            if(queue.length == 1) {
+                //couleur = "red";
+                sessionData.couleur = "red";
+            }else {
+                sessionData.couleur = "blue";
+            }
+            
         }
         
     },

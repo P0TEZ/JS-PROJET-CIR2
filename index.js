@@ -27,6 +27,7 @@ const { count } = require('console');
 
 let queue = [];
 let isGameFull = false;
+let couleur = "";
 
 const session = require("express-session")({
   // CIR2-chat encode in sha256
@@ -67,6 +68,7 @@ app.post('/login', urlencodedparser, (req, res) => {
 
   const login = req.body.login
   const mdp = req.body.mdp
+  
 
   // Error management
   const errors = validationResult(req);
@@ -96,7 +98,8 @@ app.get('/leaderboard', (req, res) => {
   if (sessionData) {
     if (module_class_room.isInRoom(queue, sessionData) != 1) {
       module_class_room.deleteQueue(queue);
-      module_class_room.pushToQueue(queue, req, res);
+      module_class_room.pushToQueue(couleur, queue, req, res);
+      
       module_class_room.print(queue);
     }
   }
@@ -224,7 +227,22 @@ io.on('connection', (socket) => {
 
     let game1 = new gameplay();
     let pion = new Pion();
+    
     io.emit('view', game1, pion);
+
+
+    if(socket.handshake.session.couleur == "red") {
+      console.log("cheh"+socket.handshake.session.couleur);
+      io.emit('red'); 
+      console.log("emitRed");
+    }
+    if(socket.handshake.session.couleur == "blue") {
+      console.log("cheh marine " +socket.handshake.session.couleur);
+      io.emit('blue');
+      console.log("emitBlue");
+    }
+    
+
     
 
     socket.on('play', (row, column) => {
@@ -233,6 +251,8 @@ io.on('connection', (socket) => {
       io.emit('reload');
 
     });
+
+  
 
     socket.on('victory', () => {
       if (game1.victory()) {
