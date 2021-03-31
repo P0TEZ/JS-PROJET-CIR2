@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('victory', () => {
-      if (game1.victory()) {
+      if (game1.end()) {
         console.log("fin du jeu");
       };
     });
