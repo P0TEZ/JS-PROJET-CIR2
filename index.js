@@ -93,15 +93,12 @@ app.get('/leaderboard', (req, res) => {
   // Test des modules 
 
   let tab = new Array(1);
-  if (sessionData && queue.length < 2) {
+  if (sessionData) {
     if (module_class_room.isInRoom(queue, sessionData) != 1) {
       module_class_room.deleteQueue(queue);
       module_class_room.pushToQueue(queue, req, res);
       module_class_room.print(queue);
     }
-  }else {
-    res.redirect("/");
-    isGameFull = true;
   }
   let roomGame = new room(queue[0], queue[1]);
 
@@ -110,7 +107,7 @@ app.get('/leaderboard', (req, res) => {
 
 
   //let test = new room();
-  if (sessionData.username && queue.length <= 2) {
+  if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
@@ -122,7 +119,7 @@ app.get('/compte', (req, res) => {
 
   let sessionData = req.session;
 
-  if (sessionData.username && queue.length <= 2) {
+  if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/compte.html');
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
