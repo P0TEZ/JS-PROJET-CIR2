@@ -115,7 +115,11 @@ class GamePlay extends Observable{
             }
         }
     }
-    play(row,column){
+    play(row,column, joueurActuel){
+
+        if(joueurActuel != this.currentPlayer){
+            return 0;
+        }
         let selected = this.grid[row][column];
         //console.log(row+"   "+column); 
         if(this.grid[row][column].name == 'River') return 1;

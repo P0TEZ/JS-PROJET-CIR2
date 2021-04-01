@@ -68,7 +68,7 @@ app.post('/login', urlencodedparser, (req, res) => {
 
   const login = req.body.login
   const mdp = req.body.mdp
-  
+
 
   // Error management
   const errors = validationResult(req);
@@ -99,7 +99,7 @@ app.get('/leaderboard', (req, res) => {
     if (module_class_room.isInRoom(queue, sessionData) != 1) {
       module_class_room.deleteQueue(queue);
       module_class_room.pushToQueue(couleur, queue, req, res);
-      
+
       module_class_room.print(queue);
     }
   }
@@ -167,14 +167,7 @@ io.on('connection', (socket) => {
 
   socket.on("login", () => {
 
-    let srvSockets = io.sockets.sockets;
-    let count = 0;
-    srvSockets.forEach(user => {
-      //console.log(user.handshake.session.username);
-      if (user.handshake.session.username) {
-        count++;
-      }
-    });
+
     //Page Leaderboard
     io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
 
@@ -216,7 +209,7 @@ io.on('connection', (socket) => {
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
 
-  if(isGameFull == true) {
+  if (isGameFull == true) {
     io.emit('gamefull', socket);
   }
   ////////////////////////////////////////
@@ -227,32 +220,37 @@ io.on('connection', (socket) => {
 
     let game1 = new gameplay();
     let pion = new Pion();
-    
-    io.emit('view', game1, pion);
+
+    io.emit('view', game1, pion,socket.handshake.session.couleur);
 
 
-    if(socket.handshake.session.couleur == "red") {
-      console.log("cheh"+socket.handshake.session.couleur);
-      io.emit('red'); 
+    if (socket.handshake.session.couleur == "red") {
+      console.log("cheh" + socket.handshake.session.couleur);
+      io.emit('red');
       console.log("emitRed");
     }
-    if(socket.handshake.session.couleur == "blue") {
-      console.log("cheh marine " +socket.handshake.session.couleur);
+    if (socket.handshake.session.couleur == "blue") {
+      console.log("cheh marine " + socket.handshake.session.couleur);
       io.emit('blue');
       console.log("emitBlue");
     }
+
+    let srvSockets = io.sockets.sockets;
+    srvSockets.forEach(user => {
+      
+      socket.emit('user',user);
     
+      if (user == socket.handshake.session.username) {
+        console.log("rentrer");
+        socket.on('play', (row, column, couleur_session) => {
+          game1.play(row, column, couleur_session);
+          io.emit('returnGrid', game1.grid);
+          io.emit('reload');
 
-    
-
-    socket.on('play', (row, column) => {
-      game1.play(row, column);
-      io.emit('returnGrid', game1.grid);
-      io.emit('reload');
-
+        });
+      }
     });
 
-  
 
     socket.on('victory', () => {
       if (game1.end()) {
