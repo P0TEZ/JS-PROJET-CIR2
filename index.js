@@ -24,6 +24,7 @@ const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
 const fs = require('fs');
 const { count } = require('console');
+const { setMaxListeners } = require('process');
 
 let queue = [];
 let isGameFull = false;
@@ -253,16 +254,70 @@ io.on('connection', (socket) => {
     socket.on('victory', () => {
       if (game1.end()) {
         console.log("Fin du jeu");
-
+        let score = 0;
+        if (game1.end() == 1) {
+          score = 50;
+        } else if (game1.end() == 2) {
+          score = 30;
+        } else if (game1.end() == 3) {
+          score = 25;
+        }
         let couleurWin = game1.getWinner();
 
         let srvSockets = io.sockets.sockets;
         srvSockets.forEach(user => {
 
-          if (user.handshake.session.couleur == couleurWin) {
+          if (user.handshake.session.couleur == couleurWin) { // Si la couleur de la session est la meme que la couleur du vainqueur
             console.log("Le gagnant est :", user.handshake.session.username);
-            
-            let sql = "INSERT INTO resultat SET username=?, nb_win=?, nb_loose=?, score=? ";
+
+            //  On recup  le nbr de win puis on l'update avec +1, le score +50 idem
+
+            let sql_nbrWin = " SELECT nb_win FROM resultat WHERE username= ?";
+
+            let data_nbWin = [user.handshake.session.username];
+
+            connection.query(sql_nbrWin, data_nbWin, function (err, result) {
+              if (err) throw err;
+              let string = JSON.stringify(result);
+              let json1 = JSON.parse(string);
+
+              json1[0].nb_win += 1;
+
+              let sql_update_nbWin = " UPDATE resultat SET nb_win=? WHERE username=?";
+
+              let data_update_nbWin = [json1[0].nb_win, user.handshake.session.username];
+
+              connection.query(sql_update_nbWin, data_update_nbWin, function (err, result) {
+                if (err) throw err;
+              });
+
+
+            });
+
+            let sql_nbrScore = " SELECT score FROM resultat WHERE username= ?";
+
+            let data_score = [user.handshake.session.username];
+
+            connection.query(sql_nbrScore, data_score, function (err, result) {
+              if (err) throw err;
+              let string = JSON.stringify(result);
+              let json1 = JSON.parse(string);
+
+              json1[0].score += score;
+
+              let sql_update_score = " UPDATE resultat SET score=? WHERE username=?";
+
+              let data_update_score = [json1[0].score, user.handshake.session.username];
+
+              connection.query(sql_update_score, data_update_score, function (err, result) {
+                if (err) throw err;
+              });
+
+
+            });
+
+
+            /*let sql = "INSERT INTO resultat SET username=?, nb_win=?, nb_loose=?, score=? ";
 
             let data = [user.handshake.session.username, 1, 0, 12];
 
@@ -270,37 +325,64 @@ io.on('connection', (socket) => {
               if (err) throw err;
 
               console.log("Inscription dans le leaderboard !");
+            });*/
+
+          } else {  //Si la couleur est differente du vainqueur
+
+            // On recup le nbr de loose puis on le rajoute plus 1, on change pas le score
+            let sql_nbrLoose = " SELECT nb_loose FROM resultat WHERE username= ?";
+
+            let data_nbLoose = [user.handshake.session.username];
+
+            connection.query(sql_nbrLoose, data_nbLoose, function (err, result) {
+              if (err) throw err;
+              let string = JSON.stringify(result);
+              let json1 = JSON.parse(string);
+
+              json1[0].nb_loose += 1;
+
+              let sql_update_nbLoose = " UPDATE resultat SET nb_loose=? WHERE username=?";
+
+              let data_update_nbLoose = [json1[0].nb_Loose, user.handshake.session.username];
+
+              connection.query(sql_update_nbLoose, data_update_nbLoose, function (err, result) {
+                if (err) throw err;
+              });
+
+
             });
+
+
           }
         });
       }
     });
   });
-    socket.on('deco', () => {
-      console.log('Un utilisateur s\'est déconnecté');
-      io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
-    });
+  socket.on('deco', () => {
+    console.log('Un utilisateur s\'est déconnecté');
+    io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
   });
+});
 
 
 
 
 
-  http.listen(4255, () => {
-    console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
-  });
+http.listen(4255, () => {
+  console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
+});
 
-  //Connection à la base de donnée
-  let connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'stratego'
-  });
+//Connection à la base de donnée
+let connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'stratego'
+});
 
-  connection.connect(err => {
-    if (err) throw err;
-    else {
-      console.log("Connexion Réussite");
-    }
-  });
+connection.connect(err => {
+  if (err) throw err;
+  else {
+    console.log("Connexion Réussite");
+  }
+});
