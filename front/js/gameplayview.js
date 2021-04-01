@@ -31,9 +31,6 @@ class Gameplayview {
                 grille[row][column].src = " ";
                 grille[row][column].addEventListener("click",event=>{
                     console.log(row+" / "+column);
-                    console.log(this.game); 
-                    //this.game.play(row,column);
-                    //this.grilleReload();
                     this.playerPionListReload(pion);
                 });
                 
@@ -55,8 +52,7 @@ class Gameplayview {
     grilleReload(){
         socket.on('returnGrid',(game) =>{
             //console.log(game); 
-            this.game.grid = game;
-            console.log(game.grid); 
+            this.game.grid = game; 
         });
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){

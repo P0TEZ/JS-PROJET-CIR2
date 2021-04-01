@@ -40,20 +40,10 @@ socket.on('view', (game1, pion,color) => {
                 partie2.grille[row][column].addEventListener("click", event => {
 
                     //this.game.play(row,column);
-                    socket.emit('play', row, column);
+                    socket.emit('play', row, column, color);
 
                     // console.log("100 messages"); 
                     partie2.grilleReload();
-                    console.log(partie2.grille);
-                    //console.log(partie1.game.grid[row][column]); 
-                });
-                partie2.grille[row][column].addEventListener("click", event => {
-
-                    //this.game.play(row,column);
-                    socket.emit('play', row, column);
-
-                    // console.log("100 messages"); 
-                    //partie1.grilleReload();
                     console.log(partie2.grille);
                     //console.log(partie1.game.grid[row][column]); 
                 });
@@ -70,7 +60,10 @@ socket.on('view', (game1, pion,color) => {
 
 });
 
-
+//Permet de bloquer le rafraichissement (Temporaire ?)
+document.onkeypress = function(e) {
+    if(e.keyCode && e.keyCode == 116) return false;
+}
 
 /*
     socket.on('play',(row,column)=>{
@@ -83,7 +76,7 @@ socket.on('view', (game1, pion,color) => {
 
 
 
-    //socket.emit('victory');
+    socket.emit('victory');
 
 
 

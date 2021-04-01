@@ -221,7 +221,7 @@ io.on('connection', (socket) => {
     let game1 = new gameplay();
     let pion = new Pion();
 
-    socket.emit('view', game1, pion,socket.handshake.session.couleur);
+    socket.emit('view', game1, pion, socket.handshake.session.couleur);
 
 
     if (socket.handshake.session.couleur == "red") {
@@ -234,7 +234,7 @@ io.on('connection', (socket) => {
       socket.emit('blue');
       console.log("emitBlue");
     }
-    
+
     let srvSockets = io.sockets.sockets;
     srvSockets.forEach(user => {
 
@@ -252,34 +252,55 @@ io.on('connection', (socket) => {
 
     socket.on('victory', () => {
       if (game1.end()) {
-        console.log("fin du jeu");
-      };
+        console.log("Fin du jeu");
+
+        let couleurWin = game1.getWinner();
+
+        let srvSockets = io.sockets.sockets;
+        srvSockets.forEach(user => {
+
+          if (user.handshake.session.couleur == couleurWin) {
+            console.log("Le gagnant est :", user.handshake.session.username);
+            
+            let sql = "INSERT INTO resultat SET username=?, nb_win=?, nb_loose=?, score=? ";
+
+            let data = [user.handshake.session.username, 1, 0, 12];
+
+            connection.query(sql, data, function (err, result) {
+              if (err) throw err;
+
+              console.log("Inscription dans le leaderboard !");
+            });
+          }
+        });
+      }
+    });
+  });
+    socket.on('deco', () => {
+      console.log('Un utilisateur s\'est déconnecté');
+      io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
     });
   });
 
-  socket.on('deco', () => {
-    console.log('Un utilisateur s\'est déconnecté');
-    io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
+
+
+
+
+  http.listen(4255, () => {
+    console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
   });
 
+  //Connection à la base de donnée
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'stratego'
+  });
 
-});
-
-http.listen(4255, () => {
-  console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
-});
-
-//Connection à la base de donnée
-let connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'stratego'
-});
-
-connection.connect(err => {
-  if (err) throw err;
-  else {
-    console.log("Connexion Réussite");
-  }
-});
+  connection.connect(err => {
+    if (err) throw err;
+    else {
+      console.log("Connexion Réussite");
+    }
+  });
