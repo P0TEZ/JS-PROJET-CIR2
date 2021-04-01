@@ -221,27 +221,25 @@ io.on('connection', (socket) => {
     let game1 = new gameplay();
     let pion = new Pion();
 
-    io.emit('view', game1, pion,socket.handshake.session.couleur);
+    socket.emit('view', game1, pion,socket.handshake.session.couleur);
 
 
     if (socket.handshake.session.couleur == "red") {
       console.log("cheh" + socket.handshake.session.couleur);
-      io.emit('red');
+      socket.emit('red');
       console.log("emitRed");
     }
     if (socket.handshake.session.couleur == "blue") {
       console.log("cheh marine " + socket.handshake.session.couleur);
-      io.emit('blue');
+      socket.emit('blue');
       console.log("emitBlue");
     }
-
+    
     let srvSockets = io.sockets.sockets;
     srvSockets.forEach(user => {
-      
-      socket.emit('user',user);
-    
-      if (user == socket.handshake.session.username) {
-        console.log("rentrer");
+
+      if (user.handshake.session.username == socket.handshake.session.username) {
+        console.log("Rentrer");
         socket.on('play', (row, column, couleur_session) => {
           game1.play(row, column, couleur_session);
           io.emit('returnGrid', game1.grid);

@@ -1,10 +1,7 @@
 socket.emit('partie', '');
-socket.on('user', user =>{
-    console.log("socket"+user);
-});
 
 socket.on('view', (game1, pion,color) => {
-   
+    
     socket.on('red', () => {
         let partie1 = new Gameplayview(game1, 'game_1View', pion, 'red');
         partie1.grilleReload();
@@ -32,9 +29,9 @@ socket.on('view', (game1, pion,color) => {
         });
 
     });
-    let partie2 = new Gameplayview(game1, 'game_2View', pion, 'blue');
+    
     socket.on('blue', () => {
-       
+        let partie2 = new Gameplayview(game1, 'game_2View', pion, 'blue');
         partie2.grilleReload();
         console.log("Appelpartie2");
 
