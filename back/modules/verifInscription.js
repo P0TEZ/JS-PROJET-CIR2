@@ -27,14 +27,19 @@ module.exports = {
             if (result2.length ==0) {
 
               let sql="INSERT INTO inscrit SET username=?, mdp=? ";
-              
+              let sql2="INSERT INTO resultats SET username=?, nb_win=?,nb_loose=?,time=?,score=?"
               let data=[login,mdp]; 
-              
+              let data2=[login,0,0,0,0];
               connection.query(sql, data, function (err, result) {
                 if (err) throw err;
 
-                console.log("Inscription d'un utilisateur dans la BDD"); 
+                console.log("Inscription d'un utilisateur dans la BDD inscrit"); 
                 res.send('inscrit');
+                connection.query(sql2, data2, function (err, result) {
+                  if (err) throw err;
+  
+                  console.log("Inscription d'un utilisateur dans la BDD resultats"); 
+                });
               });
             } 
             else{

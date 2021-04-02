@@ -1,16 +1,13 @@
 // ECRITURE DU TABLEAU DANS LA PAGE HTML
 
-//let elmt = document.getElementById("element")
-//elmt.appendChild(create_tab_data.draw()); 
-
 let chatForm = document.getElementById('chatForm');
 let inputMessage = document.getElementById('input');
 
-socket.emit('login', '');
+socket.emit('login');
 
 socket.on('resultats-leaderboard', msg => {
+    console.log("dans socket on");
     Module_Stock.setData(msg);
-    console.log(Module_Stock.Username(0));
     let elmt = document.getElementById("element")
     elmt.appendChild(create_tab_data.draw(msg));
 });
@@ -98,10 +95,10 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 5;
+        var cpt = 45;
 
         item3.id = "Crono";
-        val = 5;
+        val = 45;
         item3.textContent += val;
 
         timer = setInterval(function () {

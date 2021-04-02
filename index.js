@@ -154,7 +154,7 @@ app.get('/partie', (req, res) => {
   let sessionData = req.session;
 
 
-  if (sessionData.username && queue.length <= 2) {
+  if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/partie.html');
   } else {
     res.sendFile(__dirname + '/front/html/login.html');
@@ -179,8 +179,10 @@ io.on('connection', (socket) => {
     let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score`";
     connection.query(sql, function (err, result) {
       if (err) throw err;
-      socket.emit('resultats-leaderboard', result);
+      io.emit('resultats-leaderboard', result);
     });
+
+
     let verif = false;
     io.emit('show-room', verif, queue.length);
     io.emit('room-player', verif, queue);
@@ -272,18 +274,19 @@ io.on('connection', (socket) => {
 
             //  On recup  le nbr de win puis on l'update avec +1, le score +50 idem
 
-            let sql_nbrWin = " SELECT nb_win FROM resultat WHERE username= ?";
+            let sql_nbrWin = " SELECT nb_win FROM resultats WHERE username= ?";
 
             let data_nbWin = [user.handshake.session.username];
 
             connection.query(sql_nbrWin, data_nbWin, function (err, result) {
               if (err) throw err;
+
               let string = JSON.stringify(result);
               let json1 = JSON.parse(string);
 
               json1[0].nb_win += 1;
 
-              let sql_update_nbWin = " UPDATE resultat SET nb_win=? WHERE username=?";
+              let sql_update_nbWin = " UPDATE resultats SET nb_win=? WHERE username=?";
 
               let data_update_nbWin = [json1[0].nb_win, user.handshake.session.username];
 
@@ -294,7 +297,7 @@ io.on('connection', (socket) => {
 
             });
 
-            let sql_nbrScore = " SELECT score FROM resultat WHERE username= ?";
+            let sql_nbrScore = " SELECT score FROM resultats WHERE username= ?";
 
             let data_score = [user.handshake.session.username];
 
@@ -305,7 +308,7 @@ io.on('connection', (socket) => {
 
               json1[0].score += score;
 
-              let sql_update_score = " UPDATE resultat SET score=? WHERE username=?";
+              let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
 
               let data_update_score = [json1[0].score, user.handshake.session.username];
 
@@ -316,21 +319,11 @@ io.on('connection', (socket) => {
 
             });
 
-
-            /*let sql = "INSERT INTO resultat SET username=?, nb_win=?, nb_loose=?, score=? ";
-
-            let data = [user.handshake.session.username, 1, 0, 12];
-
-            connection.query(sql, data, function (err, result) {
-              if (err) throw err;
-
-              console.log("Inscription dans le leaderboard !");
-            });*/
-
           } else {  //Si la couleur est differente du vainqueur
 
             // On recup le nbr de loose puis on le rajoute plus 1, on change pas le score
-            let sql_nbrLoose = " SELECT nb_loose FROM resultat WHERE username= ?";
+            /*
+            let sql_nbrLoose = " SELECT nb_loose FROM resultats WHERE username= ?";
 
             let data_nbLoose = [user.handshake.session.username];
 
@@ -340,8 +333,7 @@ io.on('connection', (socket) => {
               let json1 = JSON.parse(string);
 
               json1[0].nb_loose += 1;
-
-              let sql_update_nbLoose = " UPDATE resultat SET nb_loose=? WHERE username=?";
+              let sql_update_nbLoose = " UPDATE resultats SET nb_loose=? WHERE username=?";
 
               let data_update_nbLoose = [json1[0].nb_Loose, user.handshake.session.username];
 
@@ -352,7 +344,7 @@ io.on('connection', (socket) => {
 
             });
 
-
+            */
           }
         });
       }
