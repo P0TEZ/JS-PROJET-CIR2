@@ -95,10 +95,10 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 45;
+        var cpt = 5;
 
         item3.id = "Crono";
-        val = 45;
+        val = 5;
         item3.textContent += val;
 
         timer = setInterval(function () {

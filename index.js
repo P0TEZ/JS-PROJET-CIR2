@@ -100,7 +100,6 @@ app.get('/leaderboard', (req, res) => {
     if (module_class_room.isInRoom(queue, sessionData) != 1) {
       module_class_room.deleteQueue(queue);
       module_class_room.pushToQueue(couleur, queue, req, res);
-
       module_class_room.print(queue);
     }
   }
@@ -184,8 +183,8 @@ io.on('connection', (socket) => {
 
 
     let verif = false;
-    socket.emit('show-room', verif, queue.length);
-    socket.emit('room-player', verif, queue);
+    io.emit('show-room', verif, queue.length);
+    io.emit('room-player', verif, queue);
     //io.emit('decoo-file', socket.handshake.session.username);
     console.log(queue);
 
