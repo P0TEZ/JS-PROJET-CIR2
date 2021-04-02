@@ -170,7 +170,7 @@ io.on('connection', (socket) => {
 
 
     //Page Leaderboard
-    io.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
+    socket.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
 
     //Page Compte
     io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
@@ -179,29 +179,17 @@ io.on('connection', (socket) => {
     let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score`";
     connection.query(sql, function (err, result) {
       if (err) throw err;
-      io.emit('resultats-leaderboard', result);
+      socket.emit('resultats-leaderboard', result);
     });
 
 
     let verif = false;
-    io.emit('show-room', verif, queue.length);
-    io.emit('room-player', verif, queue);
-    io.emit('decoo-file', socket.handshake.session.username);
+    socket.emit('show-room', verif, queue.length);
+    socket.emit('room-player', verif, queue);
+    //io.emit('decoo-file', socket.handshake.session.username);
     console.log(queue);
 
     io.emit('compte');
-    socket.on('chrono', (val) => {
-      console.log(val);
-      /*
-      if (queue.length == 2 && val == 0) {
-        for (let i = 0; i < queue.length; i++) {
-          console.log("ok");
-          if (queue[i] == socket.handshake.session.username) {
-            io.emit('start-game');
-          }
-        }
-      }*/
-    });
 
   });
 
