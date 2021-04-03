@@ -11,22 +11,20 @@ let logger = (function(){
             },
             success: (data) => {
                 let page = document.body;
-                let text = document.createElement('p');
+                let text1 = document.getElementById('erreur_mdp');
+                let text2 = document.getElementById('erreur_name');
 
                 if(data == 'ok') {
-                    window.location.href = "/leaderboard";
+                    window.location.href = "/leaderboard"; 
                 }
                 if(data == 'err_mdp') {
-                    text = document.createElement('p');
-                    text.id = 'erreur';
-                    text.innerHTML = "Votre mot de passe est incorrect";
-                    page.append(text);
+                    text1.innerHTML = "Votre mot de passe est incorrect";
+                    page.append(text1);
                     console.log(data);
                 }
                 if(data == 'err_pseudo') {
-                    text.innerHTML = "Votre pseudo est incorrect";
-                    text.id = 'erreur';
-                    page.append(text);
+                    text2.innerHTML = "Votre pseudo est incorrect";
+                    page.append(text2);
                     console.log(data);
                 }
             },

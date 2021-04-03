@@ -12,7 +12,11 @@ let ajax_inscritpion = (function(){
             //Affichage des différentes informations en fonction du success ou non de la requete ajax
             success: (data) => {
                 let page = document.body;
-                let text = document.createElement('p');
+                let text1 = document.getElementById('erreur_mdp');
+                let text2 = document.getElementById('erreur_name');
+                let text3 = document.getElementById('erreur_diff');
+                let text4 = document.getElementById('erreur_correct');
+
 
                 if(data == 'inscrit') {
                     text = document.createElement('p');
@@ -22,31 +26,23 @@ let ajax_inscritpion = (function(){
                     console.log(data);
                 }
                 if(data == 'existe_login') {
-                    text = document.createElement('p');
-                    text.innerHTML = "Le username est déjà pris";
-                    text.id = 'erreur';
-                    page.append(text);
+                    text2.innerHTML = "Le username est déjà pris";
+                    page.append(text2);
                     console.log(data);
                 }
                 if(data == 'existe_mdp') {
-                    text = document.createElement('p');
-                    text.innerHTML = "Le mot de passe est déjà pris";
-                    text.id = 'erreur';
-                    page.append(text);
+                    text1.innerHTML = "Le mot de passe est déjà pris";
+                    page.append(text1);
                     console.log(data);
                 }
                 if(data == 'differents') {
-                    text = document.createElement('p');
-                    text.innerHTML = "Les mots de passe sont différents";
-                    text.id = 'erreur';
-                    page.append(text);
+                    text3.innerHTML = "Les mots de passe sont différents";
+                    page.append(text3);
                     console.log(data);
                 }
                 if(data == 'null') {
-                    text = document.createElement('p');
-                    text.innerHTML = "Merci de remplir correctement l'inscription";
-                    text.id = 'erreur';
-                    page.append(text);
+                    text4.innerHTML = "Merci de remplir correctement l'inscription";
+                    page.append(text4);
                     console.log(data);
                 }
             },
