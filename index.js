@@ -307,30 +307,34 @@ io.on('connection', (socket) => {
                     });
 
                   } else if(user.handshake.session.username != couleurWin) {  //Si la couleur est differente du vainqueur
- 
+                    
                     let data = [user.handshake.session.username];
-
+                   
                     // On recup le nbr de loose puis on le rajoute plus 1, on change pas le score
                     
                     let sql_nbrLoose = " SELECT nb_loose FROM resultats WHERE username= ?";
         
         
                     connection.query(sql_nbrLoose, data, function (err, result) {
-                      if (err) throw err;
-
+                      if (err) throw err; 
+                      
                       let string = JSON.stringify(result);
                       let json1 = JSON.parse(string);
         
                       json1[0].nb_loose += 1;
+                      
+                      
                       let sql_update_nbLoose = " UPDATE resultats SET nb_loose=? WHERE username=?";
-                      console.log(sql_update_nbLoose);
-                      /*
-                      let data_update_nbLoose = [json1[0].nb_Loose, data];
-        
+                      
+                      
+                      let data_update_nbLoose = [json1[0].nb_loose, data];
+                      
+                      
                       connection.query(sql_update_nbLoose, data_update_nbLoose, function (err, result) {
+                        console.log(result);
                         if (err) throw err;
-                      });*/
-        
+                      });
+                    
         
                     });
         
