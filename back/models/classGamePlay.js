@@ -12,7 +12,7 @@ class GamePlay extends Observable{
         this.redPlayerPionList = new Array();
         
         this.currentPlayer=Math.floor(Math.random()*2)?'blue':'red';
-        this.winner='none';
+        this.winner = null;
         this.started= false;
 
         this.previousPlay = {"pion": null, "row": null, "column":null};
@@ -99,7 +99,10 @@ class GamePlay extends Observable{
             }
             else if(this.grid[i][j].name ==="Flag"){
                 this.winner = Pion.equipe;
-                console.log("partie finie");
+                console.log("dans attack "+Pion.equipe); 
+                console.log("dans attack "+this.winner); 
+                console.log("partie finie"); 
+                
                 return 1;
             }
             else if(Pion.strength > this.grid[i][j].strength){
@@ -116,7 +119,6 @@ class GamePlay extends Observable{
         }
     }
     play(row,column, joueurActuel){
-
         if(joueurActuel != this.currentPlayer){
             return 0;
         }
@@ -167,6 +169,8 @@ class GamePlay extends Observable{
             }
 
         }   
+        console.log(this.winner);
+
         console.log("fin play"); 
     }
     isAllUnSelect(){
@@ -383,13 +387,15 @@ class GamePlay extends Observable{
        this.autoFill('red');
     }
     end(){
-        let count=0;
-        console.log(this.winner);
-        if(!this.started) return 0;
-        if(this.winner) {
-            console.log(this.winner);
+        let count=0; 
+        if(!this.started ) return 0;
+        if(this.winner == 'red') {
             return 1; //plus de flag
         }
+        if(this.winner == 'blue') {
+            return 2
+        }
+        /*
         if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
             && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
             && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
@@ -406,11 +412,11 @@ class GamePlay extends Observable{
             && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')){
             this.winner="blue";
             count+=1;
-        }
-        if(count == 1) return 2; //un joueur n'a plus de pion deplacable
-        if(count == 2) return 3; // draw
-        return 0;
-
+        }*/
+        //if(count == 1) return 2; //un joueur n'a plus de pion deplacable
+        //if(count == 2) return 3; // draw
+        //return 0;
+        
     }
 }
 

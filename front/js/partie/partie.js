@@ -33,6 +33,9 @@ socket.on('view', (game1, pion, color) => {
 
                     socket.emit('play', row, column, color);
                     partie2.grilleReload();
+
+                    
+
                 });
             }
         }
@@ -49,7 +52,7 @@ document.onkeypress = function (e) {
     if (e.keyCode && e.keyCode == 116) return false;
 }
 
-socket.emit('victory');
+//socket.emit('victory');
 
 socket.on('affichage_win', (nameWinner) => {
     let dialog = document.getElementById('dialog');
@@ -57,14 +60,6 @@ socket.on('affichage_win', (nameWinner) => {
 
     let item = document.getElementById('pseudoWin');
     item.innerHTML = nameWinner;
-
-    let deco = document.createElement('button');
-    var t = document.createTextNode("Quitter");
-    deco.id = "quitter";
-    deco.appendChild(t);
-
-    let dialog2 = document.getElementsById('dialog2');
-    dialog2.appendChild(deco);
 
     let test = document.getElementById('quitter');
     test.addEventListener('click', (event) => {

@@ -86,6 +86,9 @@ body {
   background-color: rgb(97, 92, 92);
 }
 
+#dialog-desc {
+  text-align: center;
+}
 
 .c-dialog[aria-hidden="true"] {
   visibility: hidden;
