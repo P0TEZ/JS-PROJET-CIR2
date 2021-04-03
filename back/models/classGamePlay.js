@@ -387,35 +387,37 @@ class GamePlay extends Observable{
        this.autoFill('red');
     }
     end(){
-        let count=0; 
+        let count=0;
         if(!this.started ) return 0;
         if(this.winner == 'red') {
-            return 1; //plus de flag
+            return 1; //plus de flag donc equipe rouge
         }
         if(this.winner == 'blue') {
-            return 2
-        }
-        /*
-        if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
-            && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
-            && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
-            && !bluePlayerPionList.includes('Sergeant') && !bluePlayerPionList.includes('Scout')
-            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')){
-            this.winner="red";
-            count+=1;
+            return 2; //plus de flag donc equipe bleu
         }
 
-        if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
-            && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
-            && !bluePlayerPionList.includes('Captain') && !bluePlayerPionList.includes('Lieutenant')
-            && !bluePlayerPionList.includes('Sergeant') && !bluePlayerPionList.includes('Scout')
-            && !bluePlayerPionList.includes('Spy') && !bluePlayerPionList.includes('Miner')){
+        if(!this.bluePlayerPionList.includes('Marshal') && !this.bluePlayerPionList.includes('General')
+            && !this.bluePlayerPionList.includes('Colonel') && !this.bluePlayerPionList.includes('Major')
+            && !this.bluePlayerPionList.includes('Captain') && !this.bluePlayerPionList.includes('Lieutenant')
+            && !this.bluePlayerPionList.includes('Sergeant') && !this.bluePlayerPionList.includes('Scout')
+            && !this.bluePlayerPionList.includes('Spy') && !this.bluePlayerPionList.includes('Miner')){
+            this.winner="red";
+            count+=1;
+          
+        }
+
+        if(!this.redPlayerPionList.includes('Marshal') && !this.redPlayerPionList.includes('General')
+            && !this.redPlayerPionList.includes('Colonel') && !this.redPlayerPionList.includes('Major')
+            && !this.redPlayerPionList.includes('Captain') && !this.redPlayerPionList.includes('Lieutenant')
+            && !this.redPlayerPionList.includes('Sergeant') && !this.redPlayerPionList.includes('Scout')
+            && !this.redPlayerPionList.includes('Spy') && !this.redPlayerPionList.includes('Miner')){
             this.winner="blue";
             count+=1;
-        }*/
-        //if(count == 1) return 2; //un joueur n'a plus de pion deplacable
-        //if(count == 2) return 3; // draw
-        //return 0;
+
+        }
+        if(count == 1) return 3; //un joueur n'a plus de pion deplacable
+        if(count == 2) return 4; // draw
+        return 0;
         
     }
 }
