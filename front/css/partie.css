@@ -61,9 +61,6 @@ body {
   line-height: 8vh;
 }
 
-/*# sourceMappingURL=partie.css.map */
-
-
 .c-dialog {
   position: fixed;
   z-index: 100;
@@ -74,8 +71,8 @@ body {
   display: flex;
   padding: 2.4rem;
   overflow-y: scroll;
-  background-color: rgba(black, .75);
-  transition: .2s;
+  background-color: rgba(0, 0, 0, 0.75);
+  transition: 0.2s;
 }
 
 .c-dialog__box {
@@ -83,14 +80,16 @@ body {
   max-width: 48rem;
   margin: auto;
   padding: 2.4rem;
-  background-color: rgb(97, 92, 92);
+  background-color: #615c5c;
 }
 
 #dialog-desc {
   text-align: center;
 }
 
-.c-dialog[aria-hidden="true"] {
+.c-dialog[aria-hidden=true] {
   visibility: hidden;
   opacity: 0;
 }
+
+/*# sourceMappingURL=partie.css.map */
