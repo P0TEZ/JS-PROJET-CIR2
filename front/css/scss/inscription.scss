@@ -15,17 +15,20 @@ body{
     "footer footer footer";
 
     h1{grid-area: titre;}
-    div#err{grid-area: tips;}
+    ul{
+        grid-area: err;
+    }
     form{grid-area: form;}
     footer{grid-area: footer;}
 }
 
-h1{
+h1,footer{
     margin-top: 0px;
 }
 
-footer{
-    margin-top: 0px;
+li{
+    color: rgb(192, 78, 78);
+    list-style: none;
 }
 
 form{

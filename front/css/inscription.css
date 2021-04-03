@@ -12,8 +12,8 @@ body {
 body h1 {
   grid-area: titre;
 }
-body div#err {
-  grid-area: tips;
+body ul {
+  grid-area: err;
 }
 body form {
   grid-area: form;
@@ -22,12 +22,13 @@ body footer {
   grid-area: footer;
 }
 
-h1 {
+h1, footer {
   margin-top: 0px;
 }
 
-footer {
-  margin-top: 0px;
+li {
+  color: #c04e4e;
+  list-style: none;
 }
 
 form {

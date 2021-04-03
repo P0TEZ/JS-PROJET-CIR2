@@ -22,8 +22,8 @@
     </div>
 
     <form id="loginForm" action="">
-        <input type="text" placeholder="Nom d'Utilisateur" id="username"/>
-        <input type="password" placeholder="Mot De Passe" id="mdp"/>
+        <input type="text" placeholder="Nom d'Utilisateur" id="username" required/>
+        <input type="password" placeholder="Mot De Passe" id="mdp" required/>
         <input class="bg-primary connexion" type="submit" value="Connexion"/>
        <!-- <input class="bg-primary register" type="submit" value="Inscription"/> -->
         <a class="bg-primary fakeBtn register" href="../html/inscription.html">Inscription</a>
@@ -34,8 +34,8 @@
         <a href="https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2" target="_blank">GitHub</a>
     </footer>
 
-    <div id='erreur_mdp'></div>
-    <div id='erreur_name'></div>
+    <div id='erreur_mdp' class="small align-center"></div>
+    <div id='erreur_name' class="small align-center"></div>
     
     <script src="../js/tips-data.js"></script>
     <script src="../js/tips-display.js"></script>
