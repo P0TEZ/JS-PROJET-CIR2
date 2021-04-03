@@ -6,7 +6,6 @@ let inputMessage = document.getElementById('input');
 socket.emit('login');
 
 socket.on('resultats-leaderboard', msg => {
-    console.log("dans socket on");
     Module_Stock.setData(msg);
     let elmt = document.getElementById("element")
     elmt.appendChild(create_tab_data.draw(msg));
@@ -35,26 +34,6 @@ socket.on('new-message2', msg => {
     item.textContent = msg;
     chat.appendChild(item);
 });
-
-//Affichage de la recherche de joueurs sur la page leaderboard
-/*
-socket.on('search', value => {
-    let item = document.createElement('p');
-    msg = 'Recherche de joueurs en cours ... : ' + value + '/2';
-    item.textContent = msg;
-    messages.appendChild(item);
-    //console.log("ps le meme fichier",value); 
-    if(value == 2) {
-        let start = document.createElement('button');
-        var t = document.createTextNode("START GAME");
-        start.appendChild(t);
-        messages.appendChild(start);
-        start.addEventListener('click', event => {
-            window.location.href="/partie";
-        });
-    }
-});
-*/
 
 socket.on('show-room', (verif, value) => {
     if (verif == false) {

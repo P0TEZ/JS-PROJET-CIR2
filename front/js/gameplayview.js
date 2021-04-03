@@ -30,7 +30,7 @@ class Gameplayview {
                 grille[row][column].className = "pion";
                 grille[row][column].src = " ";
                 grille[row][column].addEventListener("click",event=>{
-                    console.log(row+" / "+column);
+                    //console.log(row+" / "+column);
                     this.playerPionListReload(pion);
                 });
                 

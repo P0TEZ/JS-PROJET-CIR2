@@ -197,7 +197,6 @@ class GamePlay extends Observable{
     generatePath(row,column){
         console.log("generate path"+row+" | "+column); 
         this.grid[row][column].select = true;
-        console.log( this.grid[row][column]);
         if(this.grid[row][column].name != 'Scout'){
             for(let i =-1;i<=1;i+=2){
                 if(row+i < this.grid.length && row+i >=0 && this.grid[row+i][column].name != 'River' && this.grid[row+i][column].equipe != this.grid[row][column].equipe){
@@ -314,8 +313,6 @@ class GamePlay extends Observable{
                     this.grid[row][column] = new Pion('empty','none');
                     break;
             }
-            //console.log(this.bluePlayerPionList);
-            //console.log(this.redPlayerPionList);
         }
         this.unSelectAll();
     }

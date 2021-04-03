@@ -30,6 +30,9 @@ let queue = [];
 let isGameFull = false;
 let couleur = "";
 
+let game1 = new gameplay();
+let pion = new Pion();
+
 const session = require("express-session")({
   // CIR2-chat encode in sha256
   secret: "eb8fcc253281389225b4f7872f2336918ddc7f689e1fc41b64d5c4f378cdc438",
@@ -175,7 +178,7 @@ io.on('connection', (socket) => {
     io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
     io.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
 
-    let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score`";
+    let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 10";
     connection.query(sql, function (err, result) {
       if (err) throw err;
       socket.emit('resultats-leaderboard', result);
@@ -208,28 +211,22 @@ io.on('connection', (socket) => {
 
   socket.on("partie", () => {
 
-    let game1 = new gameplay();
-    let pion = new Pion();
+
 
     socket.emit('view', game1, pion, socket.handshake.session.couleur);
 
 
     if (socket.handshake.session.couleur == "red") {
-      console.log("cheh" + socket.handshake.session.couleur);
       socket.emit('red');
-      console.log("emitRed");
     }
     if (socket.handshake.session.couleur == "blue") {
-      console.log("cheh marine " + socket.handshake.session.couleur);
       socket.emit('blue');
-      console.log("emitBlue");
     }
 
     let srvSockets = io.sockets.sockets;
     srvSockets.forEach(user => {
 
       if (user.handshake.session.username == socket.handshake.session.username) {
-        console.log("Rentrer");
         socket.on('play', (row, column, couleur_session) => {
           game1.play(row, column, couleur_session);
           io.emit('returnGrid', game1.grid);
