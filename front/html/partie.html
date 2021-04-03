@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/partie.css">
     <script src="/socket.io/socket.io.js"></script>
 
-    
+
 
 
     <title>STRATEGO</title>
 </head>
+
 <body>
 
     <script> let socket = io();</script>
 
-    <ul id="bluePionList" class="inColumn">  </ul>
+    <ul id="bluePionList" class="inColumn"> </ul>
 
-    <div id="plateau">  </div>
+    <div id="plateau"> </div>
 
-    <ul id="redPionList" class="inColumn">  </ul>
-    
+    <ul id="redPionList" class="inColumn"> </ul>
+
     <script src="../js/classPion.js"></script>
     <script src="../js/gameplayview.js"></script>
     <script src="../js/partie/partie.js"></script>
 
+    <div id="dialog" role="dialog" aria-hidden="true" class="c-dialog">
+        <div id="dialog2" role="document" class="c-dialog__box">
+            <h2 id="dialog-title">Fin de la partie !</h2>
+            <p id="dialog-desc">Victoire de<a id="pseudoWin"></a></p>
+        </div>
+    </div>
+
+
 </body>
+
 </html>

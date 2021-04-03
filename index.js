@@ -259,7 +259,7 @@ io.on('connection', (socket) => {
             //  On recup  le nbr de win puis on l'update avec +1, le score +50 idem
 
             let sql_nbrWin = " SELECT nb_win FROM resultats WHERE username= ?";
-
+            socket.emit('affichage_win',user.handshake.session.username);
             let data_nbWin = [user.handshake.session.username];
 
             connection.query(sql_nbrWin, data_nbWin, function (err, result) {
