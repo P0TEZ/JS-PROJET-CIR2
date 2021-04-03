@@ -384,6 +384,7 @@ class GamePlay extends Observable{
     }
     end(){
         let count=0;
+        if(!this.started) return 0;
         if(this.winner) return 1; //plus de flag
         if(!bluePlayerPionList.includes('Marshal') && !bluePlayerPionList.includes('General')
             && !bluePlayerPionList.includes('Colonel') && !bluePlayerPionList.includes('Major')
