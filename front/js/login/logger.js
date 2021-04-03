@@ -10,21 +10,13 @@ let logger = (function(){
                 couleur: "none",
             },
             success: (data) => {
-                let page = document.body;
                 let text1 = document.getElementById('erreur_mdp');
-                let text2 = document.getElementById('erreur_name');
 
                 if(data == 'ok') {
                     window.location.href = "/leaderboard"; 
                 }
-                if(data == 'err_mdp') {
-                    text1.innerHTML = "Votre mot de passe est incorrect";
-                    page.append(text1);
-                    console.log(data);
-                }
-                if(data == 'err_pseudo') {
-                    text2.innerHTML = "Votre pseudo est incorrect";
-                    page.append(text2);
+                if(data == 'err_mdp' || data == 'err_pseudo' ) {
+                    text1.innerHTML = "Votre mot de passe ou votre pseudo est incorrect";
                     console.log(data);
                 }
             },

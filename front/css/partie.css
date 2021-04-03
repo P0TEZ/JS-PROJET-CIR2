@@ -70,7 +70,7 @@ body {
   left: 0;
   display: flex;
   padding: 2.4rem;
-  overflow-y: scroll;
+  overflow-y: hidden;
   background-color: rgba(0, 0, 0, 0.75);
   transition: 0.2s;
 }
