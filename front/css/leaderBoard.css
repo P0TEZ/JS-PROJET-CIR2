@@ -51,5 +51,50 @@ div.chat form input, div.chat form button {
     width: 90vw;
   }
 }
+th {
+  color: inherit;
+  padding: auto;
+  margin-left: auto;
+  margin-right: auto;
+  vertical-align: middle;
+}
+
+table {
+  background-color: #4e5656;
+  border-radius: 5px;
+  width: 40vw;
+  height: 60vh;
+  position: absolute;
+  right: 2vw;
+  bottom: 2vw;
+  z-index: -1;
+}
+table > tr:nth-child(2n) {
+  background-color: #515959;
+}
+table > tr:first-child {
+  background-color: #495151;
+  font-size: 2rem;
+  color: #21ae94;
+}
+table tr th:first-child::first-letter {
+  color: #21ae94;
+}
+
+p {
+  text-align: center;
+  background-color: rgba(66, 73, 73, 0.5);
+}
+
+#message {
+  text-align: left;
+}
+
+footer {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 /*# sourceMappingURL=leaderBoard.css.map */
