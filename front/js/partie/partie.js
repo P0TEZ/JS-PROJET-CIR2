@@ -63,6 +63,7 @@ socket.on('affichage_win', (nameWinner) => {
 
     let test = document.getElementById('quitter');
     test.addEventListener('click', (event) => {
+        socket.emit('decooo',"io client disconnect");
         window.location.href = "/";
     });
 });

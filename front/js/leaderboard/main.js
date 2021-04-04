@@ -116,6 +116,7 @@ socket.on('room-player', (verif, queue) => {
 
                 let deco = document.createElement('button');
                 var t = document.createTextNode("Chercher une autre partie");
+                deco.setAttribute('class',"bg-primary")
                 deco.id = "search2";
                 deco.appendChild(t);
                 messages.appendChild(deco);
@@ -129,6 +130,7 @@ socket.on('room-player', (verif, queue) => {
 
         let deco = document.createElement('button');
         var t = document.createTextNode("Annuler");
+        deco.setAttribute('class',"bg-primary")
         deco.id = "decoo-file";
         deco.appendChild(t);
         messages.appendChild(deco);
