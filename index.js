@@ -237,7 +237,7 @@ io.on('connection', (socket) => {
         });
 
         socket.on('play', (row, column, couleur_session) => {
-          if (game1.end() != (1 || 2)) {
+          if (game1.end() != (1 || 2) && game1.end() != (3 || 4)) {
             game1.play(row, column, couleur_session);
             console.log("winner", game1.getWinner());
             console.log("enddd", game1.end());
@@ -248,116 +248,161 @@ io.on('connection', (socket) => {
             io.emit('reload');
 
           }
-          else {
-            if (game1.end() == (1 || 2)) {
-              console.log("Le gagnant est", game1.getWinner());
-              console.log("Fin du jeu");
-              let score = 0;
-              if (game1.end() == (1 || 2)) {
-                score = 50;
-              }
-              /*
-              else if (game1.end() == 2) {
-                score = 30;
-                console.log("le score est 30 ");
-
-              } else if (game1.end() == 3) {
-                console.log("le score est 25");
-
-                score = 25;
-              }*/
-              let couleurWin = game1.getWinner();
-
-              let srvSockets = io.sockets.sockets;
-              srvSockets.forEach(user => {
-
-                if (user.handshake.session.couleur == couleurWin) { // Si la couleur de la session est la meme que la couleur du vainqueur
-                  console.log("Le gagnant est :", user.handshake.session.username);
-
-                  //  On recup  le nbr de win puis on l'update avec +1, le score +50 idem
-
-                  let sql_nbrWin = " SELECT nb_win FROM resultats WHERE username= ?";
-                  io.emit('affichage_win', user.handshake.session.username);
-                  let data = [user.handshake.session.username];
-
-                  connection.query(sql_nbrWin, data, function (err, result) {
-                    if (err) throw err;
-
-                    let string = JSON.stringify(result);
-                    let json1 = JSON.parse(string);
-
-                    json1[0].nb_win += 1;
-
-                    let sql_update_nbWin = " UPDATE resultats SET nb_win=? WHERE username=?";
-
-                    let data_update_nbWin = [json1[0].nb_win, data];
-
-                    connection.query(sql_update_nbWin, data_update_nbWin, function (err, result) {
-                      if (err) throw err;
-                    });
+          if(game1.end() == 4) {
+            console.log("c'est bien un draw");
+            io.emit('affichage_draw');
+            
+            let score = 30;
 
 
-                  });
+            let sql_nbrDraw = " SELECT score FROM resultats WHERE username= ?";
 
-                  let sql_nbrScore = " SELECT score FROM resultats WHERE username= ?";
+            let data = [user.handshake.session.username];
 
+            connection.query(sql_nbrDraw, data, function (err, result) {
+              if (err) throw err;
+              let string = JSON.stringify(result);
+              let json1 = JSON.parse(string);
 
-                  connection.query(sql_nbrScore, data, function (err, result) {
-                    if (err) throw err;
-                    let string = JSON.stringify(result);
-                    let json1 = JSON.parse(string);
+              json1[0].score += score;
 
-                    json1[0].score += score;
+              let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
 
-                    let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
+              let data_update_score = [json1[0].score, data];
 
-                    let data_update_score = [json1[0].score, data];
-
-                    connection.query(sql_update_score, data_update_score, function (err, result) {
-                      if (err) throw err;
-                    });
-
-
-                  });
-
-                } else if (user.handshake.session.username != couleurWin) {  //Si la couleur est differente du vainqueur
-
-                  let data = [user.handshake.session.username];
-
-                  // On recup le nbr de loose puis on le rajoute plus 1, on change pas le score
-
-                  let sql_nbrLoose = " SELECT nb_loose FROM resultats WHERE username= ?";
-
-
-                  connection.query(sql_nbrLoose, data, function (err, result) {
-                    if (err) throw err;
-
-                    let string = JSON.stringify(result);
-                    let json1 = JSON.parse(string);
-
-                    json1[0].nb_loose += 1;
-
-
-                    let sql_update_nbLoose = " UPDATE resultats SET nb_loose=? WHERE username=?";
-
-
-                    let data_update_nbLoose = [json1[0].nb_loose, data];
-
-
-                    connection.query(sql_update_nbLoose, data_update_nbLoose, function (err, result) {
-                      console.log(result);
-                      if (err) throw err;
-                    });
-
-
-                  });
-
-
-                }
+              connection.query(sql_update_score, data_update_score, function (err, result) {
+                if (err) throw err;
+                console.log(result);
               });
+
+
+            });
+            let sql_nbrDraw2 = " SELECT score FROM resultats WHERE username= ?";
+            let data2;
+            let srvSockets = io.sockets.sockets;
+            srvSockets.forEach(user => {
+              if (user.handshake.session.username != data) {
+                data2 = [user.handshake.session.username];
+              }
+
+            });
+            connection.query(sql_nbrDraw2, data2, function (err, result) {
+              if (err) throw err;
+              let string = JSON.stringify(result);
+              let json1 = JSON.parse(string);
+
+              json1[0].score += score;
+
+              let sql_update_score2 = " UPDATE resultats SET score=? WHERE username=?";
+
+              let data_update_score2 = [json1[0].score, data2];
+
+              connection.query(sql_update_score2, data_update_score2, function (err, result) {
+                if (err) throw err;
+              });
+            });
+          }
+          if (game1.end() == (1 || 2) || game1.end() == (2 || 3)) {
+            console.log("Le gagnant est", game1.getWinner());
+            console.log("Fin du jeu");
+            let score;
+            if (game1.end() == 1 || game1.end() == 2) {
+              score = 50;
             }
+            if (game1.end() == 3) {
+              score = 30;
+              console.log("le score est 30 ");
+            }
+            let couleurWin = game1.getWinner();
+
+            let srvSockets = io.sockets.sockets;
+            srvSockets.forEach(user => {
+
+              if (user.handshake.session.couleur == couleurWin) { // Si la couleur de la session est la meme que la couleur du vainqueur
+                console.log("Le gagnant est :", user.handshake.session.username);
+
+                //  On recup  le nbr de win puis on l'update avec +1, le score +50 idem
+
+                let sql_nbrWin = " SELECT nb_win FROM resultats WHERE username= ?";
+                io.emit('affichage_win', user.handshake.session.username);
+                let data = [user.handshake.session.username];
+
+                connection.query(sql_nbrWin, data, function (err, result) {
+                  if (err) throw err;
+
+                  let string = JSON.stringify(result);
+                  let json1 = JSON.parse(string);
+
+                  json1[0].nb_win += 1;
+
+                  let sql_update_nbWin = " UPDATE resultats SET nb_win=? WHERE username=?";
+
+                  let data_update_nbWin = [json1[0].nb_win, data];
+
+                  connection.query(sql_update_nbWin, data_update_nbWin, function (err, result) {
+                    if (err) throw err;
+                  });
 
 
+                });
+
+                let sql_nbrScore = " SELECT score FROM resultats WHERE username= ?";
+                let data2 = [user.handshake.session.username];
+
+                connection.query(sql_nbrScore, data2, function (err, result) {
+                  console.log("result et data ", result, data); 
+                  if (err) throw err;
+                  let string = JSON.stringify(result);
+                  let json1 = JSON.parse(string);
+                  console.log("json ",json1[0].score, score );
+                  json1[0].score += score;
+                  console.log("json apres",json1[0].score, score );
+                  let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
+
+                  let data_update_score = [json1[0].score, data2];
+
+                  connection.query(sql_update_score, data_update_score, function (err, result) {
+                    if (err) throw err;
+                  });
+
+
+                });
+
+              } else if (user.handshake.session.username != couleurWin) {  //Si la couleur est differente du vainqueur
+
+                let data = [user.handshake.session.username];
+
+                // On recup le nbr de loose puis on le rajoute plus 1, on change pas le score
+
+                let sql_nbrLoose = " SELECT nb_loose FROM resultats WHERE username= ?";
+
+
+                connection.query(sql_nbrLoose, data, function (err, result) {
+                  if (err) throw err;
+
+                  let string = JSON.stringify(result);
+                  let json1 = JSON.parse(string);
+
+                  json1[0].nb_loose += 1;
+
+
+                  let sql_update_nbLoose = " UPDATE resultats SET nb_loose=? WHERE username=?";
+
+
+                  let data_update_nbLoose = [json1[0].nb_loose, data];
+
+
+                  connection.query(sql_update_nbLoose, data_update_nbLoose, function (err, result) {
+                    console.log(result);
+                    if (err) throw err;
+                  });
+
+
+                });
+
+
+              }
+            });
 
           }
 

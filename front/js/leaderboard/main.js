@@ -74,10 +74,10 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 15;
+        var cpt = 2;
 
         item3.id = "Crono";
-        val = 15;
+        val = 2;
         item3.textContent += val;
 
 

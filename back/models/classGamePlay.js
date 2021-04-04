@@ -383,12 +383,7 @@ class GamePlay extends Observable{
     end(){
         let count=0;
         if(!this.started ) return 0;
-        if(this.winner == 'red') {
-            return 1; //plus de flag donc equipe rouge
-        }
-        if(this.winner == 'blue') {
-            return 2; //plus de flag donc equipe bleu
-        }
+        
 
         if(!this.bluePlayerPionList.includes('Marshal') && !this.bluePlayerPionList.includes('General')
             && !this.bluePlayerPionList.includes('Colonel') && !this.bluePlayerPionList.includes('Major')
@@ -411,6 +406,12 @@ class GamePlay extends Observable{
         }
         if(count == 1) return 3; //un joueur n'a plus de pion deplacable
         if(count == 2) return 4; // draw
+        if(this.winner == 'red') {
+            return 1; //plus de flag donc equipe rouge
+        }
+        if(this.winner == 'blue') {
+            return 2; //plus de flag donc equipe bleu
+        }
         return 0;
         
     }

@@ -90,5 +90,23 @@ socket.on('affichage_win', (nameWinner) => {
     });
 });
 
+socket.on('affichage_draw', () => {
+    let dialog = document.getElementById('dialog4');
+    dialog.setAttribute('aria-hidden', false);
+
+    /*
+    let item = document.getElementById('draw');
+    item.innerHTML = player1;
+    let item2 = document.getElementById('draw');
+    item2.innerHTML = player2;
+    */
+
+    let test = document.getElementById('quitter2');
+    test.addEventListener('click', (event) => {
+        socket.emit('decooo',"io client disconnect");
+        window.location.href = "/";
+    });
+});
+
 
 
