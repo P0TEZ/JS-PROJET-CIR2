@@ -51,7 +51,6 @@ class Gameplayview {
 
     grilleReload(){
         socket.on('returnGrid',(game) =>{
-            //console.log(game); 
             this.game.grid = game; 
         });
         socket.on('Started',(started)=>{
@@ -80,7 +79,7 @@ class Gameplayview {
             }
         }
         this.playerPionListReload();
-        //console.log("socket emit de grille"+this.game.grid);
+        console.log("gille a ete reload");
     }
 
     playerPionListSetter(){
@@ -105,12 +104,10 @@ class Gameplayview {
 
     playerPionListReload(){
         socket.on('returnListBlue',(list) =>{
-            console.log(list);
             this.game.bluePlayerPionList = list;
         });
 
         socket.on('returnListRed', (list)=>{
-            console.log(list);
             this.game.redPlayerPionList = list;
         });
 

@@ -228,9 +228,14 @@ io.on('connection', (socket) => {
     srvSockets.forEach(user => {
 
       if (user.handshake.session.username == socket.handshake.session.username) {
+
         socket.on('autoFill',(couleur_session)=>{
           game1.autoFill(couleur_session);
+          io.emit('returnGrid',game1.grid);
+          io.emit('Started',game1.started);
+          io.emit('reload');
         });
+
         socket.on('play', (row, column, couleur_session) => {
           if (game1.end() != (1 || 2)) {
             game1.play(row, column, couleur_session);
@@ -241,6 +246,7 @@ io.on('connection', (socket) => {
             io.emit('returnListRed',game1.redPlayerPionList);
             io.emit('Started',game1.started);
             io.emit('reload');
+
           }
           else {
             if (game1.end() == (1 || 2)) {

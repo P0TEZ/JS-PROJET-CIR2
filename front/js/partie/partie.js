@@ -17,12 +17,12 @@ socket.on('view', (game1, pion, color) => {
         }
         let btn = document.createElement(("BUTTON"));
         btn.innerHTML= "Remplissage automatique";
-
+        btn.className ="bg-primary";
         btn.addEventListener('click', ()=>{
             event.preventDefault();
             socket.emit('autoFill', color);
-            partie1.grilleReload();
             btn.remove();
+            console.log("started"+game1.started);
 
         });
         document.body.append(btn);
@@ -52,13 +52,13 @@ socket.on('view', (game1, pion, color) => {
         }
         let btn = document.createElement(("BUTTON"));
         btn.innerHTML= "Remplissage automatique";
+        btn.className ="bg-primary";
         btn.addEventListener('click', ()=>{
             event.preventDefault();
             socket.emit('autoFill',color)
             partie2.grilleReload();
-
-
             btn.remove();
+            console.log("started"+game1.started);
         });
         document.body.append(btn);
         window.onresize = partie2.grilleResize();
@@ -74,7 +74,7 @@ document.onkeypress = function (e) {
     if (e.keyCode && e.keyCode == 116) return false;
 }
 
-//socket.emit('victory');
+
 
 socket.on('affichage_win', (nameWinner) => {
     let dialog = document.getElementById('dialog');

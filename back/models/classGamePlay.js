@@ -86,6 +86,7 @@ class GamePlay extends Observable{
         else{
             return 1;
         }
+
     }
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
@@ -119,7 +120,7 @@ class GamePlay extends Observable{
         }
     }
     play(row,column, joueurActuel){
-        if(joueurActuel != this.currentPlayer){
+        if(joueurActuel != this.currentPlayer && this.started){
             return 0;
         }
         let selected = this.grid[row][column];
@@ -142,26 +143,16 @@ class GamePlay extends Observable{
         }else{
             let pionList = modulePion.getAllPiece();
 
-            if(this.currentPlayer == "blue"){
+            if(joueurActuel){
                 for (const pion of pionList) {
                     if(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
-                        if(!this.addPion(row,column,pion.name,this.currentPlayer)){
-                            if(!(this.redPlayerPionList.length) == modulePion.getNumber('all')){
-                                this.currentPlayer = 'red';
-                            }
-
-                            console.log("je susi dans blue" +this.currentPlayer);
-                        }
+                        this.addPion(row,column,pion.name,joueurActuel);
                     }
                 }
             }else{
                 for (const pion of pionList) {
-                    if(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
-                        if(!this.addPion(row,column,pion.name,this.currentPlayer)){
-                            if(!(this.bluePlayerPionList.length) == modulePion.getNumber('all'))
-                            this.currentPlayer = 'blue';
-                            console.log("je suis  dans red"+this.currentPlayer);
-                        }
+                    if(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number) {
+                        this.addPion(row, column, pion.name, joueurActuel);
                     }
                 }
             }
