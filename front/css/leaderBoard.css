@@ -1,0 +1,55 @@
+html, body {
+  min-height: 100vh;
+  text-align: center;
+}
+
+button#user {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+}
+
+div.chat {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  height: 45vh;
+  width: 30vw;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: #4e5656;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 12fr 4fr;
+  gap: 0px 0px;
+  grid-template-areas: "titre" "chat" "form";
+}
+div.chat h6 {
+  grid-area: titre;
+}
+div.chat ul#chat {
+  overflow-y: scroll;
+  padding: 0.5rem;
+  text-align: start;
+}
+div.chat form {
+  grid-area: form;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+  height: 100%;
+}
+div.chat form input, div.chat form button {
+  height: 2rem;
+  font-size: 1rem;
+  line-height: 100%;
+}
+
+@media screen and (max-width: 660px) {
+  div.chat {
+    height: 30vh;
+    width: 90vw;
+  }
+}
+
+/*# sourceMappingURL=leaderBoard.css.map */

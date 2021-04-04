@@ -2,24 +2,31 @@
   <head>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E"></script>--->
     <script src="/socket.io/socket.io.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/leaderBoard.css">
     
   </head>
 <body>
-  <button id="user" style="float: right;">Votre Compte</button>
-    <div> 
-      <h1>HUB</h1> 
-    </div>
-    <h3><ul id="connect"></ul></h3>
-    <h4>Chat Français :</h4>
-    
+  <button id="user" class="bg-primary">Votre Compte</button>
+
+  <h1>Lobby:</h1> 
+
+  <h6><ul id="connect"></ul></h6>
+
+  <div class="chat">
+    <h6>Chat Français :</h6>
+      
     <ul id="chat"></ul>
-    
+      
     <form id="chatForm" action="">
-    <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off"/>
+      <button  class="bg-primary">Send</button>
     </form>
+  </div>
     
     
-    <ul id="messages"></ul>
+  <ul id="messages"></ul>
 
     <script> let socket = io();</script>
 
@@ -31,5 +38,10 @@
       <script src = "../js/leaderboard/main.js"> </script>
 
     </div>
-    
+  
+    <footer>
+        © 2021 Isen - 
+        <a href="https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2" target="_blank">GitHub</a>
+    </footer>
+   
 </html>

@@ -1,0 +1,67 @@
+@import "libs/colors.scss";
+
+html,body{
+    min-height: 100vh;
+
+    text-align: center;
+}
+
+button#user{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
+
+div.chat{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+
+    height: 45vh;
+    width: 30vw;
+    padding: .5rem;
+    border-radius: 1rem;
+    background-color: lighten($black,5%);
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:  1fr 12fr 4fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "titre"
+      "chat"
+      "form";
+
+    h6{ grid-area: titre;}
+
+    ul#chat{
+        overflow-y: scroll;
+        
+        padding: .5rem;
+        text-align: start;
+    }
+
+    form{ 
+        grid-area: form;
+
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr;
+
+        height: 100%;
+
+        input,button{
+            height: 2rem;
+            font-size: 1rem;
+            line-height: 100%;
+
+        }
+    }
+}
+
+@media screen and (max-width: 660px){
+    div.chat{
+        height: 30vh;
+        width: 90vw;
+    }
+}

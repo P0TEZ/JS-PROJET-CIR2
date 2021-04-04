@@ -70,7 +70,7 @@ body {
   left: 0;
   display: flex;
   padding: 2.4rem;
-  overflow-y: hidden;
+  overflow-y: scroll;
   background-color: rgba(0, 0, 0, 0.75);
   transition: 0.2s;
 }
@@ -80,7 +80,7 @@ body {
   max-width: 48rem;
   margin: auto;
   padding: 2.4rem;
-  background-color: #615c5c;
+  background-color: #424949;
 }
 
 #dialog-desc {
