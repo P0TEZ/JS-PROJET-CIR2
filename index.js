@@ -246,7 +246,6 @@ io.on('connection', (socket) => {
             io.emit('returnListRed',game1.redPlayerPionList);
             io.emit('Started',game1.started);
             io.emit('reload');
-
           }
           if(game1.end() == 4) {
             console.log("c'est bien un draw");
