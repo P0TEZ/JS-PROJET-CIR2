@@ -124,19 +124,19 @@ class Gameplayview {
 
         if(window.innerWidth<window.innerHeight){
             if(!(window.innerHeight < body.clientHeight)){
-                plateau.style.width="calc(100vw - 10px)";
-                plateau.style.height="calc(100vw - 10px)";
+                plateau.style.width="calc(100vmin - 10px)";
+                plateau.style.height="calc(100vmin - 10px)";
             }else{
-                plateau.style.width="calc(100vw - 22px)";
-                plateau.style.height="calc(100vw - 22px)";
+                plateau.style.width="calc(100vmin - 22px)";
+                plateau.style.height="calc(100vmin - 22px)";
             }
         }else{
             if((window.innerWidth < body.clientWidth)){
-                plateau.style.width="calc(100vh - 10px)";
-                plateau.style.height="calc(100vh - 10px)";
+                plateau.style.width="calc(100vmin - 10px)";
+                plateau.style.height="calc(100vmin - 10px)";
             }else{
-                plateau.style.width="calc(100vh - 22px)";
-                plateau.style.height="calc(100vh - 10px)";
+                plateau.style.width="calc(100vmin - 22px)";
+                plateau.style.height="calc(100vmin - 10px)";
             }
         }if(window.innerWidth>(window.innerHeight+window.innerWidth*8/50)){
             body.style.flexDirection="row";
