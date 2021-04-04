@@ -22,8 +22,8 @@ socket.on('decoo', (username, mdp, queue) => {
     let test = document.getElementById('deco');
     test.addEventListener("click", () => {
         if (username) {
-            socket.emit('file-reset',queue);
-            location.replace("/");
+            socket.emit('decooo',"io client disconnect");
+            window.location.href = "/";
             
         }
     });

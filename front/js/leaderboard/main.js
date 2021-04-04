@@ -49,11 +49,11 @@ socket.on('compte', () => {
     let val = document.getElementById('user')
     val.addEventListener("click", () => {
         window.location.href = "/compte";
-        
+
     });
 });
 
-socket.on('start-game', () =>{
+socket.on('start-game', () => {
     window.location.href = "/partie";
 });
 
@@ -74,50 +74,75 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 5;
+        var cpt = 15;
 
         item3.id = "Crono";
-        val = 5;
+        val = 15;
         item3.textContent += val;
 
-        timer = setInterval(function () {
-            if (cpt > 0) // si on a pas encore atteint la fin
-            {
-                --cpt; // décrémente le compteur
 
-                var Crono = document.getElementById("Crono"); // récupère l'id
-                var old_contenu = Crono.firstChild; // stock l'ancien contenu
-                Crono.removeChild(old_contenu); // supprime le contenu
-                var texte = document.createTextNode("Début de la partie dans : " + cpt); // crée le texte
-                //socket.emit('chrono',cpt);
-                if(cpt == 0) {
-                    window.location.href = "/partie";
+
+        timer = setInterval(function () {
+            if (queue.length == 2 && val != true) {
+
+                if (cpt > 0) // si on a pas encore atteint la fin
+                {
+                    --cpt; // décrémente le compteur
+
+                    var Crono = document.getElementById("Crono"); // récupère l'id
+                    var old_contenu = Crono.firstChild; // stock l'ancien contenu
+                    Crono.removeChild(old_contenu); // supprime le contenu
+                    var texte = document.createTextNode("Début de la partie dans : " + cpt); // crée le texte
+                    //socket.emit('chrono',cpt);
+                    if (cpt == 0) {
+                        window.location.href = "/partie";
+                    }
+                    Crono.appendChild(texte); // l'affiche
                 }
-                Crono.appendChild(texte); // l'affiche
-            }
-            else // sinon brise la boucle
-            {
-                clearInterval(timer);
+                else // sinon brise la boucle
+                {
+                    clearInterval(timer);
+
+                }
             }
         }, 1000);
+        socket.on('decoDansQueue', val => {
+            if (val == true) {
+                let item3 = document.createElement('p');
+                msgStart = "Un joueur s'est déconnecté :/";
+                item3.textContent = msgStart;
+                messages.appendChild(item3);
+                clearInterval(timer);
+
+                let deco = document.createElement('button');
+                var t = document.createTextNode("Chercher une autre partie");
+                deco.id = "search2";
+                deco.appendChild(t);
+                messages.appendChild(deco);
+                let test = document.getElementById('search2');
+
+                test.addEventListener("click", () => {
+                    window.location.reload();
+                });
+            }
+        });
+
         let deco = document.createElement('button');
         var t = document.createTextNode("Annuler");
         deco.id = "decoo-file";
         deco.appendChild(t);
         messages.appendChild(deco);
         let test = document.getElementById('decoo-file');
-        socket.on('decoo-file', username => {
-            socket.disconnect(true);
-            test.addEventListener("click", () => {
-                for(let i = 0; i < queue.length; i++) {
-                    if(queue[i]==username) {
-                        queue.splice(i,1);
-                    }
-                }
-                window.location.href = "/";
-            });
+
+        test.addEventListener("click", () => {
+            socket.emit('decooo', "io client disconnect");
+            window.location.href = "/";
         });
+
         verif = true;
     }
 });
 
+document.onkeypress = function (e) {
+    if (e.keyCode && e.keyCode == 116) return false;
+}
