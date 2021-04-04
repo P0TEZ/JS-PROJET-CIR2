@@ -8,12 +8,6 @@ let create_line =(function (){
        lineUser.appendChild(name1); 
        return lineUser;
     }
-    function time(index){
-        let  lineUser =document.createElement("th"); 
-        let name1 = document.createTextNode(Module_Stock.Time(index)); 
-        lineUser.appendChild(name1); 
-        return lineUser;
-    }
 
     function score(index){
         let  lineUser =document.createElement("th"); 
@@ -40,10 +34,9 @@ let create_line =(function (){
         getLine(index){
             let line = document.createElement("tr"); 
             line.appendChild(username(index));
-            line.appendChild(time(index));
-            line.appendChild(score(index));
             line.appendChild(win(index));
             line.appendChild(loose(index));
+            line.appendChild(score(index));
             return line; 
         }
     }

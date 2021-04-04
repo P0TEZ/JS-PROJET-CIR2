@@ -2,7 +2,7 @@
 
 let create_tab_data = (function(){
     function firstline(){
-        let titre = ["pseudo","Time","Score","Win","Loose"];
+        let titre = ["Pseudo","Win","Loose","Score"];
          
         let linelemnt = document.createElement("tr");
         

@@ -69,6 +69,3 @@ socket.on('affichage_win', (nameWinner) => {
 
 
 
-
-
-

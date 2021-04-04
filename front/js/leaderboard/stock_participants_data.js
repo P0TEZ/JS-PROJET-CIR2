@@ -21,9 +21,6 @@ let Module_Stock = (function(){
     function getNb_loose(index){
         return(data[index].nb_loose); 
     }
-    function getTime(index){
-        return (data[index].time);
-    }
     
 
     return {
@@ -31,7 +28,6 @@ let Module_Stock = (function(){
         Username: index=>getUsername(index),
         Win: index=>getNb_win(index),
         Loose: index=>getNb_loose(index),
-        Time: index=>getTime(index),
         Score: index=>getScore(index), 
     }
 
