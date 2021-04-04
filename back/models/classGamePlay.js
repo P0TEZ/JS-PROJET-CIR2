@@ -146,9 +146,11 @@ class GamePlay extends Observable{
                 for (const pion of pionList) {
                     if(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         if(!this.addPion(row,column,pion.name,this.currentPlayer)){
-                            if(!(this.redPlayerPionList.length) == modulePion.getNumber('all'))
-                            this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
-                            console.log(this.currentPlayer);   
+                            if(!(this.redPlayerPionList.length) == modulePion.getNumber('all')){
+                                this.currentPlayer = 'red';
+                            }
+
+                            console.log("je susi dans blue" +this.currentPlayer);
                         }
                     }
                 }
@@ -157,8 +159,8 @@ class GamePlay extends Observable{
                     if(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         if(!this.addPion(row,column,pion.name,this.currentPlayer)){
                             if(!(this.bluePlayerPionList.length) == modulePion.getNumber('all'))
-                            this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
-                            console.log(this.currentPlayer);   
+                            this.currentPlayer = 'blue';
+                            console.log("je suis  dans red"+this.currentPlayer);
                         }
                     }
                 }
@@ -167,8 +169,9 @@ class GamePlay extends Observable{
                 this.started = true;
 
             }
+            this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
+        }
 
-        }   
         console.log(this.winner);
 
         console.log("fin play"); 
@@ -353,7 +356,7 @@ class GamePlay extends Observable{
         }
     }
     setup(){
-        this.addPion(0,0,'Scout','blue');
+        /*this.addPion(0,0,'Scout','blue');
         this.addPion(9,0,'Scout','red');
         this.addPion(0,1,'Scout','blue');
         this.addPion(9,1,'Scout','red');
@@ -384,7 +387,7 @@ class GamePlay extends Observable{
         this.addPion(8,7,'Bomb','red');
         
        this.autoFill('blue');
-       this.autoFill('red');
+       this.autoFill('red');*/
     }
     end(){
         let count=0;
