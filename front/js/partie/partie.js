@@ -15,6 +15,17 @@ socket.on('view', (game1, pion, color) => {
                 });
             }
         }
+        let btn = document.createElement(("BUTTON"));
+        btn.innerHTML= "Remplissage automatique";
+
+        btn.addEventListener('click', ()=>{
+            event.preventDefault();
+            socket.emit('autoFill', color);
+            partie1.grilleReload();
+            btn.remove();
+
+        });
+        document.body.append(btn);
         window.onresize = partie1.grilleResize();
 
         socket.on('reload', () => {
@@ -39,6 +50,17 @@ socket.on('view', (game1, pion, color) => {
                 });
             }
         }
+        let btn = document.createElement(("BUTTON"));
+        btn.innerHTML= "Remplissage automatique";
+        btn.addEventListener('click', ()=>{
+            event.preventDefault();
+            socket.emit('autoFill',color)
+            partie2.grilleReload();
+
+
+            btn.remove();
+        });
+        document.body.append(btn);
         window.onresize = partie2.grilleResize();
 
         socket.on('reload', () => {

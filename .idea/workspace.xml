@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="">
+    <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="modif fonction victoire">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/models/classGamePlay.js" beforeDir="false" afterPath="$PROJECT_DIR$/back/models/classGamePlay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/js/gameplayview.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/js/gameplayview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/js/partie/partie.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/js/partie/partie.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

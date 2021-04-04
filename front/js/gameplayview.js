@@ -15,7 +15,7 @@ class Gameplayview {
         
     }
 
-    grilleStetter(pion) {
+    grilleStetter() {
          
         this.grilleResize();
 
@@ -31,7 +31,7 @@ class Gameplayview {
                 grille[row][column].src = " ";
                 grille[row][column].addEventListener("click",event=>{
                     //console.log(row+" / "+column);
-                    this.playerPionListReload(pion);
+                    this.playerPionListReload();
                 });
                 
                 // grille[row][column].addEventListener("mouseover",event=>{
@@ -54,6 +54,10 @@ class Gameplayview {
             //console.log(game); 
             this.game.grid = game; 
         });
+        socket.on('Started',(started)=>{
+            this.game.started = started;
+        });
+
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){
                 if(this.game.grid[row][column]){
@@ -62,8 +66,12 @@ class Gameplayview {
                     if(this.game.grid[row][column].name !='empty' && this.game.grid[row][column].name !='River'){
                        if (this.color == this.game.grid[row][column].equipe){
                            this.grille[row][column].src = imgLink + this.game.grid[row][column].name + ".png";
-                       }else{
-                           this.grille[row][column].src = imgLink + "unknow.png";
+                       }else {
+                           if (this.game.started == true) {
+                               this.grille[row][column].src = imgLink + "unknow.png";
+                           }else {
+                               this.grille[row][column].src = " ";
+                           }
                        }
                     }else{
                         this.grille[row][column].src = " ";
@@ -71,14 +79,15 @@ class Gameplayview {
                 }
             }
         }
+        this.playerPionListReload();
         //console.log("socket emit de grille"+this.game.grid);
     }
 
-    playerPionListSetter(pion){
+    playerPionListSetter(){
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
-        for (pion of modulePion.getAllPiece()) {
+        for (const pion of modulePion.getAllPiece()) {
             let conteneur = document.createElement("div");
             conteneur.className = pion.name;
             conteneur.innerHTML = 0+"/"+pion.number;
@@ -94,17 +103,27 @@ class Gameplayview {
         }
     }
 
-    playerPionListReload(pion){
+    playerPionListReload(){
+        socket.on('returnListBlue',(list) =>{
+            console.log(list);
+            this.game.bluePlayerPionList = list;
+        });
+
+        socket.on('returnListRed', (list)=>{
+            console.log(list);
+            this.game.redPlayerPionList = list;
+        });
+
         let bluePionList = document.getElementById('bluePionList');
         let redPionList = document.getElementById('redPionList');
 
-        for ( pion of modulePion.getAllPiece()) {
+        for ( const pion of modulePion.getAllPiece()) {
             let div = bluePionList.getElementsByClassName(pion.name);
             let number = this.game.bluePlayerPionList.filter(aPion=>aPion === pion.name).length;
 
             div[0].innerHTML = number+"/"+pion.number;
         }
-        for ( pion of modulePion.getAllPiece()) {
+        for ( const pion of modulePion.getAllPiece()) {
             let div = redPionList.getElementsByClassName(pion.name);
             let number = this.game.redPlayerPionList.filter(aPion=>aPion === pion.name).length;
 
