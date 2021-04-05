@@ -24,7 +24,9 @@ let ajax_inscritpion = (function(){
                     text.innerHTML = "";
                     text.innerHTML = "Incription validée";
                     //text.id = 'validé';
+                    
                     console.log(data);
+                    window.location.href ="/";
                 }
                 if(data == 'existe_login') {
                     text.innerHTML = "";
