@@ -207,7 +207,7 @@ class GamePlay extends Observable{
 
     //Fonction qui génére les possibilités de déplacement d'un pion
     generatePath(row,column){
-        console.log("generate path"+row+" | "+column); 
+
         this.grid[row][column].select = true;
         if(this.grid[row][column].name != 'Scout'){
             for(let i =-1;i<=1;i+=2){
@@ -357,7 +357,7 @@ class GamePlay extends Observable{
                 let index=0;
                 while( index < tmpPionList.length){
                     if(pion == tmpPionList[index]){
-                        console.log(pion+" et "+tmpPionList[index]);
+
                         tmpPionList.splice(index,1);
                         break;
                     } 
@@ -385,7 +385,7 @@ class GamePlay extends Observable{
                 let index=0;
                 while( index < tmpPionList.length){
                     if(pion == tmpPionList[index]){
-                        console.log(pion+" et "+tmpPionList[index]);
+
                         tmpPionList.splice(index,1);
                         break;
                     } 
