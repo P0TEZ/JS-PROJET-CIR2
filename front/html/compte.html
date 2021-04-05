@@ -16,6 +16,11 @@
         Votre mot de passe : 
     </div>
 
+    <footer>
+            © 2021 Isen - 
+            <a href="https://github.com/P0TEZ/JS-PROJET-STRATEGO-CIR2" target="_blank">GitHub</a>
+    </footer>
+
     <input type="button" id="deco" value="Déconnection">
 
     <script> let socket = io();</script>
@@ -32,9 +37,15 @@
             align-items: center;
             flex-direction: column;
         }
-        body>*{
+        body>*:not(footer){
             margin-bottom:  2rem;
             font-size: 200%;
+        }
+        footer{
+            width: 98vw;
+            position: absolute;
+            bottom: 2vh;
+            left: 1vw;
         }
     </style>
 
