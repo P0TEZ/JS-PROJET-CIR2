@@ -11,7 +11,6 @@ let Module_Stock = (function(){
     function getScore(index){
         return (data[index].score);
     }
-    //Pas de prochaine ligne donc undefined a voir !!!!!
     function getUsername(index){
         return(data[index].username); 
     }
@@ -31,25 +30,4 @@ let Module_Stock = (function(){
         Score: index=>getScore(index), 
     }
 
-})(); 
-/*
-let Module_Stock2 = (function(){
-    let data;
-    
-    function setData(msg) {
-        data = msg;
-        console.log(data);
-    }
-
-    function getUsername(index){
-        console.log(data[index].username); 
-        return(data[index].username); 
-    }
- 
-    return {
-        setData: msg =>setData(msg),
-        Username: index=>getUsername(index),
-    }
- 
 })();
-*/

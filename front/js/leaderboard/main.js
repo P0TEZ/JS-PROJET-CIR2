@@ -35,6 +35,7 @@ socket.on('new-message2', msg => {
     chat.appendChild(item);
 });
 
+//Affichage de la recherche en cours
 socket.on('show-room', (verif, value) => {
     if (verif == false) {
         let item = document.createElement('p');
@@ -45,6 +46,7 @@ socket.on('show-room', (verif, value) => {
     }
 });
 
+//Event sur le boutton de la page compte
 socket.on('compte', () => {
     let val = document.getElementById('user')
     val.addEventListener("click", () => {
@@ -53,22 +55,14 @@ socket.on('compte', () => {
     });
 });
 
-socket.on('start-game', () => {
-    window.location.href = "/partie";
-});
-
-socket.on('gamefull', (socket) => {
-    //socket.disconnect();
-    console.log("gamefull");
-});
-
+//Si il y a 2 joueurs
 socket.on('room-player', (verif, queue) => {
     if (queue.length >= 2 && verif == false) {
         let item2 = document.createElement('p');
         msg2 = 'Une partie a été trouvé entre : ' + queue[0] + ' et ' + queue[1] + ' ! ';
         item2.textContent = msg2;
         messages.appendChild(item2);
-
+        //Lancement du chrono
         let item3 = document.createElement('p');
         msgStart = "Début de la partie dans : ";
         item3.textContent = msgStart;
@@ -80,32 +74,35 @@ socket.on('room-player', (verif, queue) => {
         val = 5;
         item3.textContent += val;
 
-
-
         timer = setInterval(function () {
             if (queue.length == 2 && val != true) {
-
-                if (cpt > 0) // si on a pas encore atteint la fin
+                //Si on a pas encore atteint la fin
+                if (cpt > 0) 
                 {
-                    --cpt; // décrémente le compteur
+                    //Décrémente le compteur
+                    --cpt; 
 
-                    var Crono = document.getElementById("Crono"); // récupère l'id
-                    var old_contenu = Crono.firstChild; // stock l'ancien contenu
-                    Crono.removeChild(old_contenu); // supprime le contenu
-                    var texte = document.createTextNode("Début de la partie dans : " + cpt); // crée le texte
-                    //socket.emit('chrono',cpt);
+                    //Récupère l'id
+                    var Crono = document.getElementById("Crono"); 
+                    //Stock l'ancien contenu
+                    var old_contenu = Crono.firstChild; 
+                    //Supprime le contenu
+                    Crono.removeChild(old_contenu); 
+                    //Crée le texte
+                    var texte = document.createTextNode("Début de la partie dans : " + cpt); 
                     if (cpt == 0) {
                         window.location.href = "/partie";
                     }
-                    Crono.appendChild(texte); // l'affiche
+                    Crono.appendChild(texte);
                 }
-                else // sinon brise la boucle
+                else
                 {
                     clearInterval(timer);
 
                 }
             }
         }, 1000);
+        //Gestion du cas si un joueurs dans la queue se deconnecte
         socket.on('decoDansQueue', (val) => {
             if (val == true) {
                 let item3 = document.createElement('p');
@@ -122,12 +119,13 @@ socket.on('room-player', (verif, queue) => {
                 messages.appendChild(deco);
                 let test = document.getElementById('search2');
 
+                //On recharge la page pour uptade la queue
                 test.addEventListener("click", () => {
                     window.location.reload();
                 });
             }
         });
-
+        //Gestion du boutton annuler de la queue
         let deco = document.createElement('button');
         var t = document.createTextNode("Annuler");
         deco.setAttribute('class',"bg-primary")
@@ -145,6 +143,7 @@ socket.on('room-player', (verif, queue) => {
     }
 });
 
+//Empeche l'utilisateur de rafraichir quand il veut
 document.onkeypress = function (e) {
     if (e.keyCode && e.keyCode == 116) return false;
 }
