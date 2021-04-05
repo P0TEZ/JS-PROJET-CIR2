@@ -15,7 +15,7 @@ const bcrypt = require('bcrypt');
 const partieBack = require('./back/modules/partieBack');
 
 const gameplay = require('./back/models/classGameplay');
-const Pion = require('./back/models/pion');
+const Pion = require('./back/models/classPion');
 
 let queue = [];
 let couleur = "";
