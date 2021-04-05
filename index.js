@@ -164,6 +164,7 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   crypted2 += cipher2.final('hex');
   console.log(crypted2);
   console.log(mdp2);
+
   // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -202,13 +203,13 @@ io.on('connection', (socket) => {
     socket.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
 
     //Page Compte
-    io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
+    socket.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
     let decipher=crypto.createDecipheriv(algorithm_cryptage,Buffer.from(cle), iv);
     let dec = decipher.update(socket.handshake.session.mdp,'hex','utf8');
     dec+=decipher.final('utf8');
-    io.emit('show-user-mdp',dec); //Affichage du mot de passe sur la page compte
+    socket.emit('show-user-mdp',dec); //Affichage du mot de passe sur la page compte
 
-    let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 10";
+    let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 5";
     connection.query(sql, function (err, result) {
       if (err) throw err;
       socket.emit('resultats-leaderboard', result);
@@ -216,7 +217,7 @@ io.on('connection', (socket) => {
 
 
     let verif = false;
-    io.emit('show-room', verif, queue.length);
+    socket.emit('show-room', verif, queue.length);
     io.emit('room-player', verif, queue);
     io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
 
@@ -450,6 +451,7 @@ io.on('connection', (socket) => {
   socket.on('decooo', (reason) => {
     if (reason == "io client disconnect") {
       console.log('Un utilisateur s\'est déconnecté');
+      
       socket.disconnect();
       for(let i = 0; i < queue.length; i++) {
         if(queue[i] == socket.handshake.session.username) {

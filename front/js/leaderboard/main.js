@@ -48,8 +48,8 @@ socket.on('show-room', (verif, value) => {
 socket.on('compte', () => {
     let val = document.getElementById('user')
     val.addEventListener("click", () => {
+        socket.emit('decooo', "io client disconnect");
         window.location.href = "/compte";
-
     });
 });
 
@@ -74,10 +74,10 @@ socket.on('room-player', (verif, queue) => {
         item3.textContent = msgStart;
         messages.appendChild(item3);
 
-        var cpt = 2;
+        var cpt = 5;
 
         item3.id = "Crono";
-        val = 2;
+        val = 5;
         item3.textContent += val;
 
 
@@ -106,7 +106,7 @@ socket.on('room-player', (verif, queue) => {
                 }
             }
         }, 1000);
-        socket.on('decoDansQueue', val => {
+        socket.on('decoDansQueue', (val) => {
             if (val == true) {
                 let item3 = document.createElement('p');
                 msgStart = "Un joueur s'est déconnecté :/";
