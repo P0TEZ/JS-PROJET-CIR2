@@ -316,32 +316,66 @@ class GamePlay extends Observable{
     }
     autoFill(equipe=this.currentPlayer){
         let pionList = modulePion.getAllPiece();
+        let tmpPionList = new Array();
         
-        if(equipe == 'blue'){
-            while(this.bluePlayerPionList.length < modulePion.getNumber('all')){
-                for (const pion of pionList) {
-                    while(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length < pion.number){
-                        for(let row=0;row<5;++row){
-                            for(let column = 0; column<this.grid[row].length;++column){
-                                if(this.grid[row][column].name == 'empty') this.addPion(row,column,pion.name,'blue'); 
-                            }
+        for (const pion of pionList) {
+            for(let i=0; i<pion.number;++i){
+                tmpPionList.push(pion.name);
+            }
+        }
+        if(equipe=='blue'){
+            for (const pion of this.bluePlayerPionList) {
+                let index=0;
+                while( index < tmpPionList.length){
+                    if(pion == tmpPionList[index]){
+                        console.log(pion+" et "+tmpPionList[index]);
+                        tmpPionList.splice(index,1);
+                        break;
+                    } 
+                    index++;
+                }
+            }
+
+            let rdm =0;
+            while(this.bluePlayerPionList.length < modulePion.getNumber('all') && tmpPionList.length > 0){
+                for(let row=0;row<5;++row){
+                    for(let column = 0; column<this.grid[row].length;++column){
+                        if(this.grid[row][column].name == 'empty'){
+                            rdm = Math.floor(Math.random() * tmpPionList.length);
+                            this.addPion(row,column,tmpPionList[rdm],'blue');
+                            tmpPionList.splice(rdm,1);
                         }
                     }
                 }
             }
+
         }else{
-            while(this.redPlayerPionList.length < modulePion.getNumber('all')){
-                for (const pion of pionList) {
-                    while(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length < pion.number){
-                        for(let row=6;row<this.grid.length;++row){
-                            for(let column = 0; column<this.grid[row].length;++column){
-                                if(this.grid[row][column].name == 'empty') this.addPion(row,column,pion.name,'red'); 
-                            }
+            for (const pion of this.redPlayerPionList) {
+                let index=0;
+                while( index < tmpPionList.length){
+                    if(pion == tmpPionList[index]){
+                        console.log(pion+" et "+tmpPionList[index]);
+                        tmpPionList.splice(index,1);
+                        break;
+                    } 
+                    index++;
+                }
+            }
+
+            let rdm =0;
+            while(this.redPlayerPionList.length < modulePion.getNumber('all') && tmpPionList.length > 0){
+                for(let row=6;row<this.grid.length;++row){
+                    for(let column = 0; column<this.grid[row].length;++column){
+                        if(this.grid[row][column].name == 'empty'){
+                            rdm = Math.floor(Math.random() * tmpPionList.length);
+                            this.addPion(row,column,tmpPionList[rdm],'red');
+                            tmpPionList.splice(rdm,1);
                         }
                     }
                 }
             }
         }
+
         if((this.redPlayerPionList.length + this.bluePlayerPionList.length) >= 2*modulePion.getNumber('all')){
             this.started = true;
         }
