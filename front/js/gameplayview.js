@@ -5,7 +5,7 @@ class Gameplayview {
     constructor(game, name, pion,color) {
         this.game = game;
         this.name = name;
-        //couleur du joueur a qui est lié l'affichage
+        //couleur du joueur  qui est lié  à l'affichage
         this.color=color;
         this.grille = this.grilleStetter(pion);
 
@@ -41,7 +41,7 @@ class Gameplayview {
         return grille;
     }
 
-    //fonction qui met a joueur l'affichage du plateau
+    //fonction qui met a jour l'affichage du plateau
     grilleReload(){
 
         //on demande au serveur d'envoyer la nouvelle grille
@@ -54,7 +54,7 @@ class Gameplayview {
             this.game.started = started;
         });
 
-        //on demande au cerveur quel joueur joue
+        //on demande au serveur quel joueur joue
         socket.on('getCurrentPlayer',(player)=>{
             this.game.currentPlayer = player;
         });
