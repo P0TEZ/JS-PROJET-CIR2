@@ -8,12 +8,13 @@ module.exports = {
 
     //Gestion du login et des mdp si les champs sont vides
     if((login && mdp && mdp2) != '') {
-      if (mdp == mdp2) {
 
-      let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
+
+        let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
 
       connection.query(sql, mdp, function (err, result) {
-        if (err) throw err;
+          
+          if (err) throw err;
 
         //Verification si le mot de passe est disponible
         if (result.length == 0) {
@@ -54,10 +55,7 @@ module.exports = {
           res.send('existe_mdp');
         }
       });
-      }else{
-        console.log("les mdp sont différents"); 
-        res.send('differents');
-      }
+
     }else {
       res.send('null');
     }
