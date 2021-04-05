@@ -75,6 +75,9 @@ class Gameplayview {
                     }else{
                         this.grille[row][column].src = " ";
                     }
+                    if(this.game.grid[row][column].name =='empty' && this.color != this.game.grid[row][column].equipe){
+                        this.grille[row][column].setAttribute('select','false');
+                    }
                 }
             }
         }

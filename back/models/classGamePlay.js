@@ -143,7 +143,7 @@ class GamePlay extends Observable{
         }else{
             let pionList = modulePion.getAllPiece();
 
-            if(joueurActuel){
+            if(joueurActuel == 'blue'){
                 for (const pion of pionList) {
                     if(this.bluePlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number){
                         this.addPion(row,column,pion.name,joueurActuel);
