@@ -270,6 +270,7 @@ io.on('connection', (socket) => {
             io.emit('returnListBlue', game1.bluePlayerPionList);
             io.emit('returnListRed', game1.redPlayerPionList);
             io.emit('Started', game1.started);
+            io.emit('getCurrentPlayer',game1.currentPlayer);
             io.emit('reload');
           }
           if (game1.end() == 4) {
