@@ -81,7 +81,9 @@ class GamePlay extends Observable{
 
     }
 
-    //Fonction qui simule une attaque et return si le pion est suprimé ou non, 0 : pas de pion supprime, 1 : un pion supprime
+    //Fonction qui simule une attaque et return si le pion est suprimé ou non, 
+    // 0 : pas de pion supprime, 
+    // 1 : un pion supprime
     // 2: les deux pions sont suuprimés
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
@@ -117,18 +119,26 @@ class GamePlay extends Observable{
     //Fonction qui simule un tour (place les pions et attaque), si le jeu n'est pas commencé les joueurs remplissent leurs grilles
     // sinon ils jouent
     play(row,column, joueurActuel){
+
+        //si le joueur joue alors que ce n'est pas son tour
         if(joueurActuel != this.currentPlayer && this.started){
             return 0;
         }
         let selected = this.grid[row][column];
         //console.log(row+"   "+column); 
+
+        //si on joue sur une rivière
         if(this.grid[row][column].name == 'River') return 1;
 
         if(this.started){
+
+            //si on joue un pion jouable et qu'on n'a pas deja selectionné un pion
             if(this.isAllUnSelect() && selected.name != 'empty' && selected.name != 'River' && selected.name != 'Flag' && selected.name != 'Bomb' && selected.equipe === this.currentPlayer){
             
                 this.generatePath(row,column);
             }
+
+            //si == true alors on peut deplacer sur la case 
             else if(this.grid[row][column].select == true){
                 
                 this.pionMove(row,column);
@@ -137,7 +147,7 @@ class GamePlay extends Observable{
                     this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
                 }
             }
-        }else{
+        }else{//sinon la game n'a pas commencé et les joueurs placent leurs pions
             let pionList = modulePion.getAllPiece();
 
             if(joueurActuel == 'blue'){
@@ -146,17 +156,21 @@ class GamePlay extends Observable{
                         this.addPion(row,column,pion.name,joueurActuel);
                     }
                 }
-            }else{
+            }else{//sinon joueur rouge
                 for (const pion of pionList) {
                     if(this.redPlayerPionList.filter(aPion=>aPion === pion.name).length<pion.number) {
                         this.addPion(row, column, pion.name, joueurActuel);
                     }
                 }
             }
+
+            //si la somme des pions des 2 joueurs >= ou pions max durant une partie on lance la game
             if((this.redPlayerPionList.length + this.bluePlayerPionList.length) >= 2*modulePion.getNumber('all')){
                 this.started = true;
 
             }
+
+            //on passe le tour du joueur
             this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
         }
 
@@ -177,7 +191,7 @@ class GamePlay extends Observable{
         return AllUnSelect;
     }
 
-    //Fonction qui remet toutes les cases non selectionnable
+    //Fonction qui remet toutes les cases non selectionnable et on retire les equipe des cases vide
     unSelectAll(){
         for(let row=0;row<this.grid.length;++row){
             for(let column = 0; column<this.grid[row].length;++column){
@@ -273,17 +287,24 @@ class GamePlay extends Observable{
             
         
         }
+
+        //on garde en memoire le pion qui se va se deplacer et sa position
         this.previousPlay.pion = this.grid[row][column];
         this.previousPlay.row = row;
         this.previousPlay.column = column;
     }
 
-    //Fonction qui déplace un pion d'un point A à un point B
+    //Fonction qui déplace le pion en memoire d'un point A à un point B
     pionMove(row,column){
+        
+        //si la case est vide on le deplace
         if(this.grid[row][column].name =="empty"){
             this.grid[row][column] = this.previousPlay.pion;
             this.grid[this.previousPlay.row][this.previousPlay.column] = new Pion('empty','none');
         }
+
+        //si elle est prise par un pion de la meme equipe == impossible
+        //si c est un pion de l autre joueur on lance le combat
         else if(this.grid[row][column].equipe != this.previousPlay["pion"].equipe){
             let result = this.attack(this.previousPlay.pion,row,column);
 
@@ -317,17 +338,21 @@ class GamePlay extends Observable{
         this.unSelectAll();
     }
 
-    //Fonction qui permet de remplir la partie de façon aléatoire
+    //Fonction qui permet de placer pour un joueur tous les pions restant de facon aleatoire
     autoFill(equipe=this.currentPlayer){
         let pionList = modulePion.getAllPiece();
         let tmpPionList = new Array();
         
+        //genere la liste avec tous les pions possible d'une partie
         for (const pion of pionList) {
             for(let i=0; i<pion.number;++i){
                 tmpPionList.push(pion.name);
             }
         }
+        //pour le joueur bleu
         if(equipe=='blue'){
+
+            //retire de la liste tmp les pions deja sur le terrain
             for (const pion of this.bluePlayerPionList) {
                 let index=0;
                 while( index < tmpPionList.length){
@@ -340,6 +365,8 @@ class GamePlay extends Observable{
                 }
             }
 
+            //on parcour tous le pateau coté bleu et on place sur chaque case vide un pion 
+            //pris aleatoirement dans la liste tmp (et on le retire de tmp)
             let rdm =0;
             while(this.bluePlayerPionList.length < modulePion.getNumber('all') && tmpPionList.length > 0){
                 for(let row=0;row<5;++row){
@@ -353,7 +380,7 @@ class GamePlay extends Observable{
                 }
             }
 
-        }else{
+        }else{//meme chose pour rouge
             for (const pion of this.redPlayerPionList) {
                 let index=0;
                 while( index < tmpPionList.length){
@@ -380,6 +407,7 @@ class GamePlay extends Observable{
             }
         }
 
+        //s'il y a tous les pion on commence la partie
         if((this.redPlayerPionList.length + this.bluePlayerPionList.length) >= 2*modulePion.getNumber('all')){
             this.started = true;
         }
@@ -390,7 +418,7 @@ class GamePlay extends Observable{
         let count=0;
         if(!this.started ) return 0; //ps de victoire
         
-
+        //si plus de pions mobile pour bleu
         if(!this.bluePlayerPionList.includes('Marshal') && !this.bluePlayerPionList.includes('General')
             && !this.bluePlayerPionList.includes('Colonel') && !this.bluePlayerPionList.includes('Major')
             && !this.bluePlayerPionList.includes('Captain') && !this.bluePlayerPionList.includes('Lieutenant')
@@ -400,7 +428,7 @@ class GamePlay extends Observable{
             count+=1;
           
         }
-
+        //si plus de pion mobile pour rouge
         if(!this.redPlayerPionList.includes('Marshal') && !this.redPlayerPionList.includes('General')
             && !this.redPlayerPionList.includes('Colonel') && !this.redPlayerPionList.includes('Major')
             && !this.redPlayerPionList.includes('Captain') && !this.redPlayerPionList.includes('Lieutenant')
