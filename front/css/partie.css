@@ -62,9 +62,13 @@ body {
   line-height: 8vh;
 }
 
-button#currentPlayer {
+button, #currentPlayer {
   order: 1;
   flex: 1 0 100%;
+}
+
+#currentPlayer {
+  font-size: 1.5rem;
 }
 
 .c-dialog {

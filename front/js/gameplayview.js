@@ -81,11 +81,15 @@ class Gameplayview {
                     if(this.game.grid[row][column].name =='empty' && this.color != this.game.grid[row][column].equipe){
                         this.grille[row][column].setAttribute('select','false');
                     }
-                    let btn = document.getElementById("currentPlayer");
+                    let div = document.getElementById("currentPlayer");
                     if(this.game.currentPlayer == 'blue'){
-                        btn.innerHTML= "C'est au joueur bleu";                        
+                        div.innerHTML= "C'est au joueur bleu";
+                        div.className = "bg-Blue"; 
+                        document.body.className= "bg-Blue";                      
                     }else{
-                        btn.innerHTML="C'est au joueur rouge";
+                        div.innerHTML="C'est au joueur rouge";
+                        div.className = "bg-Red";
+                        document.body.className= "bg-Red";
                     }
                 }
             }
