@@ -1,7 +1,8 @@
-const modulePion=require('./classPionBack');
+const modulePion=require('./modulePion');
 
 class Pion{
 
+    //Recuperer les caracteritiques des pions grâce au module des pions
     constructor(name,joueur){
         this.name = name;
         this.number = modulePion.getNumber(this.name);

@@ -1,7 +1,7 @@
 const Observable = require("./Observable");
-const Pion = require("./pion");
+const Pion = require("./classPion");
 //const Pion = require("./classPion"); 
-const modulePion=require('./classPionBack');
+const modulePion=require('./modulePion');
 
 class GamePlay extends Observable{
 
