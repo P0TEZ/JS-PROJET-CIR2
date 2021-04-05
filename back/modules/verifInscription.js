@@ -13,7 +13,7 @@ module.exports = {
         let sql = "SELECT mdp FROM inscrit WHERE mdp= ? ";
 
       connection.query(sql, mdp, function (err, result) {
-          
+
           if (err) throw err;
 
         //Verification si le mot de passe est disponible

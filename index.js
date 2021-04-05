@@ -155,13 +155,13 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 
   let cipher = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
   let crypted =cipher.update(mdp,'utf8','hex');
-  crypted += cipher.final();
+  crypted += cipher.final('hex');
   console.log(crypted);
   console.log(mdp);
   const mdp2 = req.body.mdp2
   let cipher2 = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
   let crypted2 =cipher2.update(mdp2);
-  crypted2 += cipher2.final();
+  crypted2 += cipher2.final('hex');
   console.log(crypted2);
   console.log(mdp2);
   // Error management
@@ -203,7 +203,10 @@ io.on('connection', (socket) => {
 
     //Page Compte
     io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
-    io.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
+    let decipher=crypto.createDecipheriv(algorithm_cryptage,Buffer.from(cle), iv);
+    let dec = decipher.update(socket.handshake.session.mdp,'hex','utf8');
+    dec+=decipher.final('utf8');
+    io.emit('show-user-mdp',dec); //Affichage du mot de passe sur la page compte
 
     let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 10";
     connection.query(sql, function (err, result) {

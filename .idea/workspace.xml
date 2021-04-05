@@ -7,8 +7,6 @@
       <change beforePath="$PROJECT_DIR$/front/js/compte/compte.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/js/compte/compte.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/js/inscription/inscription.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/js/inscription/inscription.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +65,7 @@
       <workItem from="1617563959568" duration="2581000" />
       <workItem from="1617567011556" duration="1389000" />
       <workItem from="1617568436938" duration="38000" />
-      <workItem from="1617609296634" duration="4896000" />
+      <workItem from="1617609296634" duration="5292000" />
     </task>
     <task id="LOCAL-00001" summary="modif fonction victoire">
       <created>1617174787188</created>
