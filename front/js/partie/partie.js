@@ -30,6 +30,10 @@ socket.on('view', (game1, pion, color) => {
 
         socket.on('reload', () => {
             partie1.grilleReload();
+            
+            if(game1.started && btn){
+                btn.remove();
+            }
         });
 
     });
@@ -65,6 +69,10 @@ socket.on('view', (game1, pion, color) => {
 
         socket.on('reload', () => {
             partie2.grilleReload();
+            
+            if(game1.started && btn){
+                btn.remove();
+            }
         });
     });
 });
