@@ -1,3 +1,5 @@
+const e = require("express");
+
 module.exports = {
     printServerStatus() {
         console.log('Server ok');
@@ -38,6 +40,8 @@ module.exports = {
                         req.session.username = login;
                         req.session.mdp = mdp;
                         res.send('ok');
+                    }else{
+                        res.send('err_pseudo'); 
                     }
                 }
             }
