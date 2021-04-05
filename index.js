@@ -97,7 +97,6 @@ app.post('/login', urlencodedparser, (req, res) => {
 
     connection.query(sql, crypted, function (err, result) {
       if (err) throw err;
-
       //Vérification de la page login
       states.verifMdp(connection, req, res, result, login, crypted);
     });
