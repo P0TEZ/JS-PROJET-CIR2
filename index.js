@@ -1,35 +1,24 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const urlencodedparser = bodyParser.urlencoded({ extended: false });
+const sharedsession = require("express-socket.io-session");
+const { body, validationResult } = require('express-validator');
+
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mysql = require('mysql');
-const bodyParser = require('body-parser');
-const urlencodedparser = bodyParser.urlencoded({ extended: false });
-
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
-//const Theoden = require('./back/models/theoden.js');
-const room = require('./back/models/class_room.js');
 const module_class_room = require('./back/modules/module_room');
-const Theoden = require('./back/models/Theoden');
-const Observable = require('./back/models/Observable');
-const gameplay = require('./back/models/classGameplay');
-
-const Pion = require('./back/models/pion');
-//const Gameplayview = require('./front/js/gameplayview'); 
 const bcrypt = require('bcrypt');
+const partieBack = require('./back/modules/partieBack');
 
-const sharedsession = require("express-socket.io-session");
-const { body, validationResult } = require('express-validator');
-const fs = require('fs');
-const { count } = require('console');
-const { setMaxListeners } = require('process');
-const { isBuffer } = require('util');
+const gameplay = require('./back/models/classGameplay');
+const Pion = require('./back/models/classPion');
 
 let queue = [];
-let isGameFull = false;
 let couleur = "";
-
 let game1 = new gameplay();
 let pion = new Pion();
 
@@ -54,18 +43,12 @@ io.use(sharedsession(session, {
 }));
 
 app.get('/', (req, res) => {
-
-  // Test des modules 
-  states.printServerStatus();
-  states.printProfStatus();
-  let test = new Theoden();
-
   //Redirection sur la page de login
   res.sendFile(__dirname + '/front/html/login.html');
 });
 
 ///////////////////////////////////////////////////
-// VERIFIE SI IL EST BIEN DANS LA BDD /////////////
+// VERIFIE S'IL EST BIEN DANS LA BDD //////////////
 ///////////////////////////////////////////////////
 
 app.post('/login', urlencodedparser, (req, res) => {
@@ -81,15 +64,17 @@ app.post('/login', urlencodedparser, (req, res) => {
 
     req.session.save();
 
+    //Cryptage du mot de passe
+
     let sql_mdp = " SELECT mdp FROM inscrit WHERE username=?";
 
     connection.query(sql_mdp, login, function (err, result) {
       if (err) throw err;
-
+      //Transformation de result en variable
       let string = JSON.stringify(result);
       let json1 = JSON.parse(string);
 
-
+      //Utilisation de la librairie bcrypt
       bcrypt.compare(mdp, json1[0].mdp, function (err, result2) {
         if (result2 == true) {
           let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
@@ -108,23 +93,16 @@ app.post('/login', urlencodedparser, (req, res) => {
 app.get('/leaderboard', (req, res) => {
 
   let sessionData = req.session;
-  // Test des modules 
 
-  let tab = new Array(1);
   if (sessionData) {
+    //Appel du module room qui va push l'utilisateur dans la queue
     if (module_class_room.isInRoom(queue, sessionData) != 1) {
       module_class_room.deleteQueue(queue);
       module_class_room.pushToQueue(couleur, queue, req, res);
       module_class_room.print(queue);
     }
   }
-  let roomGame = new room(queue[0], queue[1]);
 
-
-  //A faire : Si quitte page leaderboard + redirigé les joeurs de la room sur la page partie
-
-
-  //let test = new room();
   if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/leaderboard.html');
   } else {
@@ -156,10 +134,8 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   const mdp2 = req.body.mdp2;
 
 
-  let res1 = bcrypt.hash(mdp, 10, function (err, res1) {
+  bcrypt.hash(mdp, 10, function (err, res1) {
     if (err) throw err;
-    //socket.emit("resultCrypt", res);
-    console.log("Mdp crypté :", res1);
 
     // Error management
     const errors = validationResult(req);
@@ -167,9 +143,9 @@ app.post('/inscription', urlencodedparser, (req, res) => {
       console.log(errors);
     } else {
       if (mdp == mdp2) {
+        //Appelle de la fonction qui verifie ce que l'utilisateur rentre dans l'inscription
         verifInscription.verifLoginMdp(connection, req, res, login, res1, mdp2);
       } else {
-        console.log("Les 2 mdps sont differents");
         res.send("differents");
       }
 
@@ -179,7 +155,6 @@ app.post('/inscription', urlencodedparser, (req, res) => {
 
 app.get('/partie', (req, res) => {
   let sessionData = req.session;
-
 
   if (sessionData.username) {
     res.sendFile(__dirname + '/front/html/partie.html');
@@ -195,53 +170,55 @@ io.on('connection', (socket) => {
 
   socket.on("login", () => {
 
-
     //Page Leaderboard
     socket.emit('new-message', 'Utilisateur ' + socket.handshake.session.username + ' vient de se connecter');
 
     //Page Compte
-    socket.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
-    socket.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
 
+    //Affichage de l'username sur la page compte
+    socket.emit('show-user-username', socket.handshake.session.username);
+    //Affichage du mot de passe sur la page compte
+    socket.emit('show-user-mdp', socket.handshake.session.mdp);
 
+    //Affichage du tableau des scores (Que les 5 premiers)
     let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 5";
     connection.query(sql, function (err, result) {
       if (err) throw err;
       socket.emit('resultats-leaderboard', result);
     });
 
-
+    //Vérification si l'utilisateur est deja dans la queue
     let verif = false;
     socket.emit('show-room', verif, queue.length);
     io.emit('room-player', verif, queue);
+
+    //Déconnection
     io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
 
-    console.log(queue);
     io.emit('isQueueOk', queue.length);
     io.emit('decoDansQueue', false);
+
+    //Page compte
     io.emit('compte');
 
   });
 
   socket.on('message', (msg) => {
     //Affichage en console
-    console.log('message: ' + msg);
+    console.log('Message: ' + msg);
     //Envoie le message pour tous, Affichage du chat sur la page leaderboard
     io.emit('new-message2', socket.handshake.session.username + ' : ' + msg);
   });
 
-  if (isGameFull == true) {
-    io.emit('gamefull', socket);
-  }
   ////////////////////////////////////////
   //////////  JEU ////////////////////////
   ////////////////////////////////////////
 
   socket.on("partie", () => {
-
+    //Socket de la view du jeu
     socket.emit('view', game1, pion, socket.handshake.session.couleur);
 
-
+    //Association de la session avec une couleur
     if (socket.handshake.session.couleur == "red") {
       socket.emit('red');
     }
@@ -249,23 +226,25 @@ io.on('connection', (socket) => {
       socket.emit('blue');
     }
 
+    //On regarde toutes les sessions 
     let srvSockets = io.sockets.sockets;
     srvSockets.forEach(user => {
 
       if (user.handshake.session.username == socket.handshake.session.username) {
-
+        //Gestion de l'autofill de la map
         socket.on('autoFill', (couleur_session) => {
           game1.autoFill(couleur_session);
           io.emit('returnGrid', game1.grid);
           io.emit('Started', game1.started);
+          //Reload de la map
           io.emit('reload');
         });
 
+        //Socket pour jouer en fonction de la couleur
         socket.on('play', (row, column, couleur_session) => {
+          //On regarde si la partie n'est pas finie
           if (game1.end() != (1 || 2) && game1.end() != (3 || 4)) {
             game1.play(row, column, couleur_session);
-            console.log("winner", game1.getWinner());
-            console.log("enddd", game1.end());
             io.emit('returnGrid', game1.grid);
             io.emit('returnListBlue', game1.bluePlayerPionList);
             io.emit('returnListRed', game1.redPlayerPionList);
@@ -273,194 +252,73 @@ io.on('connection', (socket) => {
             io.emit('getCurrentPlayer',game1.currentPlayer);
             io.emit('reload');
           }
+          //Si il y a une égalité
           if (game1.end() == 4) {
-            console.log("c'est bien un draw");
             io.emit('affichage_draw');
-
+            //Gestion de l'égalité
             let score = 30;
+            let data;
+            partieBack.gestionDrawJoueur1(connection, data, user.handshake.session.username, score);
 
-
-            let sql_nbrDraw = " SELECT score FROM resultats WHERE username= ?";
-
-            let data = [user.handshake.session.username];
-
-            connection.query(sql_nbrDraw, data, function (err, result) {
-              if (err) throw err;
-              let string = JSON.stringify(result);
-              let json1 = JSON.parse(string);
-
-              json1[0].score += score;
-
-              let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
-
-              let data_update_score = [json1[0].score, data];
-
-              connection.query(sql_update_score, data_update_score, function (err, result) {
-                if (err) throw err;
-                console.log(result);
-              });
-
-
-            });
+            //On fait la meme chose mais pour l'autre joueur
             let sql_nbrDraw2 = " SELECT score FROM resultats WHERE username= ?";
             let data2;
             let srvSockets = io.sockets.sockets;
             srvSockets.forEach(user => {
+              //On selectionne l'autre joueur
               if (user.handshake.session.username != data) {
                 data2 = [user.handshake.session.username];
               }
 
             });
-            connection.query(sql_nbrDraw2, data2, function (err, result) {
-              if (err) throw err;
-              let string = JSON.stringify(result);
-              let json1 = JSON.parse(string);
-
-              json1[0].score += score;
-
-              let sql_update_score2 = " UPDATE resultats SET score=? WHERE username=?";
-
-              let data_update_score2 = [json1[0].score, data2];
-
-              connection.query(sql_update_score2, data_update_score2, function (err, result) {
-                if (err) throw err;
-              });
-            });
+            partieBack.gestionDrawJoueur2(connection, sql_nbrDraw2, data2, score);
           }
+          //Si la partie est finie mais que ce n'est pas un draw
+          let couleurWin = game1.getWinner();
           if (game1.end() == (1 || 2) || game1.end() == (2 || 3)) {
-            console.log("Le gagnant est", game1.getWinner());
-            console.log("Fin du jeu");
             let score;
+            //Le score change en fonction du cas de victoire
             if (game1.end() == 1 || game1.end() == 2) {
               score = 50;
             }
             if (game1.end() == 3) {
               score = 30;
-              console.log("le score est 30 ");
             }
-            let couleurWin = game1.getWinner();
+            //Récupération de la couleur du winner
+            
 
             let srvSockets = io.sockets.sockets;
             srvSockets.forEach(user => {
-
-              if (user.handshake.session.couleur == couleurWin) { // Si la couleur de la session est la meme que la couleur du vainqueur
-                console.log("Le gagnant est :", user.handshake.session.username);
-
-                //  On recup  le nbr de win puis on l'update avec +1, le score +50 idem
-
-                let sql_nbrWin = " SELECT nb_win FROM resultats WHERE username= ?";
-                io.emit('affichage_win', user.handshake.session.username);
-                let data = [user.handshake.session.username];
-
-                connection.query(sql_nbrWin, data, function (err, result) {
-                  if (err) throw err;
-
-                  let string = JSON.stringify(result);
-                  let json1 = JSON.parse(string);
-
-                  json1[0].nb_win += 1;
-
-                  let sql_update_nbWin = " UPDATE resultats SET nb_win=? WHERE username=?";
-
-                  let data_update_nbWin = [json1[0].nb_win, data];
-
-                  connection.query(sql_update_nbWin, data_update_nbWin, function (err, result) {
-                    if (err) throw err;
-                  });
-
-
-                });
-
-                let sql_nbrScore = " SELECT score FROM resultats WHERE username= ?";
-                let data2 = [user.handshake.session.username];
-
-                connection.query(sql_nbrScore, data2, function (err, result) {
-                  console.log("result et data ", result, data);
-                  if (err) throw err;
-                  let string = JSON.stringify(result);
-                  let json1 = JSON.parse(string);
-                  console.log("json ", json1[0].score, score);
-                  json1[0].score += score;
-                  console.log("json apres", json1[0].score, score);
-                  let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
-
-                  let data_update_score = [json1[0].score, data2];
-
-                  connection.query(sql_update_score, data_update_score, function (err, result) {
-                    if (err) throw err;
-                  });
-
-
-                });
-
-              } else if (user.handshake.session.username != couleurWin) {  //Si la couleur est differente du vainqueur
-
-                let data = [user.handshake.session.username];
-
-                // On recup le nbr de loose puis on le rajoute plus 1, on change pas le score
-
-                let sql_nbrLoose = " SELECT nb_loose FROM resultats WHERE username= ?";
-
-
-                connection.query(sql_nbrLoose, data, function (err, result) {
-                  if (err) throw err;
-
-                  let string = JSON.stringify(result);
-                  let json1 = JSON.parse(string);
-
-                  json1[0].nb_loose += 1;
-
-
-                  let sql_update_nbLoose = " UPDATE resultats SET nb_loose=? WHERE username=?";
-
-
-                  let data_update_nbLoose = [json1[0].nb_loose, data];
-
-
-                  connection.query(sql_update_nbLoose, data_update_nbLoose, function (err, result) {
-                    console.log(result);
-                    if (err) throw err;
-                  });
-
-
-                });
-              }
+              io.emit('affichage_win', user.handshake.session.couleur);
+              partieBack.gestionFlagJoueur1(user.handshake.session.username, connection, couleurWin, score);
             });
+
+          }  //Si la couleur est differente du vainqueur
+          else if (user.handshake.session.username != couleurWin) {
+            partieBack.gestionFlagJoueur2(user.handshake.session.username, connection);
           }
         });
       }
     });
-
-
-
   });
-  socket.on('disconnect', () => {
-    //console.log('Un utilisateur s\'est déconnecté');
 
-    //socket.disconnect();
-    //io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
-  });
+  //Gestion de la deconnection
   socket.on('decooo', (reason) => {
     if (reason == "io client disconnect") {
       console.log('Un utilisateur s\'est déconnecté');
-
+      //Déconnection du socket
       socket.disconnect();
+      //On supprime l'utilisateur de la queue
       for (let i = 0; i < queue.length; i++) {
         if (queue[i] == socket.handshake.session.username) {
           queue.splice(i, 1);
         }
       }
-      console.log(queue);
+      //On informe l'utilisateur que une personne s'est déco
       io.emit('decoDansQueue', true);
     }
   });
-
-
 });
-
-
-
-
 
 http.listen(4255, () => {
   console.log('serveur lance sur le port 4256 http://localhost:4255/ ;');
