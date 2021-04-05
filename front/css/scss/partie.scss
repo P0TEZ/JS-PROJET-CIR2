@@ -3,6 +3,7 @@
 body{
     overflow-x: hidden;
     display: flex;
+    flex-wrap: wrap;
     //background-color: #8FCE7D;
     justify-content: center;
 }
@@ -69,6 +70,12 @@ body{
             line-height: 8vh;
         }
     }   
+}
+
+
+button{
+    order: 1;
+    flex: 1 0 100%;
 }
 
 .c-dialog {
