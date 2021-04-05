@@ -6,6 +6,10 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
+const crypto = require('crypto');
+const algorithm_cryptage = 'aes-256-ctr';
+const cle = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
 
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
@@ -75,6 +79,12 @@ app.post('/login', urlencodedparser, (req, res) => {
   const mdp = req.body.mdp
 
 
+
+  let cipher = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
+  let crypted =cipher.update(mdp,'utf8','hex');
+  crypted += cipher.final();
+
+
   // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -85,10 +95,10 @@ app.post('/login', urlencodedparser, (req, res) => {
 
     let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
 
-    connection.query(sql, mdp, function (err, result) {
+    connection.query(sql, crypted, function (err, result) {
       if (err) throw err;
       //Vérification de la page login
-      states.verifMdp(connection, req, res, result, login, mdp);
+      states.verifMdp(connection, req, res, result, login, crypted);
     });
   }
 });
@@ -141,14 +151,31 @@ app.post('/inscription', urlencodedparser, (req, res) => {
   //Récupération des données
   const login = req.body.login
   const mdp = req.body.mdp
-  const mdp2 = req.body.mdp2
 
+
+  let cipher = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
+  let crypted =cipher.update(mdp,'utf8','hex');
+  crypted += cipher.final('hex');
+  console.log(crypted);
+  console.log(mdp);
+  const mdp2 = req.body.mdp2
+  let cipher2 = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
+  let crypted2 =cipher2.update(mdp2);
+  crypted2 += cipher2.final('hex');
+  console.log(crypted2);
+  console.log(mdp2);
   // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors);
   } else {
-    verifInscription.verifLoginMdp(connection, req, res, login, mdp, mdp2);
+    if(mdp == mdp2){
+
+      verifInscription.verifLoginMdp(connection, req, res, login, crypted, crypted2);
+    }else{
+      console.log("les mdp sont différents");
+      res.send('differents');
+    }
   }
 });
 
@@ -176,7 +203,10 @@ io.on('connection', (socket) => {
 
     //Page Compte
     io.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
-    io.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
+    let decipher=crypto.createDecipheriv(algorithm_cryptage,Buffer.from(cle), iv);
+    let dec = decipher.update(socket.handshake.session.mdp,'hex','utf8');
+    dec+=decipher.final('utf8');
+    io.emit('show-user-mdp',dec); //Affichage du mot de passe sur la page compte
 
     let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 10";
     connection.query(sql, function (err, result) {
