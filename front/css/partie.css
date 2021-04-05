@@ -62,7 +62,7 @@ body {
   line-height: 8vh;
 }
 
-button {
+button#currentPlayer {
   order: 1;
   flex: 1 0 100%;
 }

@@ -56,6 +56,9 @@ class Gameplayview {
         socket.on('Started',(started)=>{
             this.game.started = started;
         });
+        socket.on('getCurrentPlayer',(player)=>{
+            this.game.currentPlayer = player;
+        });
 
         for(let row=0;row<this.grille.length;++row){
             for(let column = 0; column<this.grille[row].length;++column){
@@ -77,6 +80,12 @@ class Gameplayview {
                     }
                     if(this.game.grid[row][column].name =='empty' && this.color != this.game.grid[row][column].equipe){
                         this.grille[row][column].setAttribute('select','false');
+                    }
+                    let btn = document.getElementById("currentPlayer");
+                    if(this.game.currentPlayer == 'blue'){
+                        btn.innerHTML= "C'est au joueur bleu";                        
+                    }else{
+                        btn.innerHTML="C'est au joueur rouge";
                     }
                 }
             }
