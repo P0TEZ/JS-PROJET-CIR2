@@ -16,10 +16,11 @@ class GamePlay extends Observable{
         this.started= false;
 
         this.previousPlay = {"pion": null, "row": null, "column":null};
-
-        this.setup();
         console.log(this.currentPlayer);
     }
+
+
+    // Fonction qui initialise la grille de jeu avec des cases vides et des cases rivières
     gridSetUp(){
         let grille = new Array(10);
         
@@ -41,27 +42,18 @@ class GamePlay extends Observable{
         console.log("Grille SetUp success");
         return grille;
     }
-    reset(){
-        for(let i=0; i<this.grid.length;i++){
-            for(let j=0; j<this.grid.length;i++){
-                this.grid[i][j] = null;
-            }
-        }
 
-        this.currentPlayer=0;
-    }
-
+    //Fonction qui récupère le joueur actuel
     getCurrentPlayer(){
         return this.currentPlayer;
     }
 
+    //Fonction qui récupère la couleur du gagnant
     getWinner(){
         return this.winner;
     }
 
-    getCaseState(i,j) {
-        return this.grid[i][j];
-    }
+    //Fonction qui permet d'ajouter un nouveau pion à un endroit précis et l'ajoute à la liste de l'equipe correspondante
     addPion(row,column,name,equipe='none'){
         if(this.grid[row][column].name ==='empty'){
             
@@ -88,6 +80,9 @@ class GamePlay extends Observable{
         }
 
     }
+
+    //Fonction qui simule une attaque et return si le pion est suprimé ou non, 0 : pas de pion supprime, 1 : un pion supprime
+    // 2: les deux pions sont suuprimés
     attack(Pion,i,j){
         if(this.grid[i][j].equipe !== Pion.equipe){
             if(Pion.name === "Miner" && this.grid[i][j].name === "Bomb"){
@@ -100,8 +95,7 @@ class GamePlay extends Observable{
             }
             else if(this.grid[i][j].name ==="Flag"){
                 this.winner = Pion.equipe;
-                console.log("dans attack "+Pion.equipe); 
-                console.log("dans attack "+this.winner); 
+
                 console.log("partie finie"); 
                 
                 return 1;
@@ -119,6 +113,9 @@ class GamePlay extends Observable{
             }
         }
     }
+
+    //Fonction qui simule un tour (place les pions et attaque), si le jeu n'est pas commencé les joueurs remplissent leurs grilles
+    // sinon ils jouent
     play(row,column, joueurActuel){
         if(joueurActuel != this.currentPlayer && this.started){
             return 0;
@@ -163,10 +160,9 @@ class GamePlay extends Observable{
             this.currentPlayer = this.currentPlayer ==='blue'?'red':'blue';
         }
 
-        console.log(this.winner);
-
-        console.log("fin play"); 
     }
+
+    //Fonction qui vérifie qu'aucun pion n'est selectionne
     isAllUnSelect(){
         let AllUnSelect = true;
         for(let row=0;row<this.grid.length;++row){
@@ -180,6 +176,8 @@ class GamePlay extends Observable{
         }
         return AllUnSelect;
     }
+
+    //Fonction qui remet toutes les cases non selectionnable
     unSelectAll(){
         for(let row=0;row<this.grid.length;++row){
             for(let column = 0; column<this.grid[row].length;++column){
@@ -192,6 +190,8 @@ class GamePlay extends Observable{
             }
         }
     }
+
+    //Fonction qui génére les possibilités de déplacement d'un pion
     generatePath(row,column){
         console.log("generate path"+row+" | "+column); 
         this.grid[row][column].select = true;
@@ -277,6 +277,8 @@ class GamePlay extends Observable{
         this.previousPlay.row = row;
         this.previousPlay.column = column;
     }
+
+    //Fonction qui déplace un pion d'un point A à un point B
     pionMove(row,column){
         if(this.grid[row][column].name =="empty"){
             this.grid[row][column] = this.previousPlay.pion;
@@ -314,6 +316,8 @@ class GamePlay extends Observable{
         }
         this.unSelectAll();
     }
+
+    //Fonction qui permet de remplir la partie de façon aléatoire
     autoFill(equipe=this.currentPlayer){
         let pionList = modulePion.getAllPiece();
         let tmpPionList = new Array();
@@ -380,43 +384,11 @@ class GamePlay extends Observable{
             this.started = true;
         }
     }
-    setup(){
-        /*this.addPion(0,0,'Scout','blue');
-        this.addPion(9,0,'Scout','red');
-        this.addPion(0,1,'Scout','blue');
-        this.addPion(9,1,'Scout','red');
-        this.addPion(0,2,'Scout','blue');
-        this.addPion(9,2,'Scout','red');
-        this.addPion(0,3,'Scout','blue');
-        this.addPion(9,3,'Scout','red');
-        this.addPion(0,4,'Scout','blue');
-        this.addPion(9,4,'Scout','red');
-        this.addPion(0,5,'Scout','blue');
-        this.addPion(9,5,'Scout','red');
-        this.addPion(0,6,'Scout','blue');
-        this.addPion(9,6,'Scout','red');
-        this.addPion(3,0,'Scout','blue');
-        this.addPion(6,9,'Scout','red');
 
-        this.addPion(1,2,'Bomb','blue');
-        this.addPion(8,2,'Bomb','red');
-        this.addPion(1,3,'Bomb','blue');
-        this.addPion(8,3,'Bomb','red');
-        this.addPion(1,4,'Bomb','blue');
-        this.addPion(8,4,'Bomb','red');
-        this.addPion(1,5,'Bomb','blue');
-        this.addPion(8,5,'Bomb','red');
-        this.addPion(1,6,'Bomb','blue');
-        this.addPion(8,6,'Bomb','red');
-        this.addPion(1,7,'Bomb','blue');
-        this.addPion(8,7,'Bomb','red');
-        
-       this.autoFill('blue');
-       this.autoFill('red');*/
-    }
+    //Fonction qui détermine la victoire
     end(){
         let count=0;
-        if(!this.started ) return 0;
+        if(!this.started ) return 0; //ps de victoire
         
 
         if(!this.bluePlayerPionList.includes('Marshal') && !this.bluePlayerPionList.includes('General')
@@ -438,15 +410,15 @@ class GamePlay extends Observable{
             count+=1;
 
         }
-        if(count == 1) return 3; //un joueur n'a plus de pion deplacable
-        if(count == 2) return 4; // draw
+        if(count == 1) return 3; // Une des équipes n'a plus de pions déplaçable
+        if(count == 2) return 4; // Match nul
         if(this.winner == 'red') {
-            return 1; //plus de flag donc equipe rouge
+            return 1; //drapeau bleu attrapé par les rouges
         }
         if(this.winner == 'blue') {
-            return 2; //plus de flag donc equipe bleu
+            return 2; //drapeau rouge attrapé par les bleus
         }
-        return 0;
+        return 0; //pas de victoire
         
     }
 }
