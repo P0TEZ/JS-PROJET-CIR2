@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="modif fonction victoire">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="modif fonction victoire" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,7 +61,7 @@
       <workItem from="1617568436938" duration="38000" />
       <workItem from="1617609296634" duration="5292000" />
       <workItem from="1617628983041" duration="4170000" />
-      <workItem from="1617633239881" duration="122000" />
+      <workItem from="1617633239881" duration="367000" />
     </task>
     <task id="LOCAL-00001" summary="modif fonction victoire">
       <created>1617174787188</created>
