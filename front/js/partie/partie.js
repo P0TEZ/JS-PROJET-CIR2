@@ -23,20 +23,22 @@ socket.on('view', (game1, pion, color) => {
         }
 
         //Creation d'un bouton pour que le joueur autoFill s'il veut
-        let btn = document.createElement(("BUTTON"));
-        btn.innerHTML= "Remplissage automatique";
-        btn.className ="bg-primary";
-        btn.addEventListener('click', ()=>{
-            event.preventDefault();
+        if(!game1.started){
+            let btn = document.createElement(("BUTTON"));
+            btn.innerHTML= "Remplissage automatique";
+            btn.className ="bg-primary";
+            btn.addEventListener('click', ()=>{
+                event.preventDefault();
 
-            //envoyer au serveur la fonction autoFill
-            socket.emit('autoFill', color);
-            //on enleve le bouton
-            btn.remove();
+                //envoyer au serveur la fonction autoFill
+                socket.emit('autoFill', color);
+                //on enleve le bouton
+                btn.remove();
 
 
-        });
-        document.body.append(btn);
+            });
+            document.body.append(btn);
+        }
         window.onresize = partie1.grilleResize();
 
         //Execute la fonction qui rafraichie la grille
@@ -73,20 +75,22 @@ socket.on('view', (game1, pion, color) => {
         }
 
         //Creation d'un bouton pour que le joueur autoFill s'il veut
-        let btn = document.createElement(("BUTTON"));
-        btn.innerHTML= "Remplissage automatique";
-        btn.className ="bg-primary";
-        btn.addEventListener('click', ()=>{
-            event.preventDefault();
+        if(!game1.started){
+            let btn = document.createElement(("BUTTON"));
+            btn.innerHTML= "Remplissage automatique";
+            btn.className ="bg-primary";
+            btn.addEventListener('click', ()=>{
+                event.preventDefault();
 
-            //envoyer au serveur la fonction autoFill
-            socket.emit('autoFill',color)
+                //envoyer au serveur la fonction autoFill
+                socket.emit('autoFill',color)
 
-            //on enleve le bouton
-            btn.remove();
+                //on enleve le bouton
+                btn.remove();
 
-        });
-        document.body.append(btn);
+            });
+            document.body.append(btn);
+        }
         window.onresize = partie2.grilleResize();
 
         //Execute la fonction qui rafraichie la grille
