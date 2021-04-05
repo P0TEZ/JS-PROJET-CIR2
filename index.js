@@ -6,11 +6,6 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const urlencodedparser = bodyParser.urlencoded({ extended: false });
 
-const crypto = require('crypto');
-const algorithm_cryptage = 'aes-256-ctr';
-const cle = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
-
 const verifInscription = require('./back/modules/verifInscription');
 const states = require('./back/modules/states');
 //const Theoden = require('./back/models/theoden.js');
@@ -22,7 +17,7 @@ const gameplay = require('./back/models/classGameplay');
 
 const Pion = require('./back/models/pion');
 //const Gameplayview = require('./front/js/gameplayview'); 
-
+const bcrypt = require('bcrypt');
 
 const sharedsession = require("express-socket.io-session");
 const { body, validationResult } = require('express-validator');
@@ -78,13 +73,6 @@ app.post('/login', urlencodedparser, (req, res) => {
   const login = req.body.login
   const mdp = req.body.mdp
 
-
-
-  let cipher = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
-  let crypted =cipher.update(mdp,'utf8','hex');
-  crypted += cipher.final();
-
-
   // Error management
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -93,12 +81,26 @@ app.post('/login', urlencodedparser, (req, res) => {
 
     req.session.save();
 
-    let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
+    let sql_mdp = " SELECT mdp FROM inscrit WHERE username=?";
 
-    connection.query(sql, crypted, function (err, result) {
+    connection.query(sql_mdp, login, function (err, result) {
       if (err) throw err;
-      //Vérification de la page login
-      states.verifMdp(connection, req, res, result, login, crypted);
+
+      let string = JSON.stringify(result);
+      let json1 = JSON.parse(string);
+
+
+      bcrypt.compare(mdp, json1[0].mdp, function (err, result2) {
+        if (result2 == true) {
+          let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
+
+          connection.query(sql, json1[0].mdp, function (err, result3) {
+            if (err) throw err;
+            //Vérification de la page login
+            states.verifMdp(connection, req, res, result3, login, json1[0].mdp);
+          });
+        }
+      });
     });
   }
 });
@@ -149,35 +151,30 @@ app.get('/compte', (req, res) => {
 
 app.post('/inscription', urlencodedparser, (req, res) => {
   //Récupération des données
-  const login = req.body.login
-  const mdp = req.body.mdp
+  const login = req.body.login;
+  const mdp = req.body.mdp;
+  const mdp2 = req.body.mdp2;
 
 
-  let cipher = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
-  let crypted =cipher.update(mdp,'utf8','hex');
-  crypted += cipher.final('hex');
-  console.log(crypted);
-  console.log(mdp);
-  const mdp2 = req.body.mdp2
-  let cipher2 = crypto.createCipheriv(algorithm_cryptage,Buffer.from(cle),iv);
-  let crypted2 =cipher2.update(mdp2);
-  crypted2 += cipher2.final('hex');
-  console.log(crypted2);
-  console.log(mdp2);
+  let res1 = bcrypt.hash(mdp, 10, function (err, res1) {
+    if (err) throw err;
+    //socket.emit("resultCrypt", res);
+    console.log("Mdp crypté :", res1);
 
-  // Error management
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    console.log(errors);
-  } else {
-    if(mdp == mdp2){
+    // Error management
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+    } else {
+      if (mdp == mdp2) {
+        verifInscription.verifLoginMdp(connection, req, res, login, res1, mdp2);
+      } else {
+        console.log("Les 2 mdps sont differents");
+        res.send("differents");
+      }
 
-      verifInscription.verifLoginMdp(connection, req, res, login, crypted, crypted2);
-    }else{
-      console.log("les mdp sont différents");
-      res.send('differents');
     }
-  }
+  });
 });
 
 app.get('/partie', (req, res) => {
@@ -204,10 +201,8 @@ io.on('connection', (socket) => {
 
     //Page Compte
     socket.emit('show-user-username', socket.handshake.session.username); //Affichage de l'username sur la page compte
-    let decipher=crypto.createDecipheriv(algorithm_cryptage,Buffer.from(cle), iv);
-    let dec = decipher.update(socket.handshake.session.mdp,'hex','utf8');
-    dec+=decipher.final('utf8');
-    socket.emit('show-user-mdp',dec); //Affichage du mot de passe sur la page compte
+    socket.emit('show-user-mdp', socket.handshake.session.mdp); //Affichage du mot de passe sur la page compte
+
 
     let sql = "SELECT * FROM resultats ORDER BY `resultats`.`score` DESC LIMIT 5";
     connection.query(sql, function (err, result) {
@@ -259,10 +254,10 @@ io.on('connection', (socket) => {
 
       if (user.handshake.session.username == socket.handshake.session.username) {
 
-        socket.on('autoFill',(couleur_session)=>{
+        socket.on('autoFill', (couleur_session) => {
           game1.autoFill(couleur_session);
-          io.emit('returnGrid',game1.grid);
-          io.emit('Started',game1.started);
+          io.emit('returnGrid', game1.grid);
+          io.emit('Started', game1.started);
           io.emit('reload');
         });
 
@@ -272,15 +267,15 @@ io.on('connection', (socket) => {
             console.log("winner", game1.getWinner());
             console.log("enddd", game1.end());
             io.emit('returnGrid', game1.grid);
-            io.emit('returnListBlue',game1.bluePlayerPionList);
-            io.emit('returnListRed',game1.redPlayerPionList);
-            io.emit('Started',game1.started);
+            io.emit('returnListBlue', game1.bluePlayerPionList);
+            io.emit('returnListRed', game1.redPlayerPionList);
+            io.emit('Started', game1.started);
             io.emit('reload');
           }
-          if(game1.end() == 4) {
+          if (game1.end() == 4) {
             console.log("c'est bien un draw");
             io.emit('affichage_draw');
-            
+
             let score = 30;
 
 
@@ -379,13 +374,13 @@ io.on('connection', (socket) => {
                 let data2 = [user.handshake.session.username];
 
                 connection.query(sql_nbrScore, data2, function (err, result) {
-                  console.log("result et data ", result, data); 
+                  console.log("result et data ", result, data);
                   if (err) throw err;
                   let string = JSON.stringify(result);
                   let json1 = JSON.parse(string);
-                  console.log("json ",json1[0].score, score );
+                  console.log("json ", json1[0].score, score);
                   json1[0].score += score;
-                  console.log("json apres",json1[0].score, score );
+                  console.log("json apres", json1[0].score, score);
                   let sql_update_score = " UPDATE resultats SET score=? WHERE username=?";
 
                   let data_update_score = [json1[0].score, data2];
@@ -428,13 +423,9 @@ io.on('connection', (socket) => {
 
 
                 });
-
-
               }
             });
-
           }
-
         });
       }
     });
@@ -443,25 +434,27 @@ io.on('connection', (socket) => {
 
   });
   socket.on('disconnect', () => {
-      //console.log('Un utilisateur s\'est déconnecté');
-      
+    //console.log('Un utilisateur s\'est déconnecté');
+
     //socket.disconnect();
     //io.emit('decoo', socket.handshake.session.username, socket.handshake.session.mdp, queue);
   });
   socket.on('decooo', (reason) => {
     if (reason == "io client disconnect") {
       console.log('Un utilisateur s\'est déconnecté');
-      
+
       socket.disconnect();
-      for(let i = 0; i < queue.length; i++) {
-        if(queue[i] == socket.handshake.session.username) {
-          queue.splice(i,1);
+      for (let i = 0; i < queue.length; i++) {
+        if (queue[i] == socket.handshake.session.username) {
+          queue.splice(i, 1);
         }
       }
       console.log(queue);
       io.emit('decoDansQueue', true);
     }
   });
+
+
 });
 
 
