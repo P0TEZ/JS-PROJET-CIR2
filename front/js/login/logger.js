@@ -16,6 +16,7 @@ let logger = (function(){
                     window.location.href = "/leaderboard"; 
                 }
                 if(data == 'err_mdp' || data == 'err_pseudo' ) {
+                    text1.innerHTML = "";
                     text1.innerHTML = "Votre mot de passe ou votre pseudo est incorrect";
                     console.log(data);
                 }

@@ -21,23 +21,28 @@ let ajax_inscritpion = (function(){
 
                 if(data == 'inscrit') {
                     //text = document.createElement('p');
+                    text.innerHTML = "";
                     text.innerHTML = "Incription validée";
                     //text.id = 'validé';
                     console.log(data);
                 }
                 if(data == 'existe_login') {
+                    text.innerHTML = "";
                     text2.innerHTML = "Le username est déjà pris";
                     console.log(data);
                 }
                 if(data == 'existe_mdp') {
+                    text.innerHTML = "";
                     text1.innerHTML = "Le mot de passe est déjà pris";
                     console.log(data);
                 }
                 if(data == 'differents') {
+                    text.innerHTML = "";
                     text3.innerHTML = "Les mots de passe sont différents";
                     console.log(data);
                 }
                 if(data == 'null') {
+                    text.innerHTML = "";
                     text4.innerHTML = "Merci de remplir correctement l'inscription";
                     console.log(data);
                 }
