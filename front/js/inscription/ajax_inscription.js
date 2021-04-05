@@ -20,10 +20,8 @@ let ajax_inscritpion = (function(){
 
 
                 if(data == 'inscrit') {
-                    //text = document.createElement('p');
                     text.innerHTML = "";
                     text.innerHTML = "Incription validée";
-                    //text.id = 'validé';
                     
                     console.log(data);
                     window.location.href ="/";

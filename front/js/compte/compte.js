@@ -23,7 +23,6 @@ socket.on('decoo', (username, mdp, queue) => {
     test.addEventListener("click", () => {
         if (username) {
             window.location.href = "/";
-            
         }
     });
 });
