@@ -289,7 +289,7 @@ io.on('connection', (socket) => {
 
             let srvSockets = io.sockets.sockets;
             srvSockets.forEach(user => {
-              io.emit('affichage_win', user.handshake.session.couleur);
+              io.emit('affichage_win', user.handshake.session.username);
               partieBack.gestionFlagJoueur1(user.handshake.session.username, connection, couleurWin, score);
             });
 
