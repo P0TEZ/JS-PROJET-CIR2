@@ -1,10 +1,4 @@
 module.exports = {
-    printServerStatus() {
-        console.log('Server ok');
-    },
-    printProfStatus() {
-        //console.log('Need Coffee');
-    },
     verifMdp(connection, req, res, result, login, mdp) {
         //Vérification si le mot de passe est correct
         if (result.length == 0) {
