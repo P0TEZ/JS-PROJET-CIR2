@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="modif fonction victoire">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/js/login/logger.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/js/login/logger.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +67,7 @@
       <workItem from="1617628983041" duration="4170000" />
       <workItem from="1617633239881" duration="1655000" />
       <workItem from="1617636368609" duration="935000" />
-      <workItem from="1617725524456" duration="2244000" />
+      <workItem from="1617725524456" duration="3059000" />
     </task>
     <task id="LOCAL-00001" summary="modif fonction victoire">
       <created>1617174787188</created>

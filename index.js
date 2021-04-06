@@ -72,14 +72,19 @@ app.post('/login', urlencodedparser, (req, res) => {
 
       if (err) throw err;
 
-      console.log("result"+ result);
       //Transformation de result en variable
       let string = JSON.stringify(result);
-      console.log(string);
-
       let json1 = JSON.parse(string);
+
+
       if(string == "[]"){
-        res.send("erreur_mdp");
+        let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
+        connection.query(sql, mdp, function (err, result3) {
+
+          if (err) throw err;
+          //Vérification de la page login
+          states.verifMdp(connection, req, res, result3, login, mdp);
+        });
       }else{
         //Utilisation de la librairie bcrypt
         bcrypt.compare(mdp, json1[0].mdp, function (err, result2) {

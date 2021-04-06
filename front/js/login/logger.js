@@ -10,6 +10,7 @@ let logger = (function(){
                 couleur: "none",
             },
             success: (data) => {
+
                 //Si l'utilisateur s'est bien connecté alors redirection sinon affichage de l'erreur
                 let text1 = document.getElementById('erreur_mdp');
                 text1.innerHTML = "";
