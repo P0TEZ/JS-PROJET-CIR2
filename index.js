@@ -69,23 +69,34 @@ app.post('/login', urlencodedparser, (req, res) => {
     let sql_mdp = " SELECT mdp FROM inscrit WHERE username=?";
 
     connection.query(sql_mdp, login, function (err, result) {
+
       if (err) throw err;
+
+      console.log("result"+ result);
       //Transformation de result en variable
       let string = JSON.stringify(result);
+      console.log(string);
+
       let json1 = JSON.parse(string);
+      if(string == "[]"){
+        res.send("erreur_mdp");
+      }else{
+        //Utilisation de la librairie bcrypt
+        bcrypt.compare(mdp, json1[0].mdp, function (err, result2) {
+          if (result2 == true) {
+            let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
 
-      //Utilisation de la librairie bcrypt
-      bcrypt.compare(mdp, json1[0].mdp, function (err, result2) {
-        if (result2 == true) {
-          let sql = "SELECT id FROM inscrit WHERE mdp= ? ";
+            connection.query(sql, json1[0].mdp, function (err, result3) {
 
-          connection.query(sql, json1[0].mdp, function (err, result3) {
-            if (err) throw err;
-            //Vérification de la page login
-            states.verifMdp(connection, req, res, result3, login, json1[0].mdp);
-          });
-        }
-      });
+              if (err) throw err;
+              //Vérification de la page login
+              states.verifMdp(connection, req, res, result3, login, json1[0].mdp);
+            });
+          }
+        });
+      }
+
+
     });
   }
 });
