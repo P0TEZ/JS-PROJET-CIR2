@@ -275,7 +275,7 @@ io.on('connection', (socket) => {
           }
           //Si la partie est finie mais que ce n'est pas un draw
           let couleurWin = game1.getWinner();
-          if (game1.end() == (1 || 2) || game1.end() == (2 || 3)) {
+          if (game1.end() == 1 || game1.end() == 2 || game1.end() == 3) {
             let score;
             //Le score change en fonction du cas de victoire
             if (game1.end() == 1 || game1.end() == 2) {
@@ -285,18 +285,20 @@ io.on('connection', (socket) => {
               score = 30;
             }
             //Récupération de la couleur du winner
-            
-
             let srvSockets = io.sockets.sockets;
             srvSockets.forEach(user => {
               io.emit('affichage_win', user.handshake.session.username);
-              partieBack.gestionFlagJoueur1(user.handshake.session.username, connection, couleurWin, score);
+              if(user.handshake.session.couleur == couleurWin) {
+                partieBack.gestionFlagJoueur1(user.handshake.session.couleur, user.handshake.session.username, connection, couleurWin, score);
+              }
+              else if (user.handshake.session.username != couleurWin) {
+                partieBack.gestionFlagJoueur2(user.handshake.session.username, connection);
+              }
+              
             });
 
           }  //Si la couleur est differente du vainqueur
-          else if (user.handshake.session.username != couleurWin) {
-            partieBack.gestionFlagJoueur2(user.handshake.session.username, connection);
-          }
+          
         });
       }
     });
