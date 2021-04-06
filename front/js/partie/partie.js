@@ -46,7 +46,7 @@ socket.on('view', (game1, pion, color) => {
             partie1.grilleReload();
 
             //si la partie est commence et que le bouton existe encore, on le supprime
-            if(game1.started && btn){
+            if(game1.started && typeof(btn) != 'undefined'){
                 btn.remove();
             }
         });
@@ -98,7 +98,7 @@ socket.on('view', (game1, pion, color) => {
             partie2.grilleReload();
 
             //si la partie est commence et que le bouton existe encore, on le supprime
-            if(game1.started && btn){
+            if(game1.started && typeof(btn) != 'undefined'){
                 btn.remove();
             }
         });
