@@ -99,7 +99,6 @@ module.exports = {
 
         connection.query(sql_nbrLoose, data, function (err, result) {
             if (err) throw err;
-            console.log(result);
             let string = JSON.stringify(result);
             let json1 = JSON.parse(string);
 
@@ -109,7 +108,6 @@ module.exports = {
             let data_update_nbLoose = [json1[0].nb_loose, data];
 
             connection.query(sql_update_nbLoose, data_update_nbLoose, function (err, result) {
-                console.log(result);
                 if (err) throw err;
             });
         });
