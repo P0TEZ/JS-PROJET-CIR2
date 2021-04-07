@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="edde7bd7-8bf6-49af-aee7-b16762cfab5c" name="Default Changelist" comment="modif fonction victoire">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/js/login/logger.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/js/login/logger.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/models/pion_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/back/models/pion_data.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +66,9 @@
       <workItem from="1617628983041" duration="4170000" />
       <workItem from="1617633239881" duration="1655000" />
       <workItem from="1617636368609" duration="935000" />
-      <workItem from="1617725524456" duration="3059000" />
+      <workItem from="1617725524456" duration="3150000" />
+      <workItem from="1617729448404" duration="2389000" />
+      <workItem from="1617775266806" duration="102000" />
     </task>
     <task id="LOCAL-00001" summary="modif fonction victoire">
       <created>1617174787188</created>
@@ -87,6 +88,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="modif fonction victoire" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="550" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1617731245477">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="550" y="214" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1617731245477" />
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1617632218050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
